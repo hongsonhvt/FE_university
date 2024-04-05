@@ -1,0 +1,15 @@
+.hcis-one-rows,
+.hcis-two-rows,
+.hcis-three-rows,
+.hcis-four-rows {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
+
+.hcis-50 {
+  width: 50%;
+}

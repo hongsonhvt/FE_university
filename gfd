@@ -1,0 +1,13 @@
+const fs = require('fs');
+
+const jsonFilePath = 'students.json';
+const jsonData = fs.readFileSync(jsonFilePath, 'utf8');
+
+const students = JSON.parse(jsonData);
+
+console.log('Students majoring in Computer Science:');
+students.forEach(student => {
+    if (student.major === 'Computer Science') {
+        console.log(student.name);
+    }
+});
