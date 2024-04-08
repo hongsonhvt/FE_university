@@ -18,6 +18,7 @@ import Grades from "./Pages/Grades/Grades";
 import { Home } from "./Pages/Home/Home";
 import Login from "./Pages/Login/Login";
 import StudentManage from "./Pages/StudentManage/StudentManage";
+import TeacherManage from "./Pages/TeacherManage/TeacherManage";
 // import { Home } from "./Pages/Home/Home";
 
 const { Header, Sider, Content } = Layout;
@@ -64,6 +65,7 @@ const App: React.FC = () => {
             <Route path="/Login" element={<Login />} />
             <Route path="/Home" element={<Home />} />
             <Route path="/StudentManage" element={<StudentManage />} />
+            <Route path="/TeacherManage" element={<TeacherManage />} />
           </Routes>
         </Content>
       </Layout>

@@ -16,6 +16,7 @@ const Sidebar = () => {
         theme="dark"
         mode="inline"
         defaultSelectedKeys={["1"]}
+        // style={{ width: "500px" }}
         items={[
           {
             key: "1",
@@ -56,6 +57,11 @@ const Sidebar = () => {
             key: "8",
             icon: <UserOutlined />,
             label: <Link to="./StudentManage">Student Management</Link>,
+          },
+          {
+            key: "9",
+            icon: <UserOutlined />,
+            label: <Link to="./TeacherManage">Teacher Management</Link>,
           },
         ]}
       />

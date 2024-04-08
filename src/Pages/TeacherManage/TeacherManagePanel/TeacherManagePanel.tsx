@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Table, Button, Drawer, Form, Input, Select } from "antd";
-import styles from "./StudentManagePanel.module.scss";
+import styles from "./TeacherManagePanel.module.scss";
+import { Option } from "antd/es/mentions";
 
-const { Option } = Select;
-
-const StudentManagePanel = () => {
+const TeacherManagePanel = () => {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
 
   const showDrawer = () => {
@@ -23,12 +22,12 @@ const StudentManagePanel = () => {
   const genderOptions = ["Male", "Female"];
 
   return (
-    <div className={styles.studentManagePanel}>
+    <div className={styles.TeacherManagePanel}>
       <Button type="primary" onClick={showDrawer}>
-        Edit Student
+        Edit Teacher
       </Button>
       <Drawer
-        title="Edit Student Information"
+        title="Edit Teacher Information"
         width={720}
         onClose={onCloseDrawer}
         visible={isDrawerVisible}
@@ -38,47 +37,37 @@ const StudentManagePanel = () => {
           <Form.Item
             name="id"
             label="ID"
-            rules={[{ required: true, message: "Please input student ID!" }]}
+            rules={[{ required: true, message: "Please input Teacher ID!" }]}
           >
-            <Input placeholder="Student ID" />
+            <Input placeholder="Teacher ID" />
           </Form.Item>
           <Form.Item
             name="name"
             label="Name"
-            rules={[{ required: true, message: "Please input student name!" }]}
+            rules={[{ required: true, message: "Please input Teacher name!" }]}
           >
-            <Input placeholder="Student Name" />
+            <Input placeholder="Teacher Name" />
           </Form.Item>
           <Form.Item
             name="gender"
             label="Gender"
             rules={[
-              { required: true, message: "Please select student gender!" },
+              { required: true, message: "Please select Teacher gender!" },
             ]}
           >
             <Select placeholder="Select gender">
-              {genderOptions.map((option, index) => (
-                <Option key={index} value={option}>
-                  {option}
-                </Option>
+              {genderOptions.map((option) => (
+                <Option value={option}>{option}</Option>
               ))}
             </Select>
           </Form.Item>
-          <Form.Item
-            name="managementClass"
-            label="Management Class"
-            rules={[
-              { required: true, message: "Please input management class!" },
-            ]}
-          >
-            <Input placeholder="Management Class" />
-          </Form.Item>
+
           <Form.Item
             name="email"
             label="Email"
-            rules={[{ required: true, message: "Please input student email!" }]}
+            rules={[{ required: true, message: "Please input Teacher email!" }]}
           >
-            <Input placeholder="Student Email" type="email" />
+            <Input placeholder="Teacher Email" type="email" />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">
@@ -91,4 +80,4 @@ const StudentManagePanel = () => {
   );
 };
 
-export default StudentManagePanel;
+export default TeacherManagePanel;

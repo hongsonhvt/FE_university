@@ -1,20 +1,19 @@
 import React, { useState } from "react";
 import { Table, Space, Modal, Upload, Button, message } from "antd";
-import styles from "./StudentManage.module.scss";
-import StudentManagePanel from "./StudentManagePanel/StudentManagePanel";
 import Search from "antd/es/input/Search";
 import { UploadOutlined } from "@ant-design/icons";
+import styles from "./TeacherManage.module.scss";
+import TeacherManagePanel from "./TeacherManagePanel/TeacherManagePanel";
 
 const { confirm } = Modal;
 
-const StudentManage = () => {
-  const [students, setStudents] = useState<any>([
+const TeacherManage = () => {
+  const [teachers, setTeachers] = useState<any>([
     {
       key: "1",
       id: "001",
       name: "John Doe",
       gender: "Male",
-      managementClass: "A",
       email: "john.doe@example.com",
     },
     {
@@ -22,7 +21,6 @@ const StudentManage = () => {
       id: "002",
       name: "Jane Smith",
       gender: "Female",
-      managementClass: "B",
       email: "jane.smith@example.com",
     },
   ]);
@@ -44,12 +42,12 @@ const StudentManage = () => {
   const showDeleteConfirmation = (record: any) => {
     confirm({
       title: "Confirm Delete",
-      content: "Are you sure you want to delete this student?",
+      content: "Are you sure you want to delete this teacher?",
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
       onOk() {
-        console.log("Deleting student:", record);
+        console.log("Deleting teacher:", record);
       },
       onCancel() {
         console.log("Cancel");
@@ -59,7 +57,7 @@ const StudentManage = () => {
 
   const columns = [
     {
-      title: "ID student",
+      title: "ID teacher",
       dataIndex: "id",
       key: "id",
     },
@@ -74,11 +72,6 @@ const StudentManage = () => {
       key: "gender",
     },
     {
-      title: "Management Class",
-      dataIndex: "managementClass",
-      key: "managementClass",
-    },
-    {
       title: "Email",
       dataIndex: "email",
       key: "email",
@@ -89,7 +82,7 @@ const StudentManage = () => {
       render: (_: any, record: any) => (
         <Space size="middle">
           <a>
-            <StudentManagePanel />
+            <TeacherManagePanel />
           </a>
           <a onClick={() => showDeleteConfirmation(record)}>Delete</a>{" "}
         </Space>
@@ -98,7 +91,7 @@ const StudentManage = () => {
   ];
 
   return (
-    <div className={styles.studentManage}>
+    <div className={styles.teacherManage}>
       <div className={styles.header}>
         <Upload
           fileList={fileList}
@@ -122,7 +115,7 @@ const StudentManage = () => {
       </div>
       <Table
         columns={columns}
-        dataSource={students}
+        dataSource={teachers}
         pagination={{ pageSize: 10 }}
         // onChange={handlePaginationChange}
       />
@@ -130,4 +123,4 @@ const StudentManage = () => {
   );
 };
 
-export default StudentManage;
+export default TeacherManage;
