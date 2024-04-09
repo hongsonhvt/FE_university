@@ -19,6 +19,8 @@ import { Home } from "./Pages/Home/Home";
 import Login from "./Pages/Login/Login";
 import StudentManage from "./Pages/StudentManage/StudentManage";
 import TeacherManage from "./Pages/TeacherManage/TeacherManage";
+import SubjectManage from "./Pages/SubjectManage/SubjectManage";
+import GradeDetail from "./Pages/GradeDetail/GradeDetail";
 // import { Home } from "./Pages/Home/Home";
 
 const { Header, Sider, Content } = Layout;
@@ -31,7 +33,7 @@ const App: React.FC = () => {
 
   return (
     <Layout className="layout">
-      <Sider trigger={null} collapsible>
+      <Sider trigger={null} collapsible width={250}>
         <Sidebar />
       </Sider>
       <Layout>
@@ -66,6 +68,8 @@ const App: React.FC = () => {
             <Route path="/Home" element={<Home />} />
             <Route path="/StudentManage" element={<StudentManage />} />
             <Route path="/TeacherManage" element={<TeacherManage />} />
+            <Route path="/SubjectManage" element={<SubjectManage />} />
+            <Route path="/GradeDetail" element={<GradeDetail />} />
           </Routes>
         </Content>
       </Layout>
