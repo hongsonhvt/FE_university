@@ -58,6 +58,7 @@ const GradeDetail = () => {
       render: (_: any, record: any) => (
         <Input
           value={record.grade}
+          type="number"
           onChange={(e) => {
             const newData = [...data];
             const index = newData.findIndex((item) => record.key === item.key);

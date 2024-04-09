@@ -1,0 +1,23 @@
+.boxClassroom {
+  height: 100px;
+  background-color: #f5f5f5;
+  margin-bottom: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  .boxAva {
+    margin-left: 16px;
+  }
+  .boxDetail {
+    margin-left: 16px;
+    .boxName {
+      margin-bottom: 0px;
+      color: #222222;
+    }
+    .boxMajor {
+      margin-top: 0;
+      color: #222222;
+    }
+  }
+}

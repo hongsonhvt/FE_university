@@ -1,7 +1,4 @@
 import { Avatar, Row } from "antd";
-import React from "react";
-import TextItem from "../../Components/Components/text-item/TextItem";
-import CustomTooltip from "../../Components/Components/tooltip/CustomTooltip";
 import { UserOutlined } from "@ant-design/icons";
 import styles from "./Classroom.module.scss";
 
