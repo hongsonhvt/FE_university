@@ -49,11 +49,6 @@ const Sidebar = () => {
             label: <Link to="./CalendarManage"> Calendar</Link>,
           },
           {
-            key: "7",
-            icon: <UserOutlined />,
-            label: <Link to="./Login">Login</Link>,
-          },
-          {
             key: "8",
             icon: <UserOutlined />,
             label: <Link to="./StudentManage">Student Management</Link>,
