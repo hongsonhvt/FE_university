@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { Table, Button, Drawer, Form, Input, Select, DatePicker } from "antd";
-import styles from "./SubjectManagePanel.module.scss";
+import styles from "./ProgramManagePanel.module.scss";
 
-const { Option } = Select;
-
-const SubjectManagePanel = () => {
+const ProgramManagePanel = () => {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
 
   const showDrawer = () => {
@@ -19,8 +17,6 @@ const SubjectManagePanel = () => {
     console.log("Received values:", values);
     onCloseDrawer();
   };
-
-
   return (
     <div className={styles.studentManagePanel}>
       <Button type="primary" onClick={showDrawer}>
@@ -36,8 +32,8 @@ const SubjectManagePanel = () => {
         <Form layout="vertical" onFinish={onFinish}>
           <Form.Item
             name="name"
-            label="Subject Name"
-            rules={[{ required: true, message: "Please input subject name!" }]}
+            label="Program Name"
+            rules={[{ required: true, message: "Please input Program name!" }]}
           >
             <Input placeholder="Subject Name" />
           </Form.Item>
@@ -76,4 +72,4 @@ const SubjectManagePanel = () => {
   );
 };
 
-export default SubjectManagePanel;
+export default ProgramManagePanel;
