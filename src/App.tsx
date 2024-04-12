@@ -23,6 +23,7 @@ import SubjectManage from "./Pages/SubjectManage/SubjectManage";
 import GradeDetail from "./Pages/GradeDetail/GradeDetail";
 import ClassroomManage from "./Pages/ClassroomManage/ClassroomManage";
 import ProgramManage from "./Pages/ProgramManage/ProgramManage";
+import axios from 'axios';
 
 const { Header, Sider, Content } = Layout;
 
@@ -31,6 +32,9 @@ const App: React.FC = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  
+  const accessToken = localStorage.getItem('access_token');
+  axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
 
   return (
     <>

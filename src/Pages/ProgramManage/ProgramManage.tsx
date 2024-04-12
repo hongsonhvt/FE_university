@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Table, Space, Modal, Upload, Button, message } from "antd";
-import styles from "./ProgramManage.module.scss";
+import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
+import { Button, Modal, Space, Table, Upload, message } from "antd";
 import Search from "antd/es/input/Search";
-import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
+import { useEffect, useState } from "react";
+import styles from "./ProgramManage.module.scss";
+import axios from 'axios';
 
 const { confirm } = Modal;
 
@@ -15,17 +16,11 @@ const ProgramManage = () => {
   }, []);
 
   const fetchPrograms = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/programs/");
-      const data = await response.json();
-      if (data.success) {
-        setPrograms(data.data);
-      } else {
-        console.error("Failed to fetch programs:", data.message);
-      }
-    } catch (error) {
-      console.error("Error fetching programs:", error);
-    }
+    axios
+      .get("http://localhost:3000/programs")
+      .then((response) => {
+        setPrograms(response.data.data.map((item: any) => ({key: item.id,...item})));
+      })
   };
 
   const handleUpload = (info: any) => {
@@ -100,7 +95,6 @@ const ProgramManage = () => {
       key: "action",
       render: (_: any, record: any) => (
         <Space size="middle">
-          <a>{<ProgramManage />}</a>
           <a onClick={() => showDeleteConfirmation(record)}>
             <DeleteOutlined />
             Delete
