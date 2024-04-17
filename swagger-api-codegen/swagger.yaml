@@ -1,0 +1,772 @@
+openapi: 3.0.0
+paths:
+  /academic-years:
+    post:
+      operationId: create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAcademicYearDto"
+      responses:
+        "201":
+          description: ""
+      tags:
+        - academic-years
+    get:
+      operationId: findInRange
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      tags:
+        - academic-years
+  /academic-years/current:
+    get:
+      operationId: getCurrent
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      tags:
+        - academic-years
+  /academic-years/{id}:
+    get:
+      operationId: findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+      tags:
+        - academic-years
+    delete:
+      operationId: remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+      tags:
+        - academic-years
+  /academic-years/current/{id}:
+    put:
+      operationId: updateCurrent
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+      tags:
+        - academic-years
+  /auth/login:
+    post:
+      operationId: login
+      parameters: []
+      responses:
+        "200":
+          description: Login JWT token
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Result"
+                  - properties:
+                      data:
+                        $ref: "#/components/schemas/AccessToken"
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+        "201":
+          description: ""
+      tags:
+        - auth
+  /users:
+    post:
+      operationId: create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserDto"
+      responses:
+        "201":
+          description: ""
+      tags:
+        - users
+  /users/me:
+    get:
+      operationId: getProfile
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Result"
+                  - properties:
+                      data:
+                        $ref: "#/components/schemas/JwtUserDto"
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+      tags:
+        - users
+  /course-classes:
+    post:
+      operationId: create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCourseClassDto"
+      responses:
+        "201":
+          description: ""
+    get:
+      operationId: findAll
+      parameters:
+        - name: code
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: name
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: startAt
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: endAt
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: sessionCount
+          required: false
+          in: query
+          schema:
+            type: number
+        - required: true
+          name: startAt
+          in: query
+          schema:
+            type: string
+        - required: true
+          name: endAt
+          in: query
+          schema:
+            type: string
+        - name: courseId
+          required: false
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+  /course-classes/{id}:
+    get:
+      operationId: findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+    patch:
+      operationId: update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateCourseClassDto"
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      operationId: remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: string
+  /course-classes/{id}/sessions:
+    get:
+      operationId: getSessions
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+  /course-classes/{id}/students:
+    put:
+      operationId: updateStudentsList
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateCourseClassStudentsListDto"
+      responses:
+        "200":
+          description: ""
+  /courses:
+    post:
+      operationId: create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCourseDto"
+      responses:
+        "201":
+          description: ""
+    get:
+      operationId: findByCondition
+      parameters:
+        - name: code
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: name
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: programIds
+          required: false
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: ""
+  /courses/{id}:
+    get:
+      operationId: findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+    patch:
+      operationId: update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateCourseDto"
+      responses:
+        "200":
+          description: ""
+    delete:
+      operationId: remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+  /management-classes:
+    post:
+      operationId: create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateManagementClassDto"
+      responses:
+        "201":
+          description: ""
+    get:
+      operationId: findByCondition
+      parameters:
+        - name: code
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: name
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: academicYearId
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: programId
+          required: false
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+  /management-classes/{id}:
+    get:
+      operationId: findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+    patch:
+      operationId: update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateManagementClassDto"
+      responses:
+        "200":
+          description: ""
+    delete:
+      operationId: remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+  /programs:
+    post:
+      operationId: create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateProgramDto"
+      responses:
+        "201":
+          description: ""
+    get:
+      operationId: findByCondition
+      parameters:
+        - name: code
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: name
+          required: false
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+  /programs/{id}:
+    get:
+      operationId: findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+    patch:
+      operationId: update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProgramDto"
+      responses:
+        "200":
+          description: ""
+    delete:
+      operationId: remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+  /programs/{id}/courses:
+    patch:
+      operationId: addCourses
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddCoursesDto"
+      responses:
+        "200":
+          description: ""
+info:
+  title: ""
+  description: ""
+  version: 1.0.0
+  contact: {}
+tags: []
+servers: []
+components:
+  schemas:
+    CreateAcademicYearDto:
+      type: object
+      properties:
+        startYear:
+          type: number
+          minimum: 2010
+          maximum: 2050
+      required:
+        - startYear
+    Result:
+      type: object
+      properties:
+        data:
+          type: object
+        success:
+          type: boolean
+        message:
+          type: object
+      required:
+        - data
+        - success
+        - message
+    AccessToken:
+      type: object
+      properties:
+        access_token:
+          type: string
+      required:
+        - access_token
+    CreateUserProfileTeacherDto:
+      type: object
+      properties:
+        teacherId:
+          type: string
+      required:
+        - teacherId
+    CreateUserProfileStudentDto:
+      type: object
+      properties:
+        studentId:
+          type: string
+        managementClassId:
+          type: string
+      required:
+        - studentId
+        - managementClassId
+    CreateUserProfileDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+        middleName:
+          type: string
+          nullable: true
+        lastName:
+          type: string
+        phoneNumber:
+          type: string
+          nullable: true
+        isMale:
+          type: boolean
+        address:
+          type: string
+          nullable: true
+        teacher:
+          $ref: "#/components/schemas/CreateUserProfileTeacherDto"
+        student:
+          $ref: "#/components/schemas/CreateUserProfileStudentDto"
+      required:
+        - firstName
+        - lastName
+        - isMale
+    CreateUserDto:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        role:
+          type: object
+        profile:
+          $ref: "#/components/schemas/CreateUserProfileDto"
+      required:
+        - email
+        - password
+        - role
+    Role:
+      type: string
+      enum:
+        - SystemAdmin
+        - Admin
+        - Teacher
+        - Student
+    JwtUserDto:
+      type: object
+      properties:
+        role:
+          $ref: "#/components/schemas/Role"
+        sub:
+          type: string
+        email:
+          type: string
+      required:
+        - role
+        - sub
+        - email
+    CreateCourseClassSlotDto:
+      type: object
+      properties:
+        startAt:
+          type: string
+        endAt:
+          type: string
+      required:
+        - startAt
+        - endAt
+    CreateCourseClassDto:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        startAt:
+          type: string
+        endAt:
+          type: string
+        sessionCount:
+          type: number
+        isoSlots:
+          type: array
+          items:
+            $ref: "#/components/schemas/CreateCourseClassSlotDto"
+        courseId:
+          type: string
+      required:
+        - code
+        - name
+        - startAt
+        - sessionCount
+        - isoSlots
+        - courseId
+    UpdateCourseClassDto:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        startAt:
+          type: string
+        endAt:
+          type: string
+        sessionCount:
+          type: number
+        isoSlots:
+          type: array
+          items:
+            $ref: "#/components/schemas/CreateCourseClassSlotDto"
+        courseId:
+          type: string
+    UpdateCourseClassStudentsListDto:
+      type: object
+      properties:
+        studentIds:
+          type: array
+          items:
+            type: string
+      required:
+        - studentIds
+    CreateCourseDto:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        programIds:
+          type: array
+          items:
+            type: string
+      required:
+        - code
+        - name
+        - programIds
+    UpdateCourseDto:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        programIds:
+          type: array
+          items:
+            type: string
+    CreateManagementClassDto:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        academicYearId:
+          type: string
+        programId:
+          type: string
+      required:
+        - code
+        - name
+        - academicYearId
+        - programId
+    UpdateManagementClassDto:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        academicYearId:
+          type: string
+        programId:
+          type: string
+    CreateProgramDto:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+      required:
+        - code
+        - name
+    UpdateProgramDto:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    AddCoursesDto:
+      type: object
+      properties:
+        courses:
+          type: array
+          items:
+            type: string
+      required:
+        - courses
