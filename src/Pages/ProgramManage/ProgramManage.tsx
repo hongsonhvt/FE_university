@@ -3,7 +3,10 @@ import { Button, Modal, Space, Table, Upload, message } from "antd";
 import Search from "antd/es/input/Search";
 import { useEffect, useState } from "react";
 import styles from "./ProgramManage.module.scss";
-import axios from 'axios';
+import axios from "axios";
+import moment from "moment"; // Import moment library
+import ProgramManagePanel from "./ProgramManagePanel/ProgramManagePanel";
+import ProgramManagePopup from "./ProgramManagePopup/ProgramManagePopup";
 
 const { confirm } = Modal;
 
@@ -16,11 +19,22 @@ const ProgramManage = () => {
   }, []);
 
   const fetchPrograms = async () => {
-    axios
-      .get("http://localhost:3000/programs")
-      .then((response) => {
-        setPrograms(response.data.data.map((item: any) => ({key: item.id,...item})));
-      })
+    try {
+      const response = await axios.get("http://localhost:3000/programs");
+      setPrograms(
+        response.data.data.map((item: any) => ({
+          key: item.id,
+          ...item,
+          createdAt: moment(item.createdAt).format("DD MMM YYYY"), // Format createdAt field
+          deletedAt: item.deletedAt
+            ? moment(item.deletedAt).format("DD MMM YYYY")
+            : "", // Format deletedAt field
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching programs:", error);
+      message.error("Failed to fetch programs");
+    }
   };
 
   const handleUpload = (info: any) => {
@@ -53,10 +67,10 @@ const ProgramManage = () => {
 
   const deleteProgram = async (id: string) => {
     try {
-      const response = await fetch(`http://localhost:3000/programs/${id}`, {
-        method: "DELETE",
-      });
-      const data = await response.json();
+      const response = await axios.delete(
+        `http://localhost:3000/programs/${id}`
+      );
+      const data = response.data;
       if (data.success) {
         fetchPrograms();
         message.success("Program deleted successfully");
@@ -86,15 +100,11 @@ const ProgramManage = () => {
       key: "createdAt",
     },
     {
-      title: "Date End",
-      dataIndex: "deletedAt",
-      key: "deletedAt",
-    },
-    {
       title: "Action",
       key: "action",
       render: (_: any, record: any) => (
         <Space size="middle">
+          <ProgramManagePanel />
           <a onClick={() => showDeleteConfirmation(record)}>
             <DeleteOutlined />
             Delete
@@ -127,6 +137,7 @@ const ProgramManage = () => {
           // onSearch={onSearch}
         />
       </div>
+      <div className={styles.addProgram}>{/* <ProgramManagePopup /> */}</div>
       <Table
         columns={columns}
         dataSource={programs}
