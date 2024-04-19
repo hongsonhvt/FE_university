@@ -25,6 +25,8 @@ import ClassroomManage from "./Pages/ClassroomManage/ClassroomManage";
 import ProgramManage from "./Pages/ProgramManage/ProgramManage";
 import axios from "axios";
 import CourseManage from "./Pages/CourseManage/CourseManage";
+import CourseClassesManage from "./Pages/CourseClassesManage/CourseClassesManage";
+import ClassManage from "./Pages/ClassManage/ClassManage";
 
 const { Header, Sider, Content } = Layout;
 
@@ -89,6 +91,8 @@ const App: React.FC = () => {
         <Route path="/ClassroomManage" element={<ClassroomManage />} />
         <Route path="/ProgramManage" element={<ProgramManage />} />
         <Route path="/CourseManage" element={<CourseManage />} />
+        <Route path="/CourseClasses" element={<CourseClassesManage />} />
+        <Route path="/ClassManage" element={<ClassManage />} />
       </Route>
     </Routes>
   );

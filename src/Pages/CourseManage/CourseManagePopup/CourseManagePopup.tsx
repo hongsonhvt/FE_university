@@ -66,6 +66,13 @@ const CourseManagePopup = () => {
           >
             <Input placeholder="Courses Code" />
           </Form.Item>
+          <Form.Item
+            name="programIds"
+            label="Program Id"
+            rules={[{ required: true, message: "Please input Program Id!" }]}
+          >
+            <Input placeholder="Courses Code" />
+          </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" loading={isSubmitting}>
               Save
