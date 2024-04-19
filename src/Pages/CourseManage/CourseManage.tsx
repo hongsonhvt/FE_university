@@ -1,28 +1,28 @@
-import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
+import React, { useState, useEffect } from "react";
 import { Button, Modal, Space, Table, Upload, message } from "antd";
-import Search from "antd/es/input/Search";
-import { useEffect, useState } from "react";
-import styles from "./ProgramManage.module.scss";
+import moment from "moment";
 import axios from "axios";
-import moment from "moment"; // Import moment library
-import ProgramManagePanel from "./ProgramManagePanel/ProgramManagePanel";
-import ProgramManagePopup from "./ProgramManagePopup/ProgramManagePopup";
-import { FindByConditionOutput } from "../../shared/api/__generated__/data-contracts";
+import { FindByConditionData } from "../../shared/api/__generated__/data-contracts";
+import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
+import styles from "./CourseManage.module.scss";
+import Search from "antd/es/input/Search";
+import CourseManagePanel from "./CourseManagePanel/CourseManagePanel";
 
 const { confirm } = Modal;
 
-const ProgramManage = () => {
-  const [programs, setPrograms] = useState<FindByConditionOutput[]>([]);
-  const [fileList, setFileList] = useState<FindByConditionOutput>([]);
+const CourseManage = () => {
+  const [courses, setCourses] = useState<FindByConditionData[]>([]);
+  const [fileList, setFileList] = useState<FindByConditionData>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchPrograms();
+    fetchCourses();
   }, []);
 
-  const fetchPrograms = async () => {
+  const fetchCourses = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/programs");
-      setPrograms(
+      const response = await axios.get("http://localhost:3000/courses");
+      setCourses(
         response.data.data.map((item: any) => ({
           key: item.id,
           ...item,
@@ -33,8 +33,8 @@ const ProgramManage = () => {
         }))
       );
     } catch (error) {
-      console.error("Error fetching programs:", error);
-      message.error("Failed to fetch programs");
+      console.error("Error fetching courses:", error);
+      message.error("Failed to fetch courses");
     }
   };
 
@@ -53,7 +53,7 @@ const ProgramManage = () => {
   const showDeleteConfirmation = (record: any) => {
     confirm({
       title: "Confirm Delete",
-      content: "Are you sure you want to delete this Program?",
+      content: "Are you sure you want to delete this Courses?",
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
@@ -69,11 +69,11 @@ const ProgramManage = () => {
   const deleteProgram = async (id: string) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3000/programs/${id}`
+        `http://localhost:3000/courses/${id}`
       );
       const data = response.data;
       if (data.success) {
-        fetchPrograms();
+        fetchCourses();
         message.success("Program deleted successfully");
       } else {
         message.error("Failed to delete program");
@@ -86,12 +86,12 @@ const ProgramManage = () => {
 
   const columns = [
     {
-      title: "Program Name",
+      title: "Course Name",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Program Code",
+      title: "Course Code",
       dataIndex: "code",
       key: "code",
     },
@@ -105,7 +105,7 @@ const ProgramManage = () => {
       key: "action",
       render: (_: any, record: any) => (
         <Space size="middle">
-          <ProgramManagePanel />
+          <CourseManagePanel />
           <a onClick={() => showDeleteConfirmation(record)}>
             <DeleteOutlined />
             Delete
@@ -141,7 +141,7 @@ const ProgramManage = () => {
       <div className={styles.addProgram}>{/* <ProgramManagePopup /> */}</div>
       <Table
         columns={columns}
-        dataSource={programs}
+        dataSource={courses}
         pagination={{ pageSize: 10 }}
         // onChange={handlePaginationChange}
       />
@@ -149,4 +149,4 @@ const ProgramManage = () => {
   );
 };
 
-export default ProgramManage;
+export default CourseManage;

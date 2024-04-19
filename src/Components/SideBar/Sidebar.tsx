@@ -78,6 +78,11 @@ const Sidebar = () => {
             icon: <UserOutlined />,
             label: <Link to="./ClassroomManage">Classroom Manage</Link>,
           },
+          {
+            key: "13",
+            icon: <UserOutlined />,
+            label: <Link to="./CourseManage">Course Manage</Link>,
+          },
         ]}
       />
     </>

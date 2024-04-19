@@ -23,7 +23,8 @@ import SubjectManage from "./Pages/SubjectManage/SubjectManage";
 import GradeDetail from "./Pages/GradeDetail/GradeDetail";
 import ClassroomManage from "./Pages/ClassroomManage/ClassroomManage";
 import ProgramManage from "./Pages/ProgramManage/ProgramManage";
-import axios from 'axios';
+import axios from "axios";
+import CourseManage from "./Pages/CourseManage/CourseManage";
 
 const { Header, Sider, Content } = Layout;
 
@@ -32,65 +33,64 @@ const App: React.FC = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-  
-  const accessToken = localStorage.getItem('access_token');
-  axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
+
+  const accessToken = localStorage.getItem("access_token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
   return (
-    <>
-      <Routes>
-        <Route path="/Login" element={<Login />} />
-        <Route
-          element={
-            <Layout className="layout">
-              <Sider trigger={null} collapsible width={250}>
-                <Sidebar />
-              </Sider>
-              <Layout>
-                <Header style={{ padding: 0, background: colorBgContainer }}>
-                  <Button
-                    type="text"
-                    icon={
-                      collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
-                    }
-                    onClick={() => setCollapsed(!collapsed)}
-                    style={{
-                      fontSize: "16px",
-                      width: 64,
-                      height: 64,
-                    }}
-                  />
-                </Header>
-                <Content
+    <Routes>
+      <Route path="/Login" element={<Login />} />
+      <Route
+        element={
+          <Layout className="layout">
+            <Sider trigger={null} collapsible width={250}>
+              <Sidebar />
+            </Sider>
+            <Layout>
+              <Header style={{ padding: 0, background: colorBgContainer }}>
+                <Button
+                  type="text"
+                  icon={
+                    collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
+                  }
+                  onClick={() => setCollapsed(!collapsed)}
                   style={{
-                    margin: "24px 16px",
-                    padding: 24,
-                    minHeight: 280,
-                    background: colorBgContainer,
-                    borderRadius: borderRadiusLG,
+                    fontSize: "16px",
+                    width: 64,
+                    height: 64,
                   }}
-                >
-                  <Outlet />
-                </Content>
-              </Layout>
+                />
+              </Header>
+              <Content
+                style={{
+                  margin: "24px 16px",
+                  padding: 24,
+                  minHeight: 280,
+                  background: colorBgContainer,
+                  borderRadius: borderRadiusLG,
+                }}
+              >
+                <Outlet />
+              </Content>
             </Layout>
-          }
-        >
-          <Route path="/CalendarManage" element={<CalendarManage />} />
-          <Route path="/Course" element={<Course />} />
-          <Route path="/Classroom" element={<Classroom />} />
-          <Route path="/Information" element={<Information />} />
-          <Route path="/Grades" element={<Grades />} />
-          <Route path="/Home" element={<Home />} />
-          <Route path="/StudentManage" element={<StudentManage />} />
-          <Route path="/TeacherManage" element={<TeacherManage />} />
-          <Route path="/SubjectManage" element={<SubjectManage />} />
-          <Route path="/GradeDetail" element={<GradeDetail />} />
-          <Route path="/ClassroomManage" element={<ClassroomManage />} />
-          <Route path="/ProgramManage" element={<ProgramManage />} />
-        </Route>
-      </Routes>
-    </>
+          </Layout>
+        }
+      >
+        <Route path="/CalendarManage" element={<CalendarManage />} />
+        <Route path="/Course" element={<Course />} />
+        <Route path="/Classroom" element={<Classroom />} />
+        <Route path="/Information" element={<Information />} />
+        <Route path="/Grades" element={<Grades />} />
+        <Route path="/Home" element={<Home />} />
+        <Route path="/StudentManage" element={<StudentManage />} />
+        <Route path="/TeacherManage" element={<TeacherManage />} />
+        <Route path="/SubjectManage" element={<SubjectManage />} />
+        <Route path="/GradeDetail" element={<GradeDetail />} />
+        <Route path="/ClassroomManage" element={<ClassroomManage />} />
+        <Route path="/ProgramManage" element={<ProgramManage />} />
+        <Route path="/CourseManage" element={<CourseManage />} />
+      </Route>
+    </Routes>
   );
 };
 
