@@ -25,7 +25,7 @@ const Login = () => {
         password: password,
       })
       .then((response) => {
-        localStorage.setItem("access_token", response.data.data.access_token); 
+        localStorage.setItem("accessToken", response.data.data.accessToken); 
         message.success("Login successful");
         navigate("/Home");
       })

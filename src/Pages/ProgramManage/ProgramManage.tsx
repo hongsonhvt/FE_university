@@ -118,6 +118,7 @@ const ProgramManage = () => {
   return (
     <div className={styles.studentManage}>
       <div className={styles.header}>
+        <ProgramManagePopup/>
         <Upload
           fileList={fileList}
           onChange={handleUpload}

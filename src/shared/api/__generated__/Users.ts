@@ -20,7 +20,9 @@ export class Users<
    *
    * @tags users
    * @name Create
+   * @summary Create
    * @request POST:/users
+   * @secure
    * @response `201` `CreateResult`
    */
   create = (data: CreateUserDto, params: RequestParams = {}) =>
@@ -28,6 +30,7 @@ export class Users<
       path: `/users`,
       method: 'POST',
       body: data,
+      secure: true,
       type: ContentType.Json,
       ...params,
     });
@@ -36,13 +39,16 @@ export class Users<
    *
    * @tags users
    * @name GetProfile
+   * @summary Get Profile
    * @request GET:/users/me
+   * @secure
    * @response `200` `GetProfileData`
    */
   getProfile = (params: RequestParams = {}) =>
     this.request<GetProfileData, any>({
       path: `/users/me`,
       method: 'GET',
+      secure: true,
       ...params,
     });
 }

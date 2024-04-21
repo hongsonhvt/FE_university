@@ -12,13 +12,17 @@
 import {
   AddCoursesData,
   AddCoursesDto,
+  AddCoursesError,
+  CreateData1,
+  CreateHttpError,
   CreateProgramDto,
-  CreateResult2,
-  FindByConditionOutput,
-  FindByConditionQuery4,
-  FindOneOutput2,
-  RemoveResult2,
-  UpdateData1,
+  FindByConditionQuery6,
+  FindByConditionResult1,
+  FindOneResult2,
+  RemoveData1,
+  RemoveErrorData,
+  UpdateFails,
+  UpdateOutput,
   UpdateProgramDto,
 } from './data-contracts';
 import { ContentType, HttpClient, RequestParams } from './http-client';
@@ -27,90 +31,154 @@ export class Programs<
   SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
   /**
-   * No description
-   *
-   * @name Create
-   * @request POST:/programs
-   * @response `201` `CreateResult2`
-   */
+ * No description
+ *
+ * @tags programs
+ * @name Create
+ * @summary Create
+ * @request POST:/programs
+ * @secure
+ * @response `201` `CreateData1`
+ * @response `409` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
   create = (data: CreateProgramDto, params: RequestParams = {}) =>
-    this.request<CreateResult2, any>({
+    this.request<CreateData1, CreateHttpError>({
       path: `/programs`,
       method: 'POST',
       body: data,
+      secure: true,
       type: ContentType.Json,
       ...params,
     });
   /**
    * No description
    *
+   * @tags programs
    * @name FindByCondition
+   * @summary Find By Condition
    * @request GET:/programs
-   * @response `200` `FindByConditionOutput`
+   * @secure
+   * @response `200` `FindByConditionResult1`
    */
   findByCondition = (
-    query: FindByConditionQuery4,
+    query: FindByConditionQuery6,
     params: RequestParams = {},
   ) =>
-    this.request<FindByConditionOutput, any>({
+    this.request<FindByConditionResult1, any>({
       path: `/programs`,
       method: 'GET',
       query: query,
+      secure: true,
       ...params,
     });
   /**
    * No description
    *
+   * @tags programs
    * @name FindOne
+   * @summary Find One
    * @request GET:/programs/{id}
-   * @response `200` `FindOneOutput2`
+   * @secure
+   * @response `200` `FindOneResult2`
    */
   findOne = (id: string, params: RequestParams = {}) =>
-    this.request<FindOneOutput2, any>({
+    this.request<FindOneResult2, any>({
       path: `/programs/${id}`,
       method: 'GET',
+      secure: true,
       ...params,
     });
   /**
-   * No description
-   *
-   * @name Update
-   * @request PATCH:/programs/{id}
-   * @response `200` `UpdateData1`
-   */
+ * No description
+ *
+ * @tags programs
+ * @name Update
+ * @summary Update
+ * @request PATCH:/programs/{id}
+ * @secure
+ * @response `200` `UpdateOutput`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ * @response `409` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
   update = (id: string, data: UpdateProgramDto, params: RequestParams = {}) =>
-    this.request<UpdateData1, any>({
+    this.request<UpdateOutput, UpdateFails>({
       path: `/programs/${id}`,
       method: 'PATCH',
       body: data,
+      secure: true,
       type: ContentType.Json,
       ...params,
     });
   /**
-   * No description
-   *
-   * @name Remove
-   * @request DELETE:/programs/{id}
-   * @response `200` `RemoveResult2`
-   */
+ * No description
+ *
+ * @tags programs
+ * @name Remove
+ * @summary Remove
+ * @request DELETE:/programs/{id}
+ * @secure
+ * @response `200` `RemoveData1`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
   remove = (id: string, params: RequestParams = {}) =>
-    this.request<RemoveResult2, any>({
+    this.request<RemoveData1, RemoveErrorData>({
       path: `/programs/${id}`,
       method: 'DELETE',
+      secure: true,
       ...params,
     });
   /**
-   * No description
-   *
-   * @name AddCourses
-   * @request PATCH:/programs/{id}/courses
-   * @response `200` `AddCoursesData`
-   */
+ * No description
+ *
+ * @tags programs
+ * @name AddCourses
+ * @summary Add Courses
+ * @request PATCH:/programs/{id}/courses
+ * @secure
+ * @response `200` `AddCoursesData`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
   addCourses = (id: string, data: AddCoursesDto, params: RequestParams = {}) =>
-    this.request<AddCoursesData, any>({
+    this.request<AddCoursesData, AddCoursesError>({
       path: `/programs/${id}/courses`,
       method: 'PATCH',
       body: data,
+      secure: true,
       type: ContentType.Json,
       ...params,
     });

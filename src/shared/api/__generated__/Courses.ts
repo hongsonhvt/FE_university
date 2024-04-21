@@ -11,13 +11,16 @@
 
 import {
   CreateCourseDto,
+  CreateFails,
   CreateResult1,
-  FindByConditionData,
-  FindByConditionQuery,
+  FindByConditionQuery2,
+  FindByConditionResult,
   FindOneOutput,
-  RemoveOutput,
+  RemoveFail,
+  RemoveResult,
   UpdateCourseDto,
-  UpdateResult,
+  UpdateData,
+  UpdateError,
 } from './data-contracts';
 import { ContentType, HttpClient, RequestParams } from './http-client';
 
@@ -25,73 +28,136 @@ export class Courses<
   SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
   /**
-   * No description
-   *
-   * @name Create
-   * @request POST:/courses
-   * @response `201` `CreateResult1`
-   */
+ * No description
+ *
+ * @tags courses
+ * @name Create
+ * @summary Create
+ * @request POST:/courses
+ * @secure
+ * @response `201` `CreateResult1`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ * @response `409` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
   create = (data: CreateCourseDto, params: RequestParams = {}) =>
-    this.request<CreateResult1, any>({
+    this.request<CreateResult1, CreateFails>({
       path: `/courses`,
       method: 'POST',
       body: data,
+      secure: true,
       type: ContentType.Json,
       ...params,
     });
   /**
    * No description
    *
+   * @tags courses
    * @name FindByCondition
+   * @summary Find By Condition
    * @request GET:/courses
-   * @response `200` `FindByConditionData`
+   * @secure
+   * @response `200` `FindByConditionResult`
    */
-  findByCondition = (query: FindByConditionQuery, params: RequestParams = {}) =>
-    this.request<FindByConditionData, any>({
+  findByCondition = (
+    query: FindByConditionQuery2,
+    params: RequestParams = {},
+  ) =>
+    this.request<FindByConditionResult, any>({
       path: `/courses`,
       method: 'GET',
       query: query,
+      secure: true,
       ...params,
     });
   /**
    * No description
    *
+   * @tags courses
    * @name FindOne
+   * @summary Find One
    * @request GET:/courses/{id}
+   * @secure
    * @response `200` `FindOneOutput`
    */
   findOne = (id: string, params: RequestParams = {}) =>
     this.request<FindOneOutput, any>({
       path: `/courses/${id}`,
       method: 'GET',
+      secure: true,
       ...params,
     });
   /**
-   * No description
-   *
-   * @name Update
-   * @request PATCH:/courses/{id}
-   * @response `200` `UpdateResult`
-   */
+ * No description
+ *
+ * @tags courses
+ * @name Update
+ * @summary Update
+ * @request PATCH:/courses/{id}
+ * @secure
+ * @response `200` `UpdateData`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ * @response `409` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
   update = (id: string, data: UpdateCourseDto, params: RequestParams = {}) =>
-    this.request<UpdateResult, any>({
+    this.request<UpdateData, UpdateError>({
       path: `/courses/${id}`,
       method: 'PATCH',
       body: data,
+      secure: true,
       type: ContentType.Json,
       ...params,
     });
   /**
-   * No description
-   *
-   * @name Remove
-   * @request DELETE:/courses/{id}
-   * @response `200` `RemoveOutput`
-   */
+ * No description
+ *
+ * @tags courses
+ * @name Remove
+ * @summary Remove
+ * @request DELETE:/courses/{id}
+ * @secure
+ * @response `200` `RemoveResult`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
   remove = (id: string, params: RequestParams = {}) =>
-    this.request<RemoveOutput, any>({
+    this.request<RemoveResult, RemoveFail>({
       path: `/courses/${id}`,
       method: 'DELETE',
+      secure: true,
       ...params,
     });
 }

@@ -36,7 +36,7 @@ const App: React.FC = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  const accessToken = localStorage.getItem("access_token");
+  const accessToken = localStorage.getItem("accessToken");
   axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
   return (

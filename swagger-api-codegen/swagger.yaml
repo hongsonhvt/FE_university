@@ -3,38 +3,136 @@ paths:
   /academic-years:
     post:
       operationId: create
+      summary: Create
       parameters: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateAcademicYearDto"
+              $ref: '#/components/schemas/CreateAcademicYearDto'
       responses:
-        "201":
-          description: ""
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/AcademicYearDto'
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+        '409':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
       tags:
         - academic-years
+      security:
+        - accessToken: []
     get:
       operationId: findInRange
-      parameters: []
+      summary: Find In Range
+      parameters:
+        - name: start
+          required: false
+          in: query
+          schema:
+            type: number
+        - name: end
+          required: false
+          in: query
+          schema:
+            type: number
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/AcademicYearDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
       tags:
         - academic-years
+      security:
+        - accessToken: []
   /academic-years/current:
     get:
       operationId: getCurrent
+      summary: Get Current
       parameters: []
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/AcademicYearDto'
+                        nullable: true
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
       tags:
         - academic-years
+      security:
+        - accessToken: []
   /academic-years/{id}:
     get:
       operationId: findOne
+      summary: Find One
       parameters:
         - name: id
           required: true
@@ -42,12 +140,30 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/AcademicYearDto'
+                        nullable: true
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
       tags:
         - academic-years
+      security:
+        - accessToken: []
     delete:
       operationId: remove
+      summary: Remove
       parameters:
         - name: id
           required: true
@@ -55,13 +171,63 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/AcademicYearDto'
+                        nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
       tags:
         - academic-years
+      security:
+        - accessToken: []
   /academic-years/current/{id}:
     put:
       operationId: updateCurrent
+      summary: Update Current
       parameters:
         - name: id
           required: true
@@ -69,84 +235,185 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: boolean
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
       tags:
         - academic-years
+      security:
+        - accessToken: []
   /auth/login:
     post:
       operationId: login
+      summary: Login
       parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginModel'
       responses:
-        "200":
+        '200':
           description: Login JWT token
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: "#/components/schemas/Result"
+                  - $ref: '#/components/schemas/Result'
                   - properties:
                       data:
-                        $ref: "#/components/schemas/AccessToken"
+                        $ref: '#/components/schemas/AccessToken'
+                        nullable: false
                       success:
                         type: boolean
                       message:
                         type: string
-        "201":
-          description: ""
+                        nullable: true
+                        example: null
+        '401':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
       tags:
         - auth
   /users:
     post:
       operationId: create
+      summary: Create
       parameters: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateUserDto"
+              $ref: '#/components/schemas/CreateUserDto'
       responses:
-        "201":
-          description: ""
+        '201':
+          description: ''
       tags:
         - users
+      security:
+        - accessToken: []
   /users/me:
     get:
       operationId: getProfile
+      summary: Get Profile
       parameters: []
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: "#/components/schemas/Result"
+                  - $ref: '#/components/schemas/Result'
                   - properties:
                       data:
-                        $ref: "#/components/schemas/JwtUserDto"
+                        $ref: '#/components/schemas/JwtUserDto'
+                        nullable: false
                       success:
                         type: boolean
                       message:
                         type: string
+                        nullable: true
+                        example: null
       tags:
         - users
+      security:
+        - accessToken: []
   /course-classes:
     post:
       operationId: create
+      summary: Create
       parameters: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateCourseClassDto"
+              $ref: '#/components/schemas/CreateCourseClassDto'
       responses:
-        "201":
-          description: ""
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/CourseClassListItemDto'
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '409':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - course-classes
+      security:
+        - accessToken: []
     get:
-      operationId: findAll
+      operationId: findByCondition
+      summary: Find By Condition
       parameters:
         - name: code
           required: false
@@ -158,42 +425,34 @@ paths:
           in: query
           schema:
             type: string
-        - name: startAt
-          required: false
-          in: query
-          schema:
-            type: string
-        - name: endAt
-          required: false
-          in: query
-          schema:
-            type: string
-        - name: sessionCount
-          required: false
-          in: query
-          schema:
-            type: number
-        - required: true
-          name: startAt
-          in: query
-          schema:
-            type: string
-        - required: true
-          name: endAt
-          in: query
-          schema:
-            type: string
-        - name: courseId
-          required: false
-          in: query
-          schema:
-            type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/CourseClassListItemDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+      tags:
+        - course-classes
+      security:
+        - accessToken: []
   /course-classes/{id}:
     get:
       operationId: findOne
+      summary: Find One
       parameters:
         - name: id
           required: true
@@ -201,47 +460,31 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
-    patch:
-      operationId: update
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateCourseClassDto"
-      responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
           content:
             application/json:
               schema:
-                type: string
-    delete:
-      operationId: remove
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-      responses:
-        "200":
-          description: ""
-          content:
-            application/json:
-              schema:
-                type: string
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/CourseClassDto'
+                        nullable: true
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+      tags:
+        - course-classes
+      security:
+        - accessToken: []
   /course-classes/{id}/sessions:
     get:
       operationId: getSessions
+      summary: Get Sessions
       parameters:
         - name: id
           required: true
@@ -249,11 +492,32 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - course-classes
+      security:
+        - accessToken: []
   /course-classes/{id}/students:
     put:
       operationId: updateStudentsList
+      summary: Update Students List
       parameters:
         - name: id
           required: true
@@ -265,25 +529,112 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateCourseClassStudentsListDto"
+              $ref: '#/components/schemas/UpdateCourseClassStudentsListDto'
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/CourseClassDto'
+                        nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - course-classes
+      security:
+        - accessToken: []
   /courses:
     post:
       operationId: create
+      summary: Create
       parameters: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateCourseDto"
+              $ref: '#/components/schemas/CreateCourseDto'
       responses:
-        "201":
-          description: ""
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/CourseDto'
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+        '409':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - courses
+      security:
+        - accessToken: []
     get:
       operationId: findByCondition
+      summary: Find By Condition
       parameters:
         - name: code
           required: false
@@ -303,11 +654,33 @@ paths:
             items:
               type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/CourseListItemDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+      tags:
+        - courses
+      security:
+        - accessToken: []
   /courses/{id}:
     get:
       operationId: findOne
+      summary: Find One
       parameters:
         - name: id
           required: true
@@ -315,10 +688,30 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/CourseDto'
+                        nullable: true
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+      tags:
+        - courses
+      security:
+        - accessToken: []
     patch:
       operationId: update
+      summary: Update
       parameters:
         - name: id
           required: true
@@ -330,12 +723,64 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateCourseDto"
+              $ref: '#/components/schemas/UpdateCourseDto'
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/CourseDto'
+                        nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+        '409':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - courses
+      security:
+        - accessToken: []
     delete:
       operationId: remove
+      summary: Remove
       parameters:
         - name: id
           required: true
@@ -343,23 +788,110 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/CourseDto'
+                        nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - courses
+      security:
+        - accessToken: []
   /management-classes:
     post:
       operationId: create
+      summary: Create
       parameters: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateManagementClassDto"
+              $ref: '#/components/schemas/CreateManagementClassDto'
       responses:
-        "201":
-          description: ""
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/ManagementClassListItemDto'
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+        '409':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - management-classes
+      security:
+        - accessToken: []
     get:
       operationId: findByCondition
+      summary: Find By Condition
       parameters:
         - name: code
           required: false
@@ -382,11 +914,33 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ManagementClassListItemDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+      tags:
+        - management-classes
+      security:
+        - accessToken: []
   /management-classes/{id}:
     get:
       operationId: findOne
+      summary: Find One
       parameters:
         - name: id
           required: true
@@ -394,10 +948,30 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/ManagementClassDto'
+                        nullable: true
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+      tags:
+        - management-classes
+      security:
+        - accessToken: []
     patch:
       operationId: update
+      summary: Update
       parameters:
         - name: id
           required: true
@@ -409,12 +983,64 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateManagementClassDto"
+              $ref: '#/components/schemas/UpdateManagementClassDto'
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/ManagementClassListItemDto'
+                        nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+        '409':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - management-classes
+      security:
+        - accessToken: []
     delete:
       operationId: remove
+      summary: Remove
       parameters:
         - name: id
           required: true
@@ -422,23 +1048,94 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/ManagementClassDto'
+                        nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - management-classes
+      security:
+        - accessToken: []
   /programs:
     post:
       operationId: create
+      summary: Create
       parameters: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateProgramDto"
+              $ref: '#/components/schemas/CreateProgramDto'
       responses:
-        "201":
-          description: ""
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/ProgramListItemDto'
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '409':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - programs
+      security:
+        - accessToken: []
     get:
       operationId: findByCondition
+      summary: Find By Condition
       parameters:
         - name: code
           required: false
@@ -451,11 +1148,33 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ProgramListItemDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+      tags:
+        - programs
+      security:
+        - accessToken: []
   /programs/{id}:
     get:
       operationId: findOne
+      summary: Find One
       parameters:
         - name: id
           required: true
@@ -463,10 +1182,30 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/ProgramDto'
+                        nullable: true
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+      tags:
+        - programs
+      security:
+        - accessToken: []
     patch:
       operationId: update
+      summary: Update
       parameters:
         - name: id
           required: true
@@ -478,12 +1217,64 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateProgramDto"
+              $ref: '#/components/schemas/UpdateProgramDto'
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/ProgramListItemDto'
+                        nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+        '409':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - programs
+      security:
+        - accessToken: []
     delete:
       operationId: remove
+      summary: Remove
       parameters:
         - name: id
           required: true
@@ -491,11 +1282,47 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/ProgramListItemDto'
+                        nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - programs
+      security:
+        - accessToken: []
   /programs/{id}/courses:
     patch:
       operationId: addCourses
+      summary: Add Courses
       parameters:
         - name: id
           required: true
@@ -507,28 +1334,61 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AddCoursesDto"
+              $ref: '#/components/schemas/AddCoursesDto'
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/ProgramDto'
+                        nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - programs
+      security:
+        - accessToken: []
 info:
-  title: ""
-  description: ""
+  title: ''
+  description: ''
   version: 1.0.0
   contact: {}
 tags: []
 servers: []
 components:
+  securitySchemes:
+    accessToken:
+      scheme: Bearer
+      bearerFormat: JWT
+      name: Authorization
+      in: Header
+      type: http
   schemas:
-    CreateAcademicYearDto:
-      type: object
-      properties:
-        startYear:
-          type: number
-          minimum: 2010
-          maximum: 2050
-      required:
-        - startYear
     Result:
       type: object
       properties:
@@ -542,13 +1402,54 @@ components:
         - data
         - success
         - message
+    AcademicYearDto:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+        startYear:
+          type: number
+        endYear:
+          type: number
+        isCurrent:
+          type: boolean
+      required:
+        - id
+        - code
+        - name
+        - startYear
+        - endYear
+        - isCurrent
+    CreateAcademicYearDto:
+      type: object
+      properties:
+        startYear:
+          type: number
+          minimum: 2010
+          maximum: 2050
+      required:
+        - startYear
     AccessToken:
       type: object
       properties:
-        access_token:
+        accessToken:
           type: string
       required:
-        - access_token
+        - accessToken
+    LoginModel:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
     CreateUserProfileTeacherDto:
       type: object
       properties:
@@ -585,9 +1486,9 @@ components:
           type: string
           nullable: true
         teacher:
-          $ref: "#/components/schemas/CreateUserProfileTeacherDto"
+          $ref: '#/components/schemas/CreateUserProfileTeacherDto'
         student:
-          $ref: "#/components/schemas/CreateUserProfileStudentDto"
+          $ref: '#/components/schemas/CreateUserProfileStudentDto'
       required:
         - firstName
         - lastName
@@ -602,7 +1503,7 @@ components:
         role:
           type: object
         profile:
-          $ref: "#/components/schemas/CreateUserProfileDto"
+          $ref: '#/components/schemas/CreateUserProfileDto'
       required:
         - email
         - password
@@ -618,7 +1519,7 @@ components:
       type: object
       properties:
         role:
-          $ref: "#/components/schemas/Role"
+          $ref: '#/components/schemas/Role'
         sub:
           type: string
         email:
@@ -627,6 +1528,55 @@ components:
         - role
         - sub
         - email
+    CourseClassSlotDto:
+      type: object
+      properties:
+        startAt:
+          type: string
+        endAt:
+          type: string
+      required:
+        - startAt
+        - endAt
+    CourseClassListItemDto:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+        course:
+          type: object
+          properties:
+            id:
+              required: true
+              type: string
+            code:
+              required: true
+              type: string
+            name:
+              required: true
+              type: string
+        startAt:
+          type: string
+        endAt:
+          type: string
+        sessionCount:
+          type: number
+        isoSlots:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseClassSlotDto'
+      required:
+        - id
+        - code
+        - name
+        - course
+        - startAt
+        - sessionCount
+        - isoSlots
     CreateCourseClassSlotDto:
       type: object
       properties:
@@ -650,10 +1600,12 @@ components:
           type: string
         sessionCount:
           type: number
+          minimum: 1
+          maximum: 50
         isoSlots:
           type: array
           items:
-            $ref: "#/components/schemas/CreateCourseClassSlotDto"
+            $ref: '#/components/schemas/CreateCourseClassSlotDto'
         courseId:
           type: string
       required:
@@ -663,13 +1615,47 @@ components:
         - sessionCount
         - isoSlots
         - courseId
-    UpdateCourseClassDto:
+    StudentProfileDto:
       type: object
       properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+      required:
+        - id
+        - firstName
+        - lastName
+    StudentDto:
+      type: object
+      properties:
+        profile:
+          $ref: '#/components/schemas/StudentProfileDto'
+      required:
+        - profile
+    CourseClassDto:
+      type: object
+      properties:
+        id:
+          type: string
         code:
           type: string
         name:
           type: string
+        course:
+          type: object
+          properties:
+            id:
+              required: true
+              type: string
+            code:
+              required: true
+              type: string
+            name:
+              required: true
+              type: string
         startAt:
           type: string
         endAt:
@@ -679,9 +1665,20 @@ components:
         isoSlots:
           type: array
           items:
-            $ref: "#/components/schemas/CreateCourseClassSlotDto"
-        courseId:
-          type: string
+            $ref: '#/components/schemas/CourseClassSlotDto'
+        students:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudentDto'
+      required:
+        - id
+        - code
+        - name
+        - course
+        - startAt
+        - sessionCount
+        - isoSlots
+        - students
     UpdateCourseClassStudentsListDto:
       type: object
       properties:
@@ -691,6 +1688,40 @@ components:
             type: string
       required:
         - studentIds
+    Program:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - code
+        - name
+    CourseDto:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+        createdAt:
+          type: string
+        programs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Program'
+      required:
+        - id
+        - code
+        - name
+        - createdAt
+        - programs
     CreateCourseDto:
       type: object
       properties:
@@ -706,6 +1737,22 @@ components:
         - code
         - name
         - programIds
+    CourseListItemDto:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+        createdAt:
+          type: string
+      required:
+        - id
+        - code
+        - name
+        - createdAt
     UpdateCourseDto:
       type: object
       properties:
@@ -717,6 +1764,22 @@ components:
           type: array
           items:
             type: string
+    ManagementClassListItemDto:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+        academicYear:
+          $ref: '#/components/schemas/AcademicYearDto'
+      required:
+        - id
+        - code
+        - name
+        - academicYear
     CreateManagementClassDto:
       type: object
       properties:
@@ -733,6 +1796,56 @@ components:
         - name
         - academicYearId
         - programId
+    ProgramDto:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+        createdAt:
+          type: string
+        courses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Course'
+        managementClass:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManagementClass'
+      required:
+        - id
+        - code
+        - name
+        - createdAt
+        - courses
+        - managementClass
+    ManagementClassDto:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+        academicYear:
+          $ref: '#/components/schemas/AcademicYearDto'
+        program:
+          $ref: '#/components/schemas/ProgramDto'
+        students:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudentDto'
+      required:
+        - id
+        - code
+        - name
+        - academicYear
+        - program
+        - students
     UpdateManagementClassDto:
       type: object
       properties:
@@ -744,6 +1857,22 @@ components:
           type: string
         programId:
           type: string
+    ProgramListItemDto:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+        createdAt:
+          type: string
+      required:
+        - id
+        - code
+        - name
+        - createdAt
     CreateProgramDto:
       type: object
       properties:
@@ -752,6 +1881,32 @@ components:
         name:
           type: string
       required:
+        - code
+        - name
+    Course:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - code
+        - name
+    ManagementClass:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+      required:
+        - id
         - code
         - name
     UpdateProgramDto:

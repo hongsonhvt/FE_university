@@ -10,14 +10,17 @@
  */
 
 import {
-  CreateData1,
+  CreateErrorData,
   CreateManagementClassDto,
-  FindByConditionQuery2,
-  FindByConditionResult,
-  FindOneOutput1,
-  RemoveResult1,
+  CreateOutput1,
+  FindByConditionOutput,
+  FindByConditionQuery4,
+  FindOneResult1,
+  RemoveFails,
+  RemoveOutput,
+  UpdateFail,
   UpdateManagementClassDto,
-  UpdateOutput,
+  UpdateResult,
 } from './data-contracts';
 import { ContentType, HttpClient, RequestParams } from './http-client';
 
@@ -25,80 +28,140 @@ export class ManagementClasses<
   SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
   /**
-   * No description
-   *
-   * @name Create
-   * @request POST:/management-classes
-   * @response `201` `CreateData1`
-   */
+ * No description
+ *
+ * @tags management-classes
+ * @name Create
+ * @summary Create
+ * @request POST:/management-classes
+ * @secure
+ * @response `201` `CreateOutput1`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ * @response `409` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
   create = (data: CreateManagementClassDto, params: RequestParams = {}) =>
-    this.request<CreateData1, any>({
+    this.request<CreateOutput1, CreateErrorData>({
       path: `/management-classes`,
       method: 'POST',
       body: data,
+      secure: true,
       type: ContentType.Json,
       ...params,
     });
   /**
    * No description
    *
+   * @tags management-classes
    * @name FindByCondition
+   * @summary Find By Condition
    * @request GET:/management-classes
-   * @response `200` `FindByConditionResult`
+   * @secure
+   * @response `200` `FindByConditionOutput`
    */
   findByCondition = (
-    query: FindByConditionQuery2,
+    query: FindByConditionQuery4,
     params: RequestParams = {},
   ) =>
-    this.request<FindByConditionResult, any>({
+    this.request<FindByConditionOutput, any>({
       path: `/management-classes`,
       method: 'GET',
       query: query,
+      secure: true,
       ...params,
     });
   /**
    * No description
    *
+   * @tags management-classes
    * @name FindOne
+   * @summary Find One
    * @request GET:/management-classes/{id}
-   * @response `200` `FindOneOutput1`
+   * @secure
+   * @response `200` `FindOneResult1`
    */
   findOne = (id: string, params: RequestParams = {}) =>
-    this.request<FindOneOutput1, any>({
+    this.request<FindOneResult1, any>({
       path: `/management-classes/${id}`,
       method: 'GET',
+      secure: true,
       ...params,
     });
   /**
-   * No description
-   *
-   * @name Update
-   * @request PATCH:/management-classes/{id}
-   * @response `200` `UpdateOutput`
-   */
+ * No description
+ *
+ * @tags management-classes
+ * @name Update
+ * @summary Update
+ * @request PATCH:/management-classes/{id}
+ * @secure
+ * @response `200` `UpdateResult`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ * @response `409` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
   update = (
     id: string,
     data: UpdateManagementClassDto,
     params: RequestParams = {},
   ) =>
-    this.request<UpdateOutput, any>({
+    this.request<UpdateResult, UpdateFail>({
       path: `/management-classes/${id}`,
       method: 'PATCH',
       body: data,
+      secure: true,
       type: ContentType.Json,
       ...params,
     });
   /**
-   * No description
-   *
-   * @name Remove
-   * @request DELETE:/management-classes/{id}
-   * @response `200` `RemoveResult1`
-   */
+ * No description
+ *
+ * @tags management-classes
+ * @name Remove
+ * @summary Remove
+ * @request DELETE:/management-classes/{id}
+ * @secure
+ * @response `200` `RemoveOutput`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
   remove = (id: string, params: RequestParams = {}) =>
-    this.request<RemoveResult1, any>({
+    this.request<RemoveOutput, RemoveFails>({
       path: `/management-classes/${id}`,
       method: 'DELETE',
+      secure: true,
       ...params,
     });
 }

@@ -11,16 +11,16 @@
 
 import {
   CreateCourseClassDto,
+  CreateFail,
   CreateOutput,
-  FindAllData,
-  FindAllQuery,
+  FindByConditionData,
+  FindByConditionQuery,
   FindOneResult,
   GetSessionsData,
-  RemoveResult,
-  UpdateCourseClassDto,
+  GetSessionsError,
   UpdateCourseClassStudentsListDto,
-  UpdateData,
   UpdateStudentsListData,
+  UpdateStudentsListError,
 } from './data-contracts';
 import { ContentType, HttpClient, RequestParams } from './http-client';
 
@@ -28,108 +28,120 @@ export class CourseClasses<
   SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
   /**
-   * No description
-   *
-   * @name Create
-   * @request POST:/course-classes
-   * @response `201` `CreateOutput`
-   */
+ * No description
+ *
+ * @tags course-classes
+ * @name Create
+ * @summary Create
+ * @request POST:/course-classes
+ * @secure
+ * @response `201` `CreateOutput`
+ * @response `409` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
   create = (data: CreateCourseClassDto, params: RequestParams = {}) =>
-    this.request<CreateOutput, any>({
+    this.request<CreateOutput, CreateFail>({
       path: `/course-classes`,
       method: 'POST',
       body: data,
+      secure: true,
       type: ContentType.Json,
       ...params,
     });
   /**
    * No description
    *
-   * @name FindAll
+   * @tags course-classes
+   * @name FindByCondition
+   * @summary Find By Condition
    * @request GET:/course-classes
-   * @response `200` `FindAllData`
+   * @secure
+   * @response `200` `FindByConditionData`
    */
-  findAll = (query: FindAllQuery, params: RequestParams = {}) =>
-    this.request<FindAllData, any>({
+  findByCondition = (query: FindByConditionQuery, params: RequestParams = {}) =>
+    this.request<FindByConditionData, any>({
       path: `/course-classes`,
       method: 'GET',
       query: query,
+      secure: true,
       ...params,
     });
   /**
    * No description
    *
+   * @tags course-classes
    * @name FindOne
+   * @summary Find One
    * @request GET:/course-classes/{id}
+   * @secure
    * @response `200` `FindOneResult`
    */
   findOne = (id: string, params: RequestParams = {}) =>
     this.request<FindOneResult, any>({
       path: `/course-classes/${id}`,
       method: 'GET',
+      secure: true,
       ...params,
     });
   /**
-   * No description
-   *
-   * @name Update
-   * @request PATCH:/course-classes/{id}
-   * @response `200` `UpdateData`
-   */
-  update = (
-    id: string,
-    data: UpdateCourseClassDto,
-    params: RequestParams = {},
-  ) =>
-    this.request<UpdateData, any>({
-      path: `/course-classes/${id}`,
-      method: 'PATCH',
-      body: data,
-      type: ContentType.Json,
-      ...params,
-    });
-  /**
-   * No description
-   *
-   * @name Remove
-   * @request DELETE:/course-classes/{id}
-   * @response `200` `RemoveResult`
-   */
-  remove = (id: string, params: RequestParams = {}) =>
-    this.request<RemoveResult, any>({
-      path: `/course-classes/${id}`,
-      method: 'DELETE',
-      ...params,
-    });
-  /**
-   * No description
-   *
-   * @name GetSessions
-   * @request GET:/course-classes/{id}/sessions
-   * @response `200` `GetSessionsData`
-   */
+ * No description
+ *
+ * @tags course-classes
+ * @name GetSessions
+ * @summary Get Sessions
+ * @request GET:/course-classes/{id}/sessions
+ * @secure
+ * @response `200` `GetSessionsData`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
   getSessions = (id: string, params: RequestParams = {}) =>
-    this.request<GetSessionsData, any>({
+    this.request<GetSessionsData, GetSessionsError>({
       path: `/course-classes/${id}/sessions`,
       method: 'GET',
+      secure: true,
       ...params,
     });
   /**
-   * No description
-   *
-   * @name UpdateStudentsList
-   * @request PUT:/course-classes/{id}/students
-   * @response `200` `UpdateStudentsListData`
-   */
+ * No description
+ *
+ * @tags course-classes
+ * @name UpdateStudentsList
+ * @summary Update Students List
+ * @request PUT:/course-classes/{id}/students
+ * @secure
+ * @response `200` `UpdateStudentsListData`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
   updateStudentsList = (
     id: string,
     data: UpdateCourseClassStudentsListDto,
     params: RequestParams = {},
   ) =>
-    this.request<UpdateStudentsListData, any>({
+    this.request<UpdateStudentsListData, UpdateStudentsListError>({
       path: `/course-classes/${id}/students`,
       method: 'PUT',
       body: data,
+      secure: true,
       type: ContentType.Json,
       ...params,
     });
