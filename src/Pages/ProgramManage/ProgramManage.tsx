@@ -13,7 +13,7 @@ const { confirm } = Modal;
 
 const ProgramManage = () => {
   const [programs, setPrograms] = useState<FindByConditionOutput[]>([]);
-  const [fileList, setFileList] = useState<FindByConditionOutput>([]);
+  const [fileList, setFileList] = useState<FindByConditionOutput[]>([]);
 
   useEffect(() => {
     fetchPrograms();
@@ -118,9 +118,9 @@ const ProgramManage = () => {
   return (
     <div className={styles.studentManage}>
       <div className={styles.header}>
-        <ProgramManagePopup/>
+        <ProgramManagePopup />
         <Upload
-          fileList={fileList}
+          // fileList={fileList}
           onChange={handleUpload}
           beforeUpload={() => false}
         >

@@ -7,12 +7,14 @@ import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import styles from "./CourseManage.module.scss";
 import Search from "antd/es/input/Search";
 import CourseManagePanel from "./CourseManagePanel/CourseManagePanel";
+import CourseManagePopup from "./CourseManagePopup/CourseManagePopup";
 
 const { confirm } = Modal;
 
 const CourseManage = () => {
   const [courses, setCourses] = useState<FindByConditionData[]>([]);
-  const [fileList, setFileList] = useState<FindByConditionData>([]);
+  const [fileList, setFileList] = useState<FindByConditionData[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -118,8 +120,9 @@ const CourseManage = () => {
   return (
     <div className={styles.studentManage}>
       <div className={styles.header}>
+        <CourseManagePopup />
         <Upload
-          fileList={fileList}
+          // fileList={fileList}
           onChange={handleUpload}
           beforeUpload={() => false}
         >

@@ -7,6 +7,7 @@ import { FindAllData } from "../../shared/api/__generated__/data-contracts";
 import axios from "axios";
 import moment from "moment";
 import CourseClassesManagePanel from "./CourseClassesManagePanel/CourseClassesManagePanel";
+import CourseClassesManagePopup from "./CourseClassesManagePopup/CourseClassesManagePopup";
 
 const { confirm } = Modal;
 
@@ -130,6 +131,7 @@ const CourseClassesManage = () => {
   return (
     <div className={styles.studentManage}>
       <div className={styles.header}>
+        {/* <CourseClassesManagePopup /> */}
         <Upload
           fileList={fileList}
           onChange={handleUpload}

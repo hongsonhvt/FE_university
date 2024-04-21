@@ -1,21 +1,48 @@
-import { Button, Form, Input, Modal, message } from "antd";
-import React, { useState } from "react";
-import { CreateCourseDto } from "../../../shared/api/__generated__/data-contracts";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { Button, Form, Input, Modal, Select, message } from "antd";
+import React, { useEffect, useState } from "react";
+import { CreateCourseDto, FindByConditionOutput } from "../../../shared/api/__generated__/data-contracts";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Courses } from "../../../shared/api/__generated__/Courses";
+import axios from "axios";
+import moment from "moment";
+
+const { Option } = Select;
 
 const CourseManagePopup = () => {
   const [modal2Open, setModal2Open] = useState(false);
+  const [programs, setPrograms] = useState<FindByConditionOutput[]>([]);
+
   const {
-    register,
     handleSubmit,
     formState: { errors },
     reset,
+    control,
   } = useForm<CreateCourseDto>();
-  const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const coursessApi = new Courses();
+
+  useEffect(() => {
+    fetchPrograms();
+  }, []);
+
+  const fetchPrograms = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/programs");
+      setPrograms(
+        response.data.data.map((item: any) => ({
+          key: item.id,
+          ...item,
+          createdAt: moment(item.createdAt).format("DD MMM YYYY"), // Format createdAt field
+          deletedAt: item.deletedAt
+            ? moment(item.deletedAt).format("DD MMM YYYY")
+            : "", // Format deletedAt field
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching programs:", error);
+      message.error("Failed to fetch programs");
+    }
+  };
 
   const onSubmit: SubmitHandler<CreateCourseDto> = async (
     data: CreateCourseDto
@@ -23,10 +50,10 @@ const CourseManagePopup = () => {
     setIsSubmitting(true);
     try {
       await coursessApi.create(data);
-      message.success("Program added successfully!");
+      message.success("Course added successfully!");
       onCloseModal();
     } catch (error) {
-      console.error("Error creating program:", error);
+      console.error("Error creating course:", error);
       message.error("Failed to add course. Please try again later.");
     } finally {
       setIsSubmitting(false);
@@ -41,6 +68,7 @@ const CourseManagePopup = () => {
   const onClose = () => {
     setModal2Open(false);
   };
+
   return (
     <div>
       <Button onClick={() => setModal2Open(true)}>Add Courses</Button>
@@ -55,24 +83,57 @@ const CourseManagePopup = () => {
           <Form.Item
             name="name"
             label="Courses Name"
-            rules={[{ required: true, message: "Please input Courses name!" }]}
+            // rules={[{ required: true, message: "Please input Courses name!" }]}
           >
-            <Input placeholder="Courses Name" />
+            <Controller
+              name="name"
+              control={control}
+              rules={{ required: true }}
+              render={(x) => (
+                <Input placeholder="Course Name" {...(x.field as any)} />
+              )}
+            />
           </Form.Item>
           <Form.Item
             name="code"
             label="Courses Code"
-            rules={[{ required: true, message: "Please input Courses code!" }]}
+            // rules={[{ required: true, message: "Please input Courses code!" }]}
           >
-            <Input placeholder="Courses Code" />
+            <Controller
+              name="code"
+              control={control}
+              // rules={{ required: true }}
+              render={(x) => (
+                <Input placeholder="Course Code" {...(x.field as any)} />
+              )}
+            />
           </Form.Item>
           <Form.Item
             name="programIds"
-            label="Program Id"
-            rules={[{ required: true, message: "Please input Program Id!" }]}
+            label="Program"
+            rules={[{ required: true, message: "Please select a program!" }]}
           >
-            <Input placeholder="Courses Code" />
+            <Controller
+              name="programIds"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  placeholder="Select a program"
+                  mode="multiple"
+                  allowClear
+                  style={{ width: "100%" }}
+                >
+                  {programs.map((program) => (
+                    <Option key={program.programIds} value={program.id}>
+                      {program.name}
+                    </Option>
+                  ))}
+                </Select>
+              )}
+            />
           </Form.Item>
+
           <Form.Item>
             <Button type="primary" htmlType="submit" loading={isSubmitting}>
               Save

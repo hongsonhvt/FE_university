@@ -1,7 +1,7 @@
 import { Button, DatePicker, Form, Input, Modal, message } from "antd";
 import React, { useState } from "react";
 import { CreateCourseClassDto } from "../../../shared/api/__generated__/data-contracts";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { CourseClasses } from "../../../shared/api/__generated__/CourseClasses";
 
@@ -12,6 +12,7 @@ const CourseClassesManagePopup = () => {
     handleSubmit,
     formState: { errors },
     reset,
+    control,
   } = useForm<CreateCourseClassDto>();
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,7 +44,7 @@ const CourseClassesManagePopup = () => {
   };
   return (
     <div>
-      <Button onClick={() => setModal2Open(true)}>Add Program</Button>
+      <Button onClick={() => setModal2Open(true)}>Add Course Class</Button>
       <Modal
         title="Add Course Classes"
         centered
@@ -59,7 +60,17 @@ const CourseClassesManagePopup = () => {
               { required: true, message: "Please input Course Classes name!" },
             ]}
           >
-            <Input placeholder="Course Classes Name" />
+            <Controller
+              name="name"
+              control={control}
+              rules={{ required: true }}
+              render={(x) => (
+                <Input
+                  placeholder="Course Classes Name"
+                  {...(x.field as any)}
+                />
+              )}
+            />
           </Form.Item>
           <Form.Item
             name="code"
@@ -68,20 +79,30 @@ const CourseClassesManagePopup = () => {
               { required: true, message: "Please input Course Classes code!" },
             ]}
           >
-            <Input placeholder="Course Classes Code" />
+            <Controller
+              name="code"
+              control={control}
+              rules={{ required: true }}
+              render={(x) => (
+                <Input
+                  placeholder="Course Classes Code"
+                  {...(x.field as any)}
+                />
+              )}
+            />
           </Form.Item>
           <Form.Item
             name="startAt"
             label="Start Date"
             rules={[{ required: true, message: "Please select start date!" }]}
           >
-            <DatePicker
-              style={{ width: "100%" }}
-              format={{
-                format: "DD-MM-YYYY",
-                type: "mask",
-              }}
-              // onChange={onChange}
+            <Controller
+              name="startAt"
+              control={control}
+              rules={{ required: true }}
+              render={(x) => (
+                <Input placeholder="Start Date" {...(x.field as any)} />
+              )}
             />
           </Form.Item>
           <Form.Item
@@ -91,7 +112,14 @@ const CourseClassesManagePopup = () => {
               { required: true, message: "Please input Sessions Total !" },
             ]}
           >
-            <Input placeholder="Sessions Total" type="number"/>
+            <Controller
+              name="sessionCount"
+              control={control}
+              rules={{ required: true }}
+              render={(x) => (
+                <Input placeholder="Sessions Total" {...(x.field as any)} />
+              )}
+            />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" loading={isSubmitting}>

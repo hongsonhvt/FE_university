@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Programs } from "../../../shared/api/__generated__/Programs";
 import { CreateProgramDto } from "../../../shared/api/__generated__/data-contracts";
-import { useDispatch } from "react-redux";
 
 const ProgramManagePopup = () => {
   const [modal2Open, setModal2Open] = useState(false);
@@ -14,7 +13,6 @@ const ProgramManagePopup = () => {
     reset,
     control,
   } = useForm<CreateProgramDto>();
-  const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const programsApi = new Programs();
 
@@ -24,6 +22,8 @@ const ProgramManagePopup = () => {
     setIsSubmitting(true);
     try {
       await programsApi.create(data);
+      console.log(data);
+
       message.success("Program added successfully!");
       onCloseModal();
     } catch (error) {
@@ -58,7 +58,7 @@ const ProgramManagePopup = () => {
             <Controller
               name="name"
               control={control}
-              rules={{ required: true }}
+              // rules={{ required: true }}
               render={(x) => (
                 <Input placeholder="Program Name" {...(x.field as any)} />
               )}
@@ -68,7 +68,7 @@ const ProgramManagePopup = () => {
             <Controller
               name="code"
               control={control}
-              rules={{ required: true }}
+              // rules={{ required: true }}
               render={(x) => (
                 <Input placeholder="Program Code" {...(x.field as any)} />
               )}
