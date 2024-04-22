@@ -120,7 +120,6 @@ const CourseManage = () => {
   return (
     <div className={styles.studentManage}>
       <div className={styles.header}>
-        <CourseManagePopup />
         <Upload
           // fileList={fileList}
           onChange={handleUpload}
@@ -141,11 +140,13 @@ const CourseManage = () => {
           // onSearch={onSearch}
         />
       </div>
-      <div className={styles.addProgram}>{/* <ProgramManagePopup /> */}</div>
+      <div className={styles.addProgram}>
+        <CourseManagePopup />
+      </div>
       <Table
         columns={columns}
         dataSource={courses}
-        pagination={{ pageSize: 10 }}
+        pagination={{ pageSize: 5 }}
         // onChange={handlePaginationChange}
       />
     </div>

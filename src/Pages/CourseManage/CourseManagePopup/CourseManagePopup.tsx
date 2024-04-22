@@ -46,6 +46,7 @@ const CourseManagePopup = () => {
           deletedAt: item.deletedAt
             ? moment(item.deletedAt).format("DD MMM YYYY")
             : "",
+          programIds: item.id,
         }))
       );
     } catch (error) {
@@ -62,13 +63,17 @@ const CourseManagePopup = () => {
       await coursessApi.create(data);
       message.success("Course added successfully!");
       onCloseModal();
+      refreshPage();
     } catch (error) {
       console.error("Error creating course:", error);
       message.error("Failed to add course. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
-    console.log(data);
+  };
+
+  const refreshPage = () => {
+    window.location.reload();
   };
 
   const onCloseModal = () => {
@@ -89,6 +94,7 @@ const CourseManagePopup = () => {
         visible={modal2Open}
         onCancel={onClose}
         footer={null}
+        destroyOnClose
       >
         <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
           <Form.Item name="name" label="Courses Name">
@@ -127,7 +133,6 @@ const CourseManagePopup = () => {
                   style={{ width: "100%" }}
                 >
                   {programs.map((program) => {
-                    console.log(program.programIds); // Thêm console.log ở đây
                     return (
                       <Option
                         key={
@@ -135,7 +140,7 @@ const CourseManagePopup = () => {
                             ? program.programIds[0]
                             : program.code
                         }
-                        value={program.programIds}
+                        value={program?.programIds}
                       >
                         {program.name}
                       </Option>
