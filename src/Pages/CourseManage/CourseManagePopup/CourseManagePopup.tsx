@@ -1,16 +1,26 @@
 import { Button, Form, Input, Modal, Select, message } from "antd";
 import React, { useEffect, useState } from "react";
-import { CreateCourseDto, FindByConditionOutput } from "../../../shared/api/__generated__/data-contracts";
+import {
+  CreateCourseDto,
+  FindByConditionOutput,
+} from "../../../shared/api/__generated__/data-contracts";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Courses } from "../../../shared/api/__generated__/Courses";
 import axios from "axios";
 import moment from "moment";
+import { SelectItemType } from "../../../shared/models/ui/selectItem";
 
 const { Option } = Select;
 
+type CreateFormData = {
+  courseId: string;
+  name: string;
+  programIds: string[]; // Chỉnh sửa kiểu dữ liệu thành mảng các chuỗi
+};
+
 const CourseManagePopup = () => {
   const [modal2Open, setModal2Open] = useState(false);
-  const [programs, setPrograms] = useState<FindByConditionOutput[]>([]);
+  const [programs, setPrograms] = useState<CreateCourseDto[]>([]);
 
   const {
     handleSubmit,
@@ -32,10 +42,10 @@ const CourseManagePopup = () => {
         response.data.data.map((item: any) => ({
           key: item.id,
           ...item,
-          createdAt: moment(item.createdAt).format("DD MMM YYYY"), // Format createdAt field
+          createdAt: moment(item.createdAt).format("DD MMM YYYY"),
           deletedAt: item.deletedAt
             ? moment(item.deletedAt).format("DD MMM YYYY")
-            : "", // Format deletedAt field
+            : "",
         }))
       );
     } catch (error) {
@@ -58,6 +68,7 @@ const CourseManagePopup = () => {
     } finally {
       setIsSubmitting(false);
     }
+    console.log(data);
   };
 
   const onCloseModal = () => {
@@ -80,11 +91,7 @@ const CourseManagePopup = () => {
         footer={null}
       >
         <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
-          <Form.Item
-            name="name"
-            label="Courses Name"
-            // rules={[{ required: true, message: "Please input Courses name!" }]}
-          >
+          <Form.Item name="name" label="Courses Name">
             <Controller
               name="name"
               control={control}
@@ -94,15 +101,10 @@ const CourseManagePopup = () => {
               )}
             />
           </Form.Item>
-          <Form.Item
-            name="code"
-            label="Courses Code"
-            // rules={[{ required: true, message: "Please input Courses code!" }]}
-          >
+          <Form.Item name="code" label="Courses Code">
             <Controller
               name="code"
               control={control}
-              // rules={{ required: true }}
               render={(x) => (
                 <Input placeholder="Course Code" {...(x.field as any)} />
               )}
@@ -111,7 +113,7 @@ const CourseManagePopup = () => {
           <Form.Item
             name="programIds"
             label="Program"
-            rules={[{ required: true, message: "Please select a program!" }]}
+            // rules={[{ required: true, message: "Please select a program!" }]}
           >
             <Controller
               name="programIds"
@@ -124,11 +126,21 @@ const CourseManagePopup = () => {
                   allowClear
                   style={{ width: "100%" }}
                 >
-                  {programs.map((program) => (
-                    <Option key={program.programIds} value={program.id}>
-                      {program.name}
-                    </Option>
-                  ))}
+                  {programs.map((program) => {
+                    console.log(program.programIds); // Thêm console.log ở đây
+                    return (
+                      <Option
+                        key={
+                          program.programIds && program.programIds.length > 0
+                            ? program.programIds[0]
+                            : program.code
+                        }
+                        value={program.programIds}
+                      >
+                        {program.name}
+                      </Option>
+                    );
+                  })}
                 </Select>
               )}
             />
