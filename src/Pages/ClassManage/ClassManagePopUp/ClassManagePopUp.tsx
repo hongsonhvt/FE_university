@@ -1,10 +1,10 @@
-import { Button, DatePicker, Form, Input, Modal, message } from "antd";
+import { Button, Form, Input, Modal, message } from "antd";
 import React, { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Programs } from "../../../shared/api/__generated__/Programs";
-import { CreateProgramDto } from "../../../shared/api/__generated__/data-contracts";
+import { CreateManagementClassDto } from "../../../shared/api/__generated__/data-contracts";
+import { ManagementClasses } from "../../../shared/api/__generated__/ManagementClasses";
 
-const ProgramManagePopup = () => {
+const ClassManagePopUp = () => {
   const [modal2Open, setModal2Open] = useState(false);
   const {
     register,
@@ -12,24 +12,24 @@ const ProgramManagePopup = () => {
     formState: { errors },
     reset,
     control,
-  } = useForm<CreateProgramDto>();
+  } = useForm<CreateManagementClassDto>();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const programsApi = new Programs();
+  const manageClassesAPI = new ManagementClasses();
 
-  const onSubmit: SubmitHandler<CreateProgramDto> = async (
-    data: CreateProgramDto
+  const onSubmit: SubmitHandler<CreateManagementClassDto> = async (
+    data: CreateManagementClassDto
   ) => {
     setIsSubmitting(true);
     try {
-      await programsApi.create(data);
+      await manageClassesAPI.create(data);
       console.log(data);
 
-      message.success("Program added successfully!");
+      message.success("Class added successfully!");
       onCloseModal();
       refreshPage();
     } catch (error) {
-      console.error("Error creating program:", error);
-      message.error("Failed to add program. Please try again later.");
+      console.error("Error creating Class:", error);
+      message.error("Failed to add Class. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
@@ -47,35 +47,34 @@ const ProgramManagePopup = () => {
   const onClose = () => {
     setModal2Open(false);
   };
-
   return (
     <div>
       <Button onClick={() => setModal2Open(true)}>Add Program</Button>
       <Modal
-        title="Add Program"
+        title="Add Management Classes"
         centered
         visible={modal2Open}
         onCancel={onClose}
         footer={null}
       >
         <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
-          <Form.Item name="name" label="Program Name">
+          <Form.Item name="name" label="Management Classes Name">
             <Controller
               name="name"
               control={control}
               // rules={{ required: true }}
               render={(x) => (
-                <Input placeholder="Program Name" {...(x.field as any)} />
+                <Input placeholder="Management Classes Name" {...(x.field as any)} />
               )}
             />
           </Form.Item>
-          <Form.Item name="code" label="Program Code">
+          <Form.Item name="code" label="Management Classes Code">
             <Controller
               name="code"
               control={control}
               // rules={{ required: true }}
               render={(x) => (
-                <Input placeholder="Program Code" {...(x.field as any)} />
+                <Input placeholder="Management Classes Code" {...(x.field as any)} />
               )}
             />
           </Form.Item>
@@ -90,4 +89,4 @@ const ProgramManagePopup = () => {
   );
 };
 
-export default ProgramManagePopup;
+export default ClassManagePopUp;

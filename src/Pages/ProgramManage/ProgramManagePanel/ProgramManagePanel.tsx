@@ -1,25 +1,67 @@
-import React, { useState } from "react";
-import { Table, Button, Drawer, Form, Input, Select, DatePicker } from "antd";
+import React, { useState, useEffect } from "react";
+import { Button, Drawer, Form, Input, Select, message } from "antd";
 import styles from "./ProgramManagePanel.module.scss";
+import { Programs } from "../../../shared/api/__generated__/Programs";
+import { Controller, useForm } from "react-hook-form";
+import { UpdateProgramDto } from "../../../shared/api/__generated__/data-contracts";
 
-const ProgramManagePanel = () => {
+type FormData = {
+  name: string;
+  code: string;
+};
+
+interface IProgram {
+  selected?: any;
+}
+
+const ProgramManagePanel = ({ selected }: IProgram) => {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
+  const [programs, setPrograms] = useState<UpdateProgramDto[]>([]);
+  const [selectedProgram, setSelectedProgram] = useState("");
+  const { handleSubmit, control, setValue } = useForm<FormData>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const showDrawer = () => {
-    setIsDrawerVisible(true);
+  const showDrawer = (programId: string | undefined) => {
+    if (programId) {
+      setIsDrawerVisible(true);
+    }
   };
 
   const onCloseDrawer = () => {
     setIsDrawerVisible(false);
   };
 
-  const onFinish = (values: any) => {
-    console.log("Received values:", values);
-    onCloseDrawer();
+  const refreshPage = () => {
+    window.location.reload();
   };
+
+  const onFinish = async (values: FormData) => {
+    try {
+      if (!selected) return;
+      setIsSubmitting(true);
+      await new Programs().update(selected.id, values);
+      message.success("Course updated successfully");
+      onCloseDrawer();
+      refreshPage();
+    } catch (error) {
+      console.error("Error updating course:", error);
+      message.error("Failed to update course. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  useEffect(() => {
+    if (typeof showDrawer === "function" && selected) {
+      setValue("name", selected.name);
+      setValue("code", selected.code);
+    }
+  }, [showDrawer, selected, setValue]);
+  console.log(selected);
+
   return (
     <div className={styles.studentManagePanel}>
-      <Button type="primary" onClick={showDrawer}>
+      <Button type="primary" onClick={() => showDrawer(selected)}>
         Edit Subject
       </Button>
       <Drawer
@@ -29,40 +71,36 @@ const ProgramManagePanel = () => {
         visible={isDrawerVisible}
         bodyStyle={{ paddingBottom: 80 }}
       >
-        <Form layout="vertical" onFinish={onFinish}>
+        <Form layout="vertical" onFinish={handleSubmit(onFinish)}>
           <Form.Item
             name="name"
             label="Program Name"
-            rules={[{ required: true, message: "Please input Program name!" }]}
+            // rules={[{ required: true, message: "Please input Program name!" }]}
           >
-            <Input placeholder="Subject Name" />
-          </Form.Item>
-          <Form.Item
-            name="startDate"
-            label="Start Date"
-            rules={[{ required: true, message: "Please select start date!" }]}
-            className={styles.startDate}
-          >
-            <DatePicker
-              style={{ width: "100%" }}
-              format={{
-                format: "DD-MM-YYYY",
-                type: "mask",
-              }}
-              // onChange={onChange}
+            <Controller
+              name="name"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Input placeholder="Program Name" {...field} />
+              )}
             />
           </Form.Item>
           <Form.Item
-            name="numberOfSession"
-            label="Number of Session"
-            rules={[
-              { required: true, message: "Please input number of session" },
-            ]}
+            name="code"
+            label="Program Code"
+            // rules={[{ required: true, message: "Please input Program Code" }]}
           >
-            <Input placeholder="Number of Session" type="number" />
+            <Controller
+              name="code"
+              control={control}
+              render={({ field }) => (
+                <Input placeholder="Program Code" {...field} />
+              )}
+            />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={isSubmitting}>
               Save
             </Button>
           </Form.Item>

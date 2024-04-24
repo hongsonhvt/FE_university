@@ -12,12 +12,6 @@ import { SelectItemType } from "../../../shared/models/ui/selectItem";
 
 const { Option } = Select;
 
-type CreateFormData = {
-  courseId: string;
-  name: string;
-  programIds: string[]; // Chỉnh sửa kiểu dữ liệu thành mảng các chuỗi
-};
-
 const CourseManagePopup = () => {
   const [modal2Open, setModal2Open] = useState(false);
   const [programs, setPrograms] = useState<CreateCourseDto[]>([]);

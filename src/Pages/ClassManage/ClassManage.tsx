@@ -10,8 +10,10 @@ import { FindByConditionResult } from "../../shared/api/__generated__/data-contr
 const { confirm } = Modal;
 
 const ClassManage = () => {
-  const [manageClasses, setManageClasses] = useState<FindByConditionResult>([]);
-  const [fileList, setFileList] = useState<FindByConditionResult>([]);
+  const [manageClasses, setManageClasses] = useState<FindByConditionResult[]>(
+    []
+  );
+  const [fileList, setFileList] = useState<FindByConditionResult[]>([]);
 
   useEffect(() => {
     fetchManageClasses();
@@ -27,7 +29,7 @@ const ClassManage = () => {
           key: item.id,
           name: item.name,
           code: item.code,
-          academicYear: item.academicYear.name, // Thêm thông tin về academicYear
+          academicYear: item.academicYear.name,
           createdAt: moment(item.createdAt).format("DD MMM YYYY"),
           deletedAt: item.deletedAt
             ? moment(item.deletedAt).format("DD MMM YYYY")
@@ -40,17 +42,17 @@ const ClassManage = () => {
     }
   };
 
-  const handleUpload = (info: any) => {
-    let fileList = [...info.fileList];
-    fileList = fileList.slice(-1);
-    setFileList(fileList);
+  // const handleUpload = (info: any) => {
+  //   let fileList = [...info.fileList];
+  //   fileList = fileList.slice(-1);
+  //   setFileList(fileList);
 
-    if (info.file.status === "done") {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  };
+  //   if (info.file.status === "done") {
+  //     message.success(`${info.file.name} file uploaded successfully`);
+  //   } else if (info.file.status === "error") {
+  //     message.error(`${info.file.name} file upload failed.`);
+  //   }
+  // };
 
   const showDeleteConfirmation = (record: any) => {
     confirm({
@@ -120,8 +122,8 @@ const ClassManage = () => {
     <div className={styles.studentManage}>
       <div className={styles.header}>
         <Upload
-          fileList={fileList}
-          onChange={handleUpload}
+          // fileList={fileList}
+          // onChange={handleUpload}
           beforeUpload={() => false}
         >
           <Button icon={<UploadOutlined />}>Click to Upload</Button>

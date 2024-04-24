@@ -105,7 +105,7 @@ const ProgramManage = () => {
       key: "action",
       render: (_: any, record: any) => (
         <Space size="middle">
-          <ProgramManagePanel />
+          <ProgramManagePanel selected={record} />
           <a onClick={() => showDeleteConfirmation(record)}>
             <DeleteOutlined />
             Delete
@@ -143,7 +143,7 @@ const ProgramManage = () => {
       <Table
         columns={columns}
         dataSource={programs}
-        pagination={{ pageSize: 10 }}
+        pagination={{ pageSize: 5 }}
         // onChange={handlePaginationChange}
       />
     </div>
