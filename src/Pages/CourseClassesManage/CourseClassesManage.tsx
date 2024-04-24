@@ -3,17 +3,17 @@ import styles from "./CourseClassesManage.module.scss";
 import { Button, Modal, Space, Table, Upload, message } from "antd";
 import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import Search from "antd/es/input/Search";
-import { FindAllData } from "../../shared/api/__generated__/data-contracts";
 import axios from "axios";
 import moment from "moment";
 import CourseClassesManagePanel from "./CourseClassesManagePanel/CourseClassesManagePanel";
 import CourseClassesManagePopup from "./CourseClassesManagePopup/CourseClassesManagePopup";
+import { FindByConditionData } from "../../shared/api/__generated__/data-contracts";
 
 const { confirm } = Modal;
 
 const CourseClassesManage = () => {
-  const [courseClasses, setCourseClasses] = useState<FindAllData[]>([]);
-  const [fileList, setFileList] = useState<FindAllData>([]);
+  const [courseClasses, setCourseClasses] = useState<FindByConditionData[]>([]);
+  const [fileList, setFileList] = useState<FindByConditionData[]>([]);
 
   useEffect(() => {
     fetchCourseClasses();
@@ -131,9 +131,9 @@ const CourseClassesManage = () => {
   return (
     <div className={styles.studentManage}>
       <div className={styles.header}>
-        {/* <CourseClassesManagePopup /> */}
+        <CourseClassesManagePopup />
         <Upload
-          fileList={fileList}
+          // fileList={fileList}
           onChange={handleUpload}
           beforeUpload={() => false}
         >

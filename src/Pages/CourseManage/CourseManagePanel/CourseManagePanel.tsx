@@ -2,36 +2,36 @@ import React, { useEffect, useState } from "react";
 import styles from "./CourseManagePanel.module.scss";
 import { Button, Drawer, Form, Input, Select, message } from "antd";
 import { Controller, useForm } from "react-hook-form";
+import axios from "axios";
+import moment from "moment";
 import {
   FindOneOutput,
   UpdateCourseDto,
 } from "../../../shared/api/__generated__/data-contracts";
-import axios from "axios";
-import moment from "moment";
+import { Courses } from "../../../shared/api/__generated__/Courses";
 
 type FormData = {
   name: string;
   code: string;
   programIds: string[];
-  courseId: string[];
 };
+
+interface ICourse {
+  selected?: any;
+}
 
 const { Option } = Select;
 
-const CourseManagePanel = () => {
+const CourseManagePanel = ({ selected }: ICourse) => {
+  // console.log(selected);
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const [programs, setPrograms] = useState<UpdateCourseDto[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState<FindOneOutput | null>(
     null
   );
 
-  const {
-    handleSubmit,
-    formState: { errors },
-    reset,
-    control,
-    setValue,
-  } = useForm<FormData>();
+  const { handleSubmit, control, setValue } = useForm<FormData>();
 
   useEffect(() => {
     fetchPrograms();
@@ -40,48 +40,30 @@ const CourseManagePanel = () => {
   const fetchPrograms = async () => {
     try {
       const response = await axios.get("http://localhost:3000/programs");
-      setPrograms(
-        response.data.data.map((item: any) => ({
-          key: item.id,
-          ...item,
-          createdAt: moment(item.createdAt).format("DD MMM YYYY"),
-          deletedAt: item.deletedAt
-            ? moment(item.deletedAt).format("DD MMM YYYY")
-            : "",
-          programIds: item.id,
-        }))
-      );
+      const updatedPrograms = response.data.data.map((item: any) => ({
+        key: item.id,
+        ...item,
+        createdAt: moment(item.createdAt).format("DD MMM YYYY"),
+        deletedAt: item.deletedAt
+          ? moment(item.deletedAt).format("DD MMM YYYY")
+          : "",
+        programIds: item.id,
+      })) as UpdateCourseDto[];
+      setPrograms(updatedPrograms);
     } catch (error) {
       console.error("Error fetching programs:", error);
       message.error("Failed to fetch programs");
     }
   };
 
-  useEffect(() => {
-    fetchCourseData();
-  }, []);
-
-  const fetchCourseData = async () => {
-    try {
-      // Replace 'selectedCourseId' with the actual ID of the course you want to edit
-      const selectedCourseId = "replace_with_actual_course_id";
-      const response = await axios.get(
-        `http://localhost:3000/courses/${selectedCourseId}`
-      );
-      setSelectedCourse(response.data.data);
-      // Populate form fields with course data
-      const { name, code, programIds } = response.data.data;
-      setValue("name", name);
-      setValue("code", code);
-      setValue("programIds", programIds);
-    } catch (error) {
-      console.error("Error fetching course data:", error);
-      message.error("Failed to fetch course data");
+  const showDrawer = (courseId: string | undefined) => {
+    if (courseId) {
+      setIsDrawerVisible(true);
     }
   };
 
-  const showDrawer = () => {
-    setIsDrawerVisible(true);
+  const refreshPage = () => {
+    window.location.reload();
   };
 
   const onCloseDrawer = () => {
@@ -89,23 +71,35 @@ const CourseManagePanel = () => {
   };
 
   const onFinish = async (values: FormData) => {
+    console.log(selected);
+
     try {
-      if (!selectedCourse) return;
-      await axios.patch(
-        `http://localhost:3000/courses/${selectedCourse.id}`,
-        values
-      );
+      if (!selected) return;
+      setIsSubmitting(true);
+      await new Courses().update(selected.id, values);
       message.success("Course updated successfully");
       onCloseDrawer();
+      refreshPage();
     } catch (error) {
       console.error("Error updating course:", error);
       message.error("Failed to update course. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
+  useEffect(() => {
+    if (typeof showDrawer === "function" && selected) {
+      setValue("name", selected.name);
+      setValue("code", selected.code);
+      setValue("programIds", selected.programIds);
+    }
+  }, [showDrawer, selected, setValue]);
+  // console.log(selectedCourse);
+
   return (
     <div className={styles.studentManagePanel}>
-      <Button type="primary" onClick={showDrawer}>
+      <Button type="primary" onClick={() => showDrawer(selected)}>
         Edit Subject
       </Button>
       <Drawer
@@ -121,8 +115,8 @@ const CourseManagePanel = () => {
               name="name"
               control={control}
               rules={{ required: true }}
-              render={(x) => (
-                <Input placeholder="Course Name" {...(x.field as any)} />
+              render={({ field }) => (
+                <Input placeholder="Course Name" {...field} />
               )}
             />
           </Form.Item>
@@ -130,16 +124,12 @@ const CourseManagePanel = () => {
             <Controller
               name="code"
               control={control}
-              render={(x) => (
-                <Input placeholder="Course Code" {...(x.field as any)} />
+              render={({ field }) => (
+                <Input placeholder="Course Code" {...field} />
               )}
             />
           </Form.Item>
-          <Form.Item
-            name="programIds"
-            label="Program"
-            // rules={[{ required: true, message: "Please select a program!" }]}
-          >
+          <Form.Item name="programIds" label="Program">
             <Controller
               name="programIds"
               control={control}
@@ -151,26 +141,24 @@ const CourseManagePanel = () => {
                   allowClear
                   style={{ width: "100%" }}
                 >
-                  {programs.map((program) => {
-                    return (
-                      <Option
-                        key={
-                          program.programIds && program.programIds.length > 0
-                            ? program.programIds[0]
-                            : program.code
-                        }
-                        value={program?.programIds}
-                      >
-                        {program.name}
-                      </Option>
-                    );
-                  })}
+                  {programs.map((program) => (
+                    <Option
+                      key={
+                        program.programIds && program.programIds.length > 0
+                          ? program.programIds[0]
+                          : program.code
+                      }
+                      value={program?.programIds}
+                    >
+                      {program.name}
+                    </Option>
+                  ))}
                 </Select>
               )}
             />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={isSubmitting}>
               Save
             </Button>
           </Form.Item>

@@ -107,7 +107,7 @@ const CourseManage = () => {
       key: "action",
       render: (_: any, record: any) => (
         <Space size="middle">
-          <CourseManagePanel />
+          <CourseManagePanel selected={record} />
           <a onClick={() => showDeleteConfirmation(record)}>
             <DeleteOutlined />
             Delete

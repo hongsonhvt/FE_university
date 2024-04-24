@@ -1,20 +1,17 @@
-import { Button, DatePicker, Form, Input, Modal, message } from "antd";
+import { Button, Form, Input, Modal, message, DatePicker } from "antd";
 import React, { useState } from "react";
 import { CreateCourseClassDto } from "../../../shared/api/__generated__/data-contracts";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
 import { CourseClasses } from "../../../shared/api/__generated__/CourseClasses";
 
 const CourseClassesManagePopup = () => {
   const [modal2Open, setModal2Open] = useState(false);
   const {
-    register,
     handleSubmit,
     formState: { errors },
     reset,
     control,
   } = useForm<CreateCourseClassDto>();
-  const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const courseClassesApi = new CourseClasses();
 
@@ -24,11 +21,11 @@ const CourseClassesManagePopup = () => {
     setIsSubmitting(true);
     try {
       await courseClassesApi.create(data);
-      message.success("Program added successfully!");
+      message.success("Course class added successfully!");
       onCloseModal();
     } catch (error) {
-      console.error("Error creating program:", error);
-      message.error("Failed to add program. Please try again later.");
+      console.error("Error creating course class:", error);
+      message.error("Failed to add course class. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
@@ -42,11 +39,12 @@ const CourseClassesManagePopup = () => {
   const onClose = () => {
     setModal2Open(false);
   };
+
   return (
     <div>
       <Button onClick={() => setModal2Open(true)}>Add Course Class</Button>
       <Modal
-        title="Add Course Classes"
+        title="Add Course Class"
         centered
         visible={modal2Open}
         onCancel={onClose}
@@ -55,62 +53,66 @@ const CourseClassesManagePopup = () => {
         <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
           <Form.Item
             name="name"
-            label="Course Classes Name"
-            rules={[
-              { required: true, message: "Please input Course Classes name!" },
-            ]}
+            label="Course Class Name"
+            rules={
+              [
+                // { required: true, message: "Please input Course Class name!" },
+              ]
+            }
           >
             <Controller
               name="name"
               control={control}
               rules={{ required: true }}
               render={(x) => (
-                <Input
-                  placeholder="Course Classes Name"
-                  {...(x.field as any)}
-                />
+                <Input placeholder="Course Class Name" {...(x.field as any)} />
               )}
             />
           </Form.Item>
           <Form.Item
             name="code"
-            label="Course Classes Code"
-            rules={[
-              { required: true, message: "Please input Course Classes code!" },
-            ]}
+            label="Course Class Code"
+            rules={
+              [
+                // { required: true, message: "Please input Course Class code!" },
+              ]
+            }
           >
             <Controller
               name="code"
               control={control}
               rules={{ required: true }}
               render={(x) => (
-                <Input
-                  placeholder="Course Classes Code"
-                  {...(x.field as any)}
-                />
+                <Input placeholder="Course Class Code" {...(x.field as any)} />
               )}
             />
           </Form.Item>
           <Form.Item
             name="startAt"
             label="Start Date"
-            rules={[{ required: true, message: "Please select start date!" }]}
+            // rules={[{ required: true, message: "Please select start date!" }]}
           >
             <Controller
               name="startAt"
               control={control}
-              rules={{ required: true }}
-              render={(x) => (
-                <Input placeholder="Start Date" {...(x.field as any)} />
+              render={({ field }) => (
+                <DatePicker
+                  {...field}
+                  style={{ width: "100%" }}
+                  format="YYYY-MM-DD"
+                  placeholder="Start Date"
+                />
               )}
             />
           </Form.Item>
           <Form.Item
             name="sessionCount"
             label="Sessions Total"
-            rules={[
-              { required: true, message: "Please input Sessions Total !" },
-            ]}
+            rules={
+              [
+                // { required: true, message: "Please input Sessions Total!" },
+              ]
+            }
           >
             <Controller
               name="sessionCount"
