@@ -1,9 +1,8 @@
 import { DeleteOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Modal, Space, Table, Upload, message } from 'antd';
 import Search from 'antd/es/input/Search';
-import axios from 'axios';
-import moment from 'moment';
 import { useEffect, useState } from 'react';
+import { ManagementClasses } from '../../shared/api/__generated__/ManagementClasses';
 import { ManagementClassListItemDto } from '../../shared/api/__generated__/data-contracts';
 import styles from './ClassManage.module.scss';
 import ClassManagePopUp from './ClassManagePopUp/ClassManagePopUp';
@@ -21,21 +20,9 @@ const ClassManage = () => {
 
   const fetchManageClasses = async () => {
     try {
-      const response = await axios.get(
-        'http://localhost:3000/management-classes',
-      );
-      setManageClasses(
-        response.data.data.map((item: any) => ({
-          key: item.id,
-          name: item.name,
-          code: item.code,
-          academicYear: item.academicYear.name,
-          createdAt: moment(item.createdAt).format('DD MMM YYYY'),
-          deletedAt: item.deletedAt
-            ? moment(item.deletedAt).format('DD MMM YYYY')
-            : '',
-        })),
-      );
+      const response =
+        await new ManagementClasses().findManagementClassByCondition({});
+      setManageClasses(response.data.data);
     } catch (error) {
       console.error('Error fetching Management Classes:', error);
       message.error('Failed to fetch Management Classes');
@@ -72,9 +59,7 @@ const ClassManage = () => {
 
   const deleteProgram = async (id: any) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:3000/management-classes/${id}`,
-      );
+      const response = await new ManagementClasses().removeManagementClass(id);
       const data = response.data;
       if (data.success) {
         fetchManageClasses();
@@ -146,6 +131,7 @@ const ClassManage = () => {
         columns={columns}
         dataSource={manageClasses}
         pagination={{ pageSize: 10 }}
+        rowKey="id"
         // onChange={handlePaginationChange}
       />
     </div>

@@ -1,9 +1,10 @@
 import { Button, Form, Input, Modal, Select, message } from 'antd';
-import axios from 'axios';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { AcademicYears } from '../../../shared/api/__generated__/AcademicYears';
 import { ManagementClasses } from '../../../shared/api/__generated__/ManagementClasses';
+import { Programs } from '../../../shared/api/__generated__/Programs';
 import {
   AcademicYearDto,
   CreateManagementClassDto,
@@ -45,7 +46,7 @@ const ClassManagePopUp = () => {
 
   const fetchPrograms = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/programs');
+      const response = await new Programs().findProgramByCondition({});
       setPrograms(
         response.data.data.map((item: any) => ({
           key: item.id,
@@ -69,7 +70,7 @@ const ClassManagePopUp = () => {
 
   const fetchAcademicYears = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/academic-years');
+      const response = await new AcademicYears().findAcademicYearInRange({});
       setAcademicYears(
         response.data.data.map((item: any) => ({
           key: item.id,
@@ -105,7 +106,7 @@ const ClassManagePopUp = () => {
       <Modal
         title="Add Management Classes"
         centered
-        visible={modal2Open}
+        open={modal2Open}
         onCancel={onClose}
         footer={null}
       >

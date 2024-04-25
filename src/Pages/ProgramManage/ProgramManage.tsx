@@ -1,9 +1,9 @@
 import { DeleteOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Modal, Space, Table, Upload, message } from 'antd';
 import Search from 'antd/es/input/Search';
-import axios from 'axios';
 import moment from 'moment'; // Import moment library
 import { useEffect, useState } from 'react';
+import { Programs } from '../../shared/api/__generated__/Programs';
 import { FindProgramByConditionData } from '../../shared/api/__generated__/data-contracts';
 import styles from './ProgramManage.module.scss';
 import ProgramManagePanel from './ProgramManagePanel/ProgramManagePanel';
@@ -21,7 +21,7 @@ const ProgramManage = () => {
 
   const fetchPrograms = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/programs');
+      const response = await new Programs().findProgramByCondition({});
       setPrograms(
         response.data.data.map((item: any) => ({
           key: item.id,
@@ -68,9 +68,7 @@ const ProgramManage = () => {
 
   const deleteProgram = async (id: string) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:3000/programs/${id}`,
-      );
+      const response = await new Programs().removeProgram(id);
       const data = response.data;
       if (data.success) {
         fetchPrograms();

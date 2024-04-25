@@ -1,9 +1,9 @@
 import { DeleteOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Modal, Space, Table, Upload, message } from 'antd';
 import Search from 'antd/es/input/Search';
-import axios from 'axios';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
+import { Courses } from '../../shared/api/__generated__/Courses';
 import { FindCourseByConditionData } from '../../shared/api/__generated__/data-contracts';
 import styles from './CourseManage.module.scss';
 import CourseManagePanel from './CourseManagePanel/CourseManagePanel';
@@ -21,7 +21,7 @@ const CourseManage = () => {
 
   const fetchCourses = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/courses');
+      const response = await new Courses().findCourseByCondition({});
       setCourses(
         response.data.data.map((item: any) => ({
           key: item.id,
@@ -68,9 +68,7 @@ const CourseManage = () => {
 
   const deleteProgram = async (id: string) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:3000/courses/${id}`,
-      );
+      const response = await new Courses().removeCourse(id);
       const data = response.data;
       if (data.success) {
         fetchCourses();

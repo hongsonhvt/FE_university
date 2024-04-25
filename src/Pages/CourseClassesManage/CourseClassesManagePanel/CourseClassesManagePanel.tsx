@@ -25,8 +25,8 @@ const CourseClassesManagePanel = () => {
         title="Edit Course Classes Information"
         width={720}
         onClose={onCloseDrawer}
-        visible={isDrawerVisible}
-        bodyStyle={{ paddingBottom: 80 }}
+        open={isDrawerVisible}
+        styles={{ body: { paddingBottom: 80 } }}
       >
         <Form layout="vertical" onFinish={onFinish}>
           <Form.Item

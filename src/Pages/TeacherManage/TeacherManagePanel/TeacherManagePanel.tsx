@@ -30,7 +30,7 @@ const TeacherManagePanel = () => {
         title="Edit Teacher Information"
         width={720}
         onClose={onCloseDrawer}
-        visible={isDrawerVisible}
+        open={isDrawerVisible}
         bodyStyle={{ paddingBottom: 80 }}
       >
         <Form layout="vertical" onFinish={onFinish}>

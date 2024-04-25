@@ -1,9 +1,9 @@
 import { Button, Drawer, Form, Input, Select, message } from 'antd';
-import axios from 'axios';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Courses } from '../../../shared/api/__generated__/Courses';
+import { Programs } from '../../../shared/api/__generated__/Programs';
 import { UpdateCourseDto } from '../../../shared/api/__generated__/data-contracts';
 import styles from './CourseManagePanel.module.scss';
 
@@ -33,7 +33,7 @@ const CourseManagePanel = ({ selected }: ICourse) => {
 
   const fetchPrograms = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/programs');
+      const response = await new Programs().findProgramByCondition({});
       const updatedPrograms = response.data.data.map((item: any) => ({
         key: item.id,
         ...item,
@@ -100,7 +100,7 @@ const CourseManagePanel = ({ selected }: ICourse) => {
         title="Edit Subject Information"
         width={720}
         onClose={onCloseDrawer}
-        visible={isDrawerVisible}
+        open={isDrawerVisible}
         bodyStyle={{ paddingBottom: 80 }}
       >
         <Form layout="vertical" onFinish={handleSubmit(onFinish)}>

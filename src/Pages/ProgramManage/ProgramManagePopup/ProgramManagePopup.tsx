@@ -48,7 +48,7 @@ const ProgramManagePopup = () => {
       <Modal
         title="Add Program"
         centered
-        visible={modal2Open}
+        open={modal2Open}
         onCancel={onClose}
         footer={null}
       >

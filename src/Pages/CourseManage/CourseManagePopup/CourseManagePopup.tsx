@@ -1,9 +1,9 @@
 import { Button, Form, Input, Modal, Select, message } from 'antd';
-import axios from 'axios';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Courses } from '../../../shared/api/__generated__/Courses';
+import { Programs } from '../../../shared/api/__generated__/Programs';
 import { CreateCourseDto } from '../../../shared/api/__generated__/data-contracts';
 
 const { Option } = Select;
@@ -22,7 +22,7 @@ const CourseManagePopup = () => {
 
   const fetchPrograms = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/programs');
+      const response = await new Programs().findProgramByCondition({});
       setPrograms(
         response.data.data.map((item: any) => ({
           key: item.id,
@@ -76,7 +76,7 @@ const CourseManagePopup = () => {
       <Modal
         title="Add Courses"
         centered
-        visible={modal2Open}
+        open={modal2Open}
         onCancel={onClose}
         footer={null}
         destroyOnClose

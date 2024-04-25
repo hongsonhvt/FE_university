@@ -101,7 +101,7 @@ const CourseClassesManagePopup = () => {
       <Modal
         title="Add Course Class"
         centered
-        visible={modal2Open}
+        open={modal2Open}
         onCancel={onClose}
         footer={null}
       >
