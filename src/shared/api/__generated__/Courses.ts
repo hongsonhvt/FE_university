@@ -10,17 +10,17 @@
  */
 
 import {
+  CreateCourseData,
   CreateCourseDto,
-  CreateFails,
-  CreateResult1,
-  FindByConditionQuery2,
-  FindByConditionResult,
-  FindOneOutput,
-  RemoveFail,
-  RemoveResult,
+  CreateCourseError,
+  FindCourseByConditionData,
+  FindCourseByConditionQuery,
+  FindOneCourseData,
+  RemoveCourseData,
+  RemoveCourseError,
+  UpdateCourseData,
   UpdateCourseDto,
-  UpdateData,
-  UpdateError,
+  UpdateCourseError,
 } from './data-contracts';
 import { ContentType, HttpClient, RequestParams } from './http-client';
 
@@ -31,11 +31,11 @@ export class Courses<
  * No description
  *
  * @tags courses
- * @name Create
- * @summary Create
+ * @name CreateCourse
+ * @summary Create Course
  * @request POST:/courses
  * @secure
- * @response `201` `CreateResult1`
+ * @response `201` `CreateCourseData`
  * @response `404` `({
   \** @example null *\
     data?: object | null,
@@ -53,8 +53,8 @@ export class Courses<
 
 })`
  */
-  create = (data: CreateCourseDto, params: RequestParams = {}) =>
-    this.request<CreateResult1, CreateFails>({
+  createCourse = (data: CreateCourseDto, params: RequestParams = {}) =>
+    this.request<CreateCourseData, CreateCourseError>({
       path: `/courses`,
       method: 'POST',
       body: data,
@@ -66,17 +66,17 @@ export class Courses<
    * No description
    *
    * @tags courses
-   * @name FindByCondition
-   * @summary Find By Condition
+   * @name FindCourseByCondition
+   * @summary Find Course By Condition
    * @request GET:/courses
    * @secure
-   * @response `200` `FindByConditionResult`
+   * @response `200` `FindCourseByConditionData`
    */
-  findByCondition = (
-    query: FindByConditionQuery2,
+  findCourseByCondition = (
+    query: FindCourseByConditionQuery,
     params: RequestParams = {},
   ) =>
-    this.request<FindByConditionResult, any>({
+    this.request<FindCourseByConditionData, any>({
       path: `/courses`,
       method: 'GET',
       query: query,
@@ -87,14 +87,14 @@ export class Courses<
    * No description
    *
    * @tags courses
-   * @name FindOne
-   * @summary Find One
+   * @name FindOneCourse
+   * @summary Find One Course
    * @request GET:/courses/{id}
    * @secure
-   * @response `200` `FindOneOutput`
+   * @response `200` `FindOneCourseData`
    */
-  findOne = (id: string, params: RequestParams = {}) =>
-    this.request<FindOneOutput, any>({
+  findOneCourse = (id: string, params: RequestParams = {}) =>
+    this.request<FindOneCourseData, any>({
       path: `/courses/${id}`,
       method: 'GET',
       secure: true,
@@ -104,11 +104,11 @@ export class Courses<
  * No description
  *
  * @tags courses
- * @name Update
- * @summary Update
+ * @name UpdateCourse
+ * @summary Update Course
  * @request PATCH:/courses/{id}
  * @secure
- * @response `200` `UpdateData`
+ * @response `200` `UpdateCourseData`
  * @response `404` `({
   \** @example null *\
     data?: object | null,
@@ -126,8 +126,12 @@ export class Courses<
 
 })`
  */
-  update = (id: string, data: UpdateCourseDto, params: RequestParams = {}) =>
-    this.request<UpdateData, UpdateError>({
+  updateCourse = (
+    id: string,
+    data: UpdateCourseDto,
+    params: RequestParams = {},
+  ) =>
+    this.request<UpdateCourseData, UpdateCourseError>({
       path: `/courses/${id}`,
       method: 'PATCH',
       body: data,
@@ -139,11 +143,11 @@ export class Courses<
  * No description
  *
  * @tags courses
- * @name Remove
- * @summary Remove
+ * @name RemoveCourse
+ * @summary Remove Course
  * @request DELETE:/courses/{id}
  * @secure
- * @response `200` `RemoveResult`
+ * @response `200` `RemoveCourseData`
  * @response `404` `({
   \** @example null *\
     data?: object | null,
@@ -153,8 +157,8 @@ export class Courses<
 
 })`
  */
-  remove = (id: string, params: RequestParams = {}) =>
-    this.request<RemoveResult, RemoveFail>({
+  removeCourse = (id: string, params: RequestParams = {}) =>
+    this.request<RemoveCourseData, RemoveCourseError>({
       path: `/courses/${id}`,
       method: 'DELETE',
       secure: true,

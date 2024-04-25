@@ -1,59 +1,59 @@
-import React, { useState } from "react";
-import { Table, Input, Button } from "antd";
+import { Button, Input, Table } from 'antd';
+import { useState } from 'react';
 
 const GradeDetail = () => {
   const [data, setData] = useState([
     {
-      key: "1",
-      className: "Class A",
-      email: "student1@example.com",
-      subject: "Mathematics",
-      grade: "",
-      studentName: "Nguyễn Văn A",
+      key: '1',
+      className: 'Class A',
+      email: 'student1@example.com',
+      subject: 'Mathematics',
+      grade: '',
+      studentName: 'Nguyễn Văn A',
     },
     {
-      key: "2",
-      className: "Class B",
-      email: "student2@example.com",
-      subject: "Science",
-      grade: "",
-      studentName: "Nguyễn Văn B",
+      key: '2',
+      className: 'Class B',
+      email: 'student2@example.com',
+      subject: 'Science',
+      grade: '',
+      studentName: 'Nguyễn Văn B',
     },
   ]);
 
   const onSave = () => {
-    console.log("Saved", data);
+    console.log('Saved', data);
   };
 
   const onCancel = () => {
-    console.log("Cancelled");
+    console.log('Cancelled');
   };
 
   const columns = [
     {
-      title: "Student Name",
-      dataIndex: "studentName",
-      key: "studentName",
+      title: 'Student Name',
+      dataIndex: 'studentName',
+      key: 'studentName',
     },
     {
-      title: "Class Name",
-      dataIndex: "className",
-      key: "className",
+      title: 'Class Name',
+      dataIndex: 'className',
+      key: 'className',
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
     },
     {
-      title: "Subject",
-      dataIndex: "subject",
-      key: "subject",
+      title: 'Subject',
+      dataIndex: 'subject',
+      key: 'subject',
     },
     {
-      title: "Grade",
-      dataIndex: "grade",
-      key: "grade",
+      title: 'Grade',
+      dataIndex: 'grade',
+      key: 'grade',
       width: 200,
       render: (_: any, record: any) => (
         <Input
@@ -76,11 +76,11 @@ const GradeDetail = () => {
     <>
       <h2>Grades Detail</h2>
       <Table columns={columns} dataSource={data} />
-      <div style={{ marginTop: "20px" }}>
+      <div style={{ marginTop: '20px' }}>
         <Button type="primary" onClick={onSave}>
           Save
         </Button>
-        <Button style={{ marginLeft: "10px" }} onClick={onCancel}>
+        <Button style={{ marginLeft: '10px' }} onClick={onCancel}>
           Cancel
         </Button>
       </div>

@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
-import styles from "./CourseManagePanel.module.scss";
-import { Button, Drawer, Form, Input, Select, message } from "antd";
-import { Controller, useForm } from "react-hook-form";
-import axios from "axios";
-import moment from "moment";
-import {
-  FindOneOutput,
-  UpdateCourseDto,
-} from "../../../shared/api/__generated__/data-contracts";
-import { Courses } from "../../../shared/api/__generated__/Courses";
+import { Button, Drawer, Form, Input, Select, message } from 'antd';
+import axios from 'axios';
+import moment from 'moment';
+import { useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { Courses } from '../../../shared/api/__generated__/Courses';
+import { UpdateCourseDto } from '../../../shared/api/__generated__/data-contracts';
+import styles from './CourseManagePanel.module.scss';
 
 type FormData = {
   name: string;
@@ -27,9 +24,6 @@ const CourseManagePanel = ({ selected }: ICourse) => {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const [programs, setPrograms] = useState<UpdateCourseDto[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState<FindOneOutput | null>(
-    null
-  );
 
   const { handleSubmit, control, setValue } = useForm<FormData>();
 
@@ -39,20 +33,20 @@ const CourseManagePanel = ({ selected }: ICourse) => {
 
   const fetchPrograms = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/programs");
+      const response = await axios.get('http://localhost:3000/programs');
       const updatedPrograms = response.data.data.map((item: any) => ({
         key: item.id,
         ...item,
-        createdAt: moment(item.createdAt).format("DD MMM YYYY"),
+        createdAt: moment(item.createdAt).format('DD MMM YYYY'),
         deletedAt: item.deletedAt
-          ? moment(item.deletedAt).format("DD MMM YYYY")
-          : "",
+          ? moment(item.deletedAt).format('DD MMM YYYY')
+          : '',
         programIds: item.id,
       })) as UpdateCourseDto[];
       setPrograms(updatedPrograms);
     } catch (error) {
-      console.error("Error fetching programs:", error);
-      message.error("Failed to fetch programs");
+      console.error('Error fetching programs:', error);
+      message.error('Failed to fetch programs');
     }
   };
 
@@ -76,23 +70,23 @@ const CourseManagePanel = ({ selected }: ICourse) => {
     try {
       if (!selected) return;
       setIsSubmitting(true);
-      await new Courses().update(selected.id, values);
-      message.success("Course updated successfully");
+      await new Courses().updateCourse(selected.id, values);
+      message.success('Course updated successfully');
       onCloseDrawer();
       refreshPage();
     } catch (error) {
-      console.error("Error updating course:", error);
-      message.error("Failed to update course. Please try again later.");
+      console.error('Error updating course:', error);
+      message.error('Failed to update course. Please try again later.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   useEffect(() => {
-    if (typeof showDrawer === "function" && selected) {
-      setValue("name", selected.name);
-      setValue("code", selected.code);
-      setValue("programIds", selected.programIds);
+    if (typeof showDrawer === 'function' && selected) {
+      setValue('name', selected.name);
+      setValue('code', selected.code);
+      setValue('programIds', selected.programIds);
     }
   }, [showDrawer, selected, setValue]);
   // console.log(selectedCourse);
@@ -139,7 +133,7 @@ const CourseManagePanel = ({ selected }: ICourse) => {
                   placeholder="Select a program"
                   mode="multiple"
                   allowClear
-                  style={{ width: "100%" }}
+                  style={{ width: '100%' }}
                 >
                   {programs.map((program) => (
                     <Option

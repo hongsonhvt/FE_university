@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import styles from "./ClassroomManage.module.scss";
-import { Avatar, Button, Flex, Upload, message } from "antd";
-import { UploadOutlined, UserOutlined } from "@ant-design/icons";
-import Search from "antd/es/input/Search";
+import { UploadOutlined, UserOutlined } from '@ant-design/icons';
+import { Avatar, Button, Upload, message } from 'antd';
+import Search from 'antd/es/input/Search';
+import { useState } from 'react';
+import styles from './ClassroomManage.module.scss';
 
 const ClassroomManage = () => {
   const [fileList, setFileList] = useState<any>([]);
@@ -11,16 +11,16 @@ const ClassroomManage = () => {
     fileList = fileList.slice(-1);
     setFileList(fileList);
 
-    if (info.file.status === "done") {
+    if (info.file.status === 'done') {
       message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === "error") {
+    } else if (info.file.status === 'error') {
       message.error(`${info.file.name} file upload failed.`);
     }
   };
   return (
     <>
-      <div style={{ display: "grid" }}>
-        <div style={{ display: "flex" }}>
+      <div style={{ display: 'grid' }}>
+        <div style={{ display: 'flex' }}>
           <Upload
             fileList={fileList}
             onChange={handleUpload}
@@ -34,9 +34,9 @@ const ClassroomManage = () => {
             enterButton="Search"
             size="large"
             style={{
-              marginBottom: "35px",
-              width: "500px",
-              marginLeft: "auto",
+              marginBottom: '35px',
+              width: '500px',
+              marginLeft: 'auto',
             }}
             // onSearch={onSearch}
           />
@@ -55,10 +55,10 @@ const ClassroomManage = () => {
             </div>
             <Button
               style={{
-                marginLeft: "auto",
-                marginRight: "20px",
-                height: "40px",
-                width: "100px",
+                marginLeft: 'auto',
+                marginRight: '20px',
+                height: '40px',
+                width: '100px',
               }}
             >
               Edit
@@ -79,10 +79,10 @@ const ClassroomManage = () => {
             </div>
             <Button
               style={{
-                marginLeft: "auto",
-                marginRight: "20px",
-                height: "40px",
-                width: "100px",
+                marginLeft: 'auto',
+                marginRight: '20px',
+                height: '40px',
+                width: '100px',
               }}
             >
               Edit
@@ -103,10 +103,10 @@ const ClassroomManage = () => {
             </div>
             <Button
               style={{
-                marginLeft: "auto",
-                marginRight: "20px",
-                height: "40px",
-                width: "100px",
+                marginLeft: 'auto',
+                marginRight: '20px',
+                height: '40px',
+                width: '100px',
               }}
             >
               Edit
@@ -127,10 +127,10 @@ const ClassroomManage = () => {
             </div>
             <Button
               style={{
-                marginLeft: "auto",
-                marginRight: "20px",
-                height: "40px",
-                width: "100px",
+                marginLeft: 'auto',
+                marginRight: '20px',
+                height: '40px',
+                width: '100px',
               }}
             >
               Edit

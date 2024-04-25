@@ -9,7 +9,11 @@
  * ---------------------------------------------------------------
  */
 
-import { CreateResult, CreateUserDto, GetProfileData } from './data-contracts';
+import {
+  CreateUserData,
+  CreateUserDto,
+  GetUserProfileData,
+} from './data-contracts';
 import { ContentType, HttpClient, RequestParams } from './http-client';
 
 export class Users<
@@ -19,14 +23,14 @@ export class Users<
    * No description
    *
    * @tags users
-   * @name Create
-   * @summary Create
+   * @name CreateUser
+   * @summary Create User
    * @request POST:/users
    * @secure
-   * @response `201` `CreateResult`
+   * @response `201` `CreateUserData`
    */
-  create = (data: CreateUserDto, params: RequestParams = {}) =>
-    this.request<CreateResult, any>({
+  createUser = (data: CreateUserDto, params: RequestParams = {}) =>
+    this.request<CreateUserData, any>({
       path: `/users`,
       method: 'POST',
       body: data,
@@ -38,14 +42,14 @@ export class Users<
    * No description
    *
    * @tags users
-   * @name GetProfile
-   * @summary Get Profile
+   * @name GetUserProfile
+   * @summary Get User Profile
    * @request GET:/users/me
    * @secure
-   * @response `200` `GetProfileData`
+   * @response `200` `GetUserProfileData`
    */
-  getProfile = (params: RequestParams = {}) =>
-    this.request<GetProfileData, any>({
+  getUserProfile = (params: RequestParams = {}) =>
+    this.request<GetUserProfileData, any>({
       path: `/users/me`,
       method: 'GET',
       secure: true,

@@ -10,15 +10,15 @@
  */
 
 import {
+  CreateAcademicYearData,
   CreateAcademicYearDto,
-  CreateData,
-  CreateError,
-  FindInRangeData,
-  FindInRangeQuery,
-  FindOneData,
-  GetCurrentData,
-  RemoveData,
-  RemoveError,
+  CreateAcademicYearError,
+  FindAcademicYearInRangeData,
+  FindAcademicYearInRangeQuery,
+  FindOneAcademicYearData,
+  GetCurrentAcademicYearData,
+  RemoveAcademicYearData,
+  RemoveAcademicYearError,
   UpdateCurrentData,
   UpdateCurrentError,
 } from './data-contracts';
@@ -31,11 +31,11 @@ export class AcademicYears<
  * No description
  *
  * @tags academic-years
- * @name Create
- * @summary Create
+ * @name CreateAcademicYear
+ * @summary Create Academic Year
  * @request POST:/academic-years
  * @secure
- * @response `201` `CreateData`
+ * @response `201` `CreateAcademicYearData`
  * @response `400` `({
   \** @example null *\
     data?: object | null,
@@ -53,8 +53,11 @@ export class AcademicYears<
 
 })`
  */
-  create = (data: CreateAcademicYearDto, params: RequestParams = {}) =>
-    this.request<CreateData, CreateError>({
+  createAcademicYear = (
+    data: CreateAcademicYearDto,
+    params: RequestParams = {},
+  ) =>
+    this.request<CreateAcademicYearData, CreateAcademicYearError>({
       path: `/academic-years`,
       method: 'POST',
       body: data,
@@ -66,14 +69,17 @@ export class AcademicYears<
    * No description
    *
    * @tags academic-years
-   * @name FindInRange
-   * @summary Find In Range
+   * @name FindAcademicYearInRange
+   * @summary Find Academic Year In Range
    * @request GET:/academic-years
    * @secure
-   * @response `200` `FindInRangeData`
+   * @response `200` `FindAcademicYearInRangeData`
    */
-  findInRange = (query: FindInRangeQuery, params: RequestParams = {}) =>
-    this.request<FindInRangeData, any>({
+  findAcademicYearInRange = (
+    query: FindAcademicYearInRangeQuery,
+    params: RequestParams = {},
+  ) =>
+    this.request<FindAcademicYearInRangeData, any>({
       path: `/academic-years`,
       method: 'GET',
       query: query,
@@ -84,14 +90,14 @@ export class AcademicYears<
    * No description
    *
    * @tags academic-years
-   * @name GetCurrent
-   * @summary Get Current
+   * @name GetCurrentAcademicYear
+   * @summary Get Current Academic Year
    * @request GET:/academic-years/current
    * @secure
-   * @response `200` `GetCurrentData`
+   * @response `200` `GetCurrentAcademicYearData`
    */
-  getCurrent = (params: RequestParams = {}) =>
-    this.request<GetCurrentData, any>({
+  getCurrentAcademicYear = (params: RequestParams = {}) =>
+    this.request<GetCurrentAcademicYearData, any>({
       path: `/academic-years/current`,
       method: 'GET',
       secure: true,
@@ -101,14 +107,14 @@ export class AcademicYears<
    * No description
    *
    * @tags academic-years
-   * @name FindOne
-   * @summary Find One
+   * @name FindOneAcademicYear
+   * @summary Find One Academic Year
    * @request GET:/academic-years/{id}
    * @secure
-   * @response `200` `FindOneData`
+   * @response `200` `FindOneAcademicYearData`
    */
-  findOne = (id: string, params: RequestParams = {}) =>
-    this.request<FindOneData, any>({
+  findOneAcademicYear = (id: string, params: RequestParams = {}) =>
+    this.request<FindOneAcademicYearData, any>({
       path: `/academic-years/${id}`,
       method: 'GET',
       secure: true,
@@ -118,11 +124,11 @@ export class AcademicYears<
  * No description
  *
  * @tags academic-years
- * @name Remove
- * @summary Remove
+ * @name RemoveAcademicYear
+ * @summary Remove Academic Year
  * @request DELETE:/academic-years/{id}
  * @secure
- * @response `200` `RemoveData`
+ * @response `200` `RemoveAcademicYearData`
  * @response `400` `({
   \** @example null *\
     data?: object | null,
@@ -140,8 +146,8 @@ export class AcademicYears<
 
 })`
  */
-  remove = (id: string, params: RequestParams = {}) =>
-    this.request<RemoveData, RemoveError>({
+  removeAcademicYear = (id: string, params: RequestParams = {}) =>
+    this.request<RemoveAcademicYearData, RemoveAcademicYearError>({
       path: `/academic-years/${id}`,
       method: 'DELETE',
       secure: true,

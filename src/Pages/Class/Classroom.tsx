@@ -1,6 +1,6 @@
-import { Avatar, Row } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import styles from "./Classroom.module.scss";
+import { UserOutlined } from '@ant-design/icons';
+import { Avatar } from 'antd';
+import styles from './Classroom.module.scss';
 
 const Classroom = () => {
   return (

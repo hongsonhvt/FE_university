@@ -1,9 +1,8 @@
-import React from "react";
-import styles from "./Information.module.scss";
-import { Avatar, Row } from "antd";
-import TextItem from "./../../Components/Components/text-item/TextItem";
-import CustomTooltip from "../../Components/Components/tooltip/CustomTooltip";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Row } from 'antd';
+import CustomTooltip from '../../Components/Components/tooltip/CustomTooltip';
+import TextItem from './../../Components/Components/text-item/TextItem';
+import styles from './Information.module.scss';
 
 const Information = () => {
   return (
@@ -36,7 +35,7 @@ const Information = () => {
           </Row>
         </div>
         <div>
-          {" "}
+          {' '}
           <Row>
             <TextItem label="Phone Number">012345678</TextItem>
             <TextItem label="Email">abcd@gmail.com</TextItem>

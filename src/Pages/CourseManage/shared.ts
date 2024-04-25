@@ -1,7 +1,7 @@
 import {
   CourseDto,
   Program,
-} from "../../shared/api/__generated__/data-contracts";
+} from '../../shared/api/__generated__/data-contracts';
 
 export type CourseType = CourseDto &
   Program & {

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Table, Button, Drawer, Form, Input, Select } from "antd";
-import styles from "./StudentManagePanel.module.scss";
+import { Button, Drawer, Form, Input, Select } from 'antd';
+import { useState } from 'react';
+import styles from './StudentManagePanel.module.scss';
 
 const { Option } = Select;
 
@@ -16,11 +16,11 @@ const StudentManagePanel = () => {
   };
 
   const onFinish = (values: any) => {
-    console.log("Received values:", values);
+    console.log('Received values:', values);
     onCloseDrawer();
   };
 
-  const genderOptions = ["Male", "Female"];
+  const genderOptions = ['Male', 'Female'];
 
   return (
     <div className={styles.studentManagePanel}>
@@ -38,14 +38,14 @@ const StudentManagePanel = () => {
           <Form.Item
             name="id"
             label="ID"
-            rules={[{ required: true, message: "Please input student ID!" }]}
+            rules={[{ required: true, message: 'Please input student ID!' }]}
           >
             <Input placeholder="Student ID" />
           </Form.Item>
           <Form.Item
             name="name"
             label="Name"
-            rules={[{ required: true, message: "Please input student name!" }]}
+            rules={[{ required: true, message: 'Please input student name!' }]}
           >
             <Input placeholder="Student Name" />
           </Form.Item>
@@ -53,7 +53,7 @@ const StudentManagePanel = () => {
             name="gender"
             label="Gender"
             rules={[
-              { required: true, message: "Please select student gender!" },
+              { required: true, message: 'Please select student gender!' },
             ]}
           >
             <Select placeholder="Select gender">
@@ -68,7 +68,7 @@ const StudentManagePanel = () => {
             name="managementClass"
             label="Management Class"
             rules={[
-              { required: true, message: "Please input management class!" },
+              { required: true, message: 'Please input management class!' },
             ]}
           >
             <Input placeholder="Management Class" />
@@ -76,7 +76,7 @@ const StudentManagePanel = () => {
           <Form.Item
             name="email"
             label="Email"
-            rules={[{ required: true, message: "Please input student email!" }]}
+            rules={[{ required: true, message: 'Please input student email!' }]}
           >
             <Input placeholder="Student Email" type="email" />
           </Form.Item>

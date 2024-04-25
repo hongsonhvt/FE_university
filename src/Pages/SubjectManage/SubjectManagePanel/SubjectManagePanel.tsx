@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-import { Table, Button, Drawer, Form, Input, Select, DatePicker } from "antd";
-import styles from "./SubjectManagePanel.module.scss";
-
-const { Option } = Select;
+import { Button, DatePicker, Drawer, Form, Input } from 'antd';
+import { useState } from 'react';
+import styles from './SubjectManagePanel.module.scss';
 
 const SubjectManagePanel = () => {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
@@ -16,10 +14,9 @@ const SubjectManagePanel = () => {
   };
 
   const onFinish = (values: any) => {
-    console.log("Received values:", values);
+    console.log('Received values:', values);
     onCloseDrawer();
   };
-
 
   return (
     <div className={styles.studentManagePanel}>
@@ -37,21 +34,21 @@ const SubjectManagePanel = () => {
           <Form.Item
             name="name"
             label="Subject Name"
-            rules={[{ required: true, message: "Please input subject name!" }]}
+            rules={[{ required: true, message: 'Please input subject name!' }]}
           >
             <Input placeholder="Subject Name" />
           </Form.Item>
           <Form.Item
             name="startDate"
             label="Start Date"
-            rules={[{ required: true, message: "Please select start date!" }]}
+            rules={[{ required: true, message: 'Please select start date!' }]}
             className={styles.startDate}
           >
             <DatePicker
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
               format={{
-                format: "DD-MM-YYYY",
-                type: "mask",
+                format: 'DD-MM-YYYY',
+                type: 'mask',
               }}
               // onChange={onChange}
             />
@@ -60,7 +57,7 @@ const SubjectManagePanel = () => {
             name="numberOfSession"
             label="Number of Session"
             rules={[
-              { required: true, message: "Please input number of session" },
+              { required: true, message: 'Please input number of session' },
             ]}
           >
             <Input placeholder="Number of Session" type="number" />

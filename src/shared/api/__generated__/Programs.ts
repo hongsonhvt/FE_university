@@ -10,20 +10,20 @@
  */
 
 import {
-  AddCoursesData,
   AddCoursesDto,
-  AddCoursesError,
-  CreateData1,
-  CreateHttpError,
+  AddProgramCoursesData,
+  AddProgramCoursesError,
+  CreateProgramData,
   CreateProgramDto,
-  FindByConditionQuery6,
-  FindByConditionResult1,
-  FindOneResult2,
-  RemoveData1,
-  RemoveErrorData,
-  UpdateFails,
-  UpdateOutput,
+  CreateProgramError,
+  FindOneProgramData,
+  FindProgramByConditionData,
+  FindProgramByConditionQuery,
+  RemoveProgramData,
+  RemoveProgramError,
+  UpdateProgramData,
   UpdateProgramDto,
+  UpdateProgramError,
 } from './data-contracts';
 import { ContentType, HttpClient, RequestParams } from './http-client';
 
@@ -34,11 +34,11 @@ export class Programs<
  * No description
  *
  * @tags programs
- * @name Create
- * @summary Create
+ * @name CreateProgram
+ * @summary Create Program
  * @request POST:/programs
  * @secure
- * @response `201` `CreateData1`
+ * @response `201` `CreateProgramData`
  * @response `409` `({
   \** @example null *\
     data?: object | null,
@@ -48,8 +48,8 @@ export class Programs<
 
 })`
  */
-  create = (data: CreateProgramDto, params: RequestParams = {}) =>
-    this.request<CreateData1, CreateHttpError>({
+  createProgram = (data: CreateProgramDto, params: RequestParams = {}) =>
+    this.request<CreateProgramData, CreateProgramError>({
       path: `/programs`,
       method: 'POST',
       body: data,
@@ -61,17 +61,17 @@ export class Programs<
    * No description
    *
    * @tags programs
-   * @name FindByCondition
-   * @summary Find By Condition
+   * @name FindProgramByCondition
+   * @summary Find Program By Condition
    * @request GET:/programs
    * @secure
-   * @response `200` `FindByConditionResult1`
+   * @response `200` `FindProgramByConditionData`
    */
-  findByCondition = (
-    query: FindByConditionQuery6,
+  findProgramByCondition = (
+    query: FindProgramByConditionQuery,
     params: RequestParams = {},
   ) =>
-    this.request<FindByConditionResult1, any>({
+    this.request<FindProgramByConditionData, any>({
       path: `/programs`,
       method: 'GET',
       query: query,
@@ -82,14 +82,14 @@ export class Programs<
    * No description
    *
    * @tags programs
-   * @name FindOne
-   * @summary Find One
+   * @name FindOneProgram
+   * @summary Find One Program
    * @request GET:/programs/{id}
    * @secure
-   * @response `200` `FindOneResult2`
+   * @response `200` `FindOneProgramData`
    */
-  findOne = (id: string, params: RequestParams = {}) =>
-    this.request<FindOneResult2, any>({
+  findOneProgram = (id: string, params: RequestParams = {}) =>
+    this.request<FindOneProgramData, any>({
       path: `/programs/${id}`,
       method: 'GET',
       secure: true,
@@ -99,11 +99,11 @@ export class Programs<
  * No description
  *
  * @tags programs
- * @name Update
- * @summary Update
+ * @name UpdateProgram
+ * @summary Update Program
  * @request PATCH:/programs/{id}
  * @secure
- * @response `200` `UpdateOutput`
+ * @response `200` `UpdateProgramData`
  * @response `404` `({
   \** @example null *\
     data?: object | null,
@@ -121,8 +121,12 @@ export class Programs<
 
 })`
  */
-  update = (id: string, data: UpdateProgramDto, params: RequestParams = {}) =>
-    this.request<UpdateOutput, UpdateFails>({
+  updateProgram = (
+    id: string,
+    data: UpdateProgramDto,
+    params: RequestParams = {},
+  ) =>
+    this.request<UpdateProgramData, UpdateProgramError>({
       path: `/programs/${id}`,
       method: 'PATCH',
       body: data,
@@ -134,11 +138,11 @@ export class Programs<
  * No description
  *
  * @tags programs
- * @name Remove
- * @summary Remove
+ * @name RemoveProgram
+ * @summary Remove Program
  * @request DELETE:/programs/{id}
  * @secure
- * @response `200` `RemoveData1`
+ * @response `200` `RemoveProgramData`
  * @response `404` `({
   \** @example null *\
     data?: object | null,
@@ -148,8 +152,8 @@ export class Programs<
 
 })`
  */
-  remove = (id: string, params: RequestParams = {}) =>
-    this.request<RemoveData1, RemoveErrorData>({
+  removeProgram = (id: string, params: RequestParams = {}) =>
+    this.request<RemoveProgramData, RemoveProgramError>({
       path: `/programs/${id}`,
       method: 'DELETE',
       secure: true,
@@ -159,11 +163,11 @@ export class Programs<
  * No description
  *
  * @tags programs
- * @name AddCourses
- * @summary Add Courses
+ * @name AddProgramCourses
+ * @summary Add Program Courses
  * @request PATCH:/programs/{id}/courses
  * @secure
- * @response `200` `AddCoursesData`
+ * @response `200` `AddProgramCoursesData`
  * @response `404` `({
   \** @example null *\
     data?: object | null,
@@ -173,8 +177,12 @@ export class Programs<
 
 })`
  */
-  addCourses = (id: string, data: AddCoursesDto, params: RequestParams = {}) =>
-    this.request<AddCoursesData, AddCoursesError>({
+  addProgramCourses = (
+    id: string,
+    data: AddCoursesDto,
+    params: RequestParams = {},
+  ) =>
+    this.request<AddProgramCoursesData, AddProgramCoursesError>({
       path: `/programs/${id}/courses`,
       method: 'PATCH',
       body: data,

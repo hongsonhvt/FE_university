@@ -1,17 +1,6 @@
-import React, { useState } from "react";
-import styles from "./CourseClassesManagePanel.module.scss";
-import {
-  Button,
-  DatePicker,
-  Drawer,
-  Form,
-  Input,
-  InputNumber,
-  Modal,
-  Select,
-  TimePicker,
-  message,
-} from "antd";
+import { Button, DatePicker, Drawer, Form, Input } from 'antd';
+import { useState } from 'react';
+import styles from './CourseClassesManagePanel.module.scss';
 const CourseClassesManagePanel = () => {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
 
@@ -24,7 +13,7 @@ const CourseClassesManagePanel = () => {
   };
 
   const onFinish = (values: any) => {
-    console.log("Received values:", values);
+    console.log('Received values:', values);
     onCloseDrawer();
   };
   return (
@@ -43,21 +32,21 @@ const CourseClassesManagePanel = () => {
           <Form.Item
             name="name"
             label="Course Classes Name"
-            rules={[{ required: true, message: "Please input Program name!" }]}
+            rules={[{ required: true, message: 'Please input Program name!' }]}
           >
             <Input placeholder="Subject Name" />
           </Form.Item>
           <Form.Item
             name="startAt"
             label="Start Date"
-            rules={[{ required: true, message: "Please select start date!" }]}
+            rules={[{ required: true, message: 'Please select start date!' }]}
             className={styles.startDate}
           >
             <DatePicker
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
               format={{
-                format: "DD-MM-YYYY",
-                type: "mask",
+                format: 'DD-MM-YYYY',
+                type: 'mask',
               }}
               // onChange={onChange}
             />
@@ -66,7 +55,7 @@ const CourseClassesManagePanel = () => {
             name="code"
             label="Course Class Code"
             rules={[
-              { required: true, message: "Please input number of session" },
+              { required: true, message: 'Please input number of session' },
             ]}
           >
             <Input placeholder="Number of Session" type="number" />
@@ -75,7 +64,7 @@ const CourseClassesManagePanel = () => {
             name="sessionCount"
             label="Sessions Total"
             rules={[
-              { required: true, message: "Please input number of session" },
+              { required: true, message: 'Please input number of session' },
             ]}
           >
             <Input placeholder="Number of Session" type="number" />

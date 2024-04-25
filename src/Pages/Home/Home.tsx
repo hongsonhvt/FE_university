@@ -1,10 +1,7 @@
-import { AiOutlineSearch } from "react-icons/ai";
-import { FaArrowTurnUp, FaHeart, FaShare, FaStar } from "react-icons/fa6";
-import Useravatar from "../../Images/User-avatar.svg.png";
-import logo_1 from "../../Images/logo_1.png";
-import musicclub from "../../Images/music-club.png";
-import univer from "../../Images/univer.png";
-import "./Home.css";
+import { AiOutlineSearch } from 'react-icons/ai';
+import { FaArrowTurnUp } from 'react-icons/fa6';
+import univer from '../../Images/univer.png';
+import './Home.css';
 
 const Home = () => {
   return (
@@ -67,11 +64,11 @@ const Home = () => {
             <img
               src={univer}
               alt=""
-              style={{ height: "600px", borderRadius: "8px" }}
+              style={{ height: '600px', borderRadius: '8px' }}
             />
           </div>
           <div className="International">
-            <h4 style={{ marginLeft: "25px" }}>International Students</h4>
+            <h4 style={{ marginLeft: '25px' }}>International Students</h4>
             <ul>
               <li>
                 <h4 className="number-student">250</h4>

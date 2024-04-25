@@ -1,7 +1,6 @@
-import React from "react";
-import { Col } from "antd";
-import styles from "./TextItem.module.scss";
-import { IProps } from "./model";
+import { Col } from 'antd';
+import styles from './TextItem.module.scss';
+import { IProps } from './model';
 
 export default function TextItem(props: IProps) {
   const { label, children, className, textItemProps = {} } = props;
@@ -10,7 +9,7 @@ export default function TextItem(props: IProps) {
   return isCol ? (
     <Col
       className={`${styles.hcisComptReporttextitem} ipadMiniResponsive ${
-        className ?? ""
+        className ?? ''
       }`}
       xs={spanMobNumber}
       md={spanNumber}
@@ -19,7 +18,7 @@ export default function TextItem(props: IProps) {
       <div className="hcis-compt-reporttextitem-text">{children}</div>
     </Col>
   ) : (
-    <div className={`${styles.hcisComptReporttextitem} ${className ?? ""}`}>
+    <div className={`${styles.hcisComptReporttextitem} ${className ?? ''}`}>
       <div className="hcis-compt-reporttextitem-label"> {label}</div>
       <div className="hcis-compt-reporttextitem-text">{children}</div>
     </div>

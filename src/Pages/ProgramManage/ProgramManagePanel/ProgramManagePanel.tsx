@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Button, Drawer, Form, Input, Select, message } from "antd";
-import styles from "./ProgramManagePanel.module.scss";
-import { Programs } from "../../../shared/api/__generated__/Programs";
-import { Controller, useForm } from "react-hook-form";
-import { UpdateProgramDto } from "../../../shared/api/__generated__/data-contracts";
+import { Button, Drawer, Form, Input, message } from 'antd';
+import { useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { Programs } from '../../../shared/api/__generated__/Programs';
+import styles from './ProgramManagePanel.module.scss';
 
 type FormData = {
   name: string;
@@ -16,8 +15,6 @@ interface IProgram {
 
 const ProgramManagePanel = ({ selected }: IProgram) => {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
-  const [programs, setPrograms] = useState<UpdateProgramDto[]>([]);
-  const [selectedProgram, setSelectedProgram] = useState("");
   const { handleSubmit, control, setValue } = useForm<FormData>();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -39,22 +36,22 @@ const ProgramManagePanel = ({ selected }: IProgram) => {
     try {
       if (!selected) return;
       setIsSubmitting(true);
-      await new Programs().update(selected.id, values);
-      message.success("Course updated successfully");
+      await new Programs().updateProgram(selected.id, values);
+      message.success('Course updated successfully');
       onCloseDrawer();
       refreshPage();
     } catch (error) {
-      console.error("Error updating course:", error);
-      message.error("Failed to update course. Please try again later.");
+      console.error('Error updating course:', error);
+      message.error('Failed to update course. Please try again later.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   useEffect(() => {
-    if (typeof showDrawer === "function" && selected) {
-      setValue("name", selected.name);
-      setValue("code", selected.code);
+    if (typeof showDrawer === 'function' && selected) {
+      setValue('name', selected.name);
+      setValue('code', selected.code);
     }
   }, [showDrawer, selected, setValue]);
   console.log(selected);

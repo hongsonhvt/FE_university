@@ -1,14 +1,10 @@
-import { Button, Form, Input, Modal, Select, message } from "antd";
-import React, { useEffect, useState } from "react";
-import {
-  CreateCourseDto,
-  FindByConditionOutput,
-} from "../../../shared/api/__generated__/data-contracts";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Courses } from "../../../shared/api/__generated__/Courses";
-import axios from "axios";
-import moment from "moment";
-import { SelectItemType } from "../../../shared/models/ui/selectItem";
+import { Button, Form, Input, Modal, Select, message } from 'antd';
+import axios from 'axios';
+import moment from 'moment';
+import { useEffect, useState } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Courses } from '../../../shared/api/__generated__/Courses';
+import { CreateCourseDto } from '../../../shared/api/__generated__/data-contracts';
 
 const { Option } = Select;
 
@@ -16,14 +12,9 @@ const CourseManagePopup = () => {
   const [modal2Open, setModal2Open] = useState(false);
   const [programs, setPrograms] = useState<CreateCourseDto[]>([]);
 
-  const {
-    handleSubmit,
-    formState: { errors },
-    reset,
-    control,
-  } = useForm<CreateCourseDto>();
+  const { handleSubmit, reset, control } = useForm<CreateCourseDto>();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const coursessApi = new Courses();
+  const coursesApi = new Courses();
 
   useEffect(() => {
     fetchPrograms();
@@ -31,36 +22,36 @@ const CourseManagePopup = () => {
 
   const fetchPrograms = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/programs");
+      const response = await axios.get('http://localhost:3000/programs');
       setPrograms(
         response.data.data.map((item: any) => ({
           key: item.id,
           ...item,
-          createdAt: moment(item.createdAt).format("DD MMM YYYY"),
+          createdAt: moment(item.createdAt).format('DD MMM YYYY'),
           deletedAt: item.deletedAt
-            ? moment(item.deletedAt).format("DD MMM YYYY")
-            : "",
+            ? moment(item.deletedAt).format('DD MMM YYYY')
+            : '',
           programIds: item.id,
-        }))
+        })),
       );
     } catch (error) {
-      console.error("Error fetching programs:", error);
-      message.error("Failed to fetch programs");
+      console.error('Error fetching programs:', error);
+      message.error('Failed to fetch programs');
     }
   };
 
   const onSubmit: SubmitHandler<CreateCourseDto> = async (
-    data: CreateCourseDto
+    data: CreateCourseDto,
   ) => {
     setIsSubmitting(true);
     try {
-      await coursessApi.create(data);
-      message.success("Course added successfully!");
+      await coursesApi.createCourse(data);
+      message.success('Course added successfully!');
       onCloseModal();
       refreshPage();
     } catch (error) {
-      console.error("Error creating course:", error);
-      message.error("Failed to add course. Please try again later.");
+      console.error('Error creating course:', error);
+      message.error('Failed to add course. Please try again later.');
     } finally {
       setIsSubmitting(false);
     }
@@ -124,7 +115,7 @@ const CourseManagePopup = () => {
                   placeholder="Select a program"
                   mode="multiple"
                   allowClear
-                  style={{ width: "100%" }}
+                  style={{ width: '100%' }}
                 >
                   {programs.map((program) => {
                     return (

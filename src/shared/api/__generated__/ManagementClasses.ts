@@ -10,17 +10,17 @@
  */
 
 import {
-  CreateErrorData,
+  CreateManagementClassData,
   CreateManagementClassDto,
-  CreateOutput1,
-  FindByConditionOutput,
-  FindByConditionQuery4,
-  FindOneResult1,
-  RemoveFails,
-  RemoveOutput,
-  UpdateFail,
+  CreateManagementClassError,
+  FindManagementClassByConditionData,
+  FindManagementClassByConditionQuery,
+  FindOneManagementClassData,
+  RemoveManagementClassData,
+  RemoveManagementClassError,
+  UpdateManagementClassData,
   UpdateManagementClassDto,
-  UpdateResult,
+  UpdateManagementClassError,
 } from './data-contracts';
 import { ContentType, HttpClient, RequestParams } from './http-client';
 
@@ -31,11 +31,11 @@ export class ManagementClasses<
  * No description
  *
  * @tags management-classes
- * @name Create
- * @summary Create
+ * @name CreateManagementClass
+ * @summary Create Management Class
  * @request POST:/management-classes
  * @secure
- * @response `201` `CreateOutput1`
+ * @response `201` `CreateManagementClassData`
  * @response `404` `({
   \** @example null *\
     data?: object | null,
@@ -53,8 +53,11 @@ export class ManagementClasses<
 
 })`
  */
-  create = (data: CreateManagementClassDto, params: RequestParams = {}) =>
-    this.request<CreateOutput1, CreateErrorData>({
+  createManagementClass = (
+    data: CreateManagementClassDto,
+    params: RequestParams = {},
+  ) =>
+    this.request<CreateManagementClassData, CreateManagementClassError>({
       path: `/management-classes`,
       method: 'POST',
       body: data,
@@ -66,17 +69,17 @@ export class ManagementClasses<
    * No description
    *
    * @tags management-classes
-   * @name FindByCondition
-   * @summary Find By Condition
+   * @name FindManagementClassByCondition
+   * @summary Find Management Class By Condition
    * @request GET:/management-classes
    * @secure
-   * @response `200` `FindByConditionOutput`
+   * @response `200` `FindManagementClassByConditionData`
    */
-  findByCondition = (
-    query: FindByConditionQuery4,
+  findManagementClassByCondition = (
+    query: FindManagementClassByConditionQuery,
     params: RequestParams = {},
   ) =>
-    this.request<FindByConditionOutput, any>({
+    this.request<FindManagementClassByConditionData, any>({
       path: `/management-classes`,
       method: 'GET',
       query: query,
@@ -87,14 +90,14 @@ export class ManagementClasses<
    * No description
    *
    * @tags management-classes
-   * @name FindOne
-   * @summary Find One
+   * @name FindOneManagementClass
+   * @summary Find One Management Class
    * @request GET:/management-classes/{id}
    * @secure
-   * @response `200` `FindOneResult1`
+   * @response `200` `FindOneManagementClassData`
    */
-  findOne = (id: string, params: RequestParams = {}) =>
-    this.request<FindOneResult1, any>({
+  findOneManagementClass = (id: string, params: RequestParams = {}) =>
+    this.request<FindOneManagementClassData, any>({
       path: `/management-classes/${id}`,
       method: 'GET',
       secure: true,
@@ -104,11 +107,11 @@ export class ManagementClasses<
  * No description
  *
  * @tags management-classes
- * @name Update
- * @summary Update
+ * @name UpdateManagementClass
+ * @summary Update Management Class
  * @request PATCH:/management-classes/{id}
  * @secure
- * @response `200` `UpdateResult`
+ * @response `200` `UpdateManagementClassData`
  * @response `404` `({
   \** @example null *\
     data?: object | null,
@@ -126,12 +129,12 @@ export class ManagementClasses<
 
 })`
  */
-  update = (
+  updateManagementClass = (
     id: string,
     data: UpdateManagementClassDto,
     params: RequestParams = {},
   ) =>
-    this.request<UpdateResult, UpdateFail>({
+    this.request<UpdateManagementClassData, UpdateManagementClassError>({
       path: `/management-classes/${id}`,
       method: 'PATCH',
       body: data,
@@ -143,11 +146,11 @@ export class ManagementClasses<
  * No description
  *
  * @tags management-classes
- * @name Remove
- * @summary Remove
+ * @name RemoveManagementClass
+ * @summary Remove Management Class
  * @request DELETE:/management-classes/{id}
  * @secure
- * @response `200` `RemoveOutput`
+ * @response `200` `RemoveManagementClassData`
  * @response `404` `({
   \** @example null *\
     data?: object | null,
@@ -157,8 +160,8 @@ export class ManagementClasses<
 
 })`
  */
-  remove = (id: string, params: RequestParams = {}) =>
-    this.request<RemoveOutput, RemoveFails>({
+  removeManagementClass = (id: string, params: RequestParams = {}) =>
+    this.request<RemoveManagementClassData, RemoveManagementClassError>({
       path: `/management-classes/${id}`,
       method: 'DELETE',
       secure: true,

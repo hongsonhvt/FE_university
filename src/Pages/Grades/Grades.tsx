@@ -1,7 +1,6 @@
-import React from "react";
-import styles from "./Grades.module.scss";
-import { Avatar } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined } from '@ant-design/icons';
+import { Avatar } from 'antd';
+import styles from './Grades.module.scss';
 
 const Grades = () => {
   return (
@@ -20,7 +19,7 @@ const Grades = () => {
               <p className={styles.boxMajor}>DB2024-2</p>
             </div>
           </div>
-          <div style={{ width: "50%" }}>
+          <div style={{ width: '50%' }}>
             Database subjects focus on researching and applying methods and
             technologies to organize, store, retrieve and manage data
             effectively, playing an important role in development. and maintain
@@ -43,7 +42,7 @@ const Grades = () => {
               <p className={styles.boxMajor}>DB2024-2</p>
             </div>
           </div>
-          <div style={{ width: "50%" }}>
+          <div style={{ width: '50%' }}>
             Database subjects focus on researching and applying methods and
             technologies to organize, store, retrieve and manage data
             effectively, playing an important role in development. and maintain
@@ -66,7 +65,7 @@ const Grades = () => {
               <p className={styles.boxMajor}>DB2024-2</p>
             </div>
           </div>
-          <div style={{ width: "50%" }}>
+          <div style={{ width: '50%' }}>
             Database subjects focus on researching and applying methods and
             technologies to organize, store, retrieve and manage data
             effectively, playing an important role in development. and maintain
@@ -89,7 +88,7 @@ const Grades = () => {
               <p className={styles.boxMajor}>DB2024-2</p>
             </div>
           </div>
-          <div style={{ width: "50%" }}>
+          <div style={{ width: '50%' }}>
             Database subjects focus on researching and applying methods and
             technologies to organize, store, retrieve and manage data
             effectively, playing an important role in development. and maintain

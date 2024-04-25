@@ -1,8 +1,8 @@
-import { Tooltip, Typography } from "antd";
-import { TooltipPlacement } from "antd/es/tooltip";
-import style from "./CustomTooltip.module.scss";
-import { ReactNode } from "react";
-import { TooltipProps } from "antd/lib";
+import { Tooltip, Typography } from 'antd';
+import { TooltipPlacement } from 'antd/es/tooltip';
+import style from './CustomTooltip.module.scss';
+import { ReactNode } from 'react';
+import { TooltipProps } from 'antd/lib';
 
 type ICustomTooltip = TooltipProps & {
   rows?: number;
@@ -28,24 +28,24 @@ const CustomTooltip = (props: ICustomTooltip) => {
   } = props;
 
   const getTitleValue = () => {
-    if (typeof children === "string" && !title) {
+    if (typeof children === 'string' && !title) {
       return children.trim();
     }
     if (Array.isArray(children) && !title) {
-      return children.map((item) => item).join("");
+      return children.map((item) => item).join('');
     } else {
       return title;
     }
   };
 
   const getChildrenValue = () => {
-    if (typeof children === "string" && !title) {
+    if (typeof children === 'string' && !title) {
       return children.trim();
     }
     if (Array.isArray(children) && !title) {
       return children
         .map((item) => item?.trim())
-        .join("")
+        .join('')
         .trim();
     } else {
       return children;
@@ -63,7 +63,7 @@ const CustomTooltip = (props: ICustomTooltip) => {
         finalChildren && finalTitle ? (
           <div className={style.customTooltip}>{finalTitle} </div>
         ) : (
-          ""
+          ''
         )
       }
       color="#ffffff"
@@ -78,7 +78,7 @@ const CustomTooltip = (props: ICustomTooltip) => {
           ellipsis={{ rows, expandable: false }}
           style={{ width }}
         >
-          {finalChildren !== "" && finalChildren ? finalChildren : "N/A"}
+          {finalChildren !== '' && finalChildren ? finalChildren : 'N/A'}
         </Paragraph>
       }
     </Tooltip>

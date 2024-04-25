@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     if (accessToken) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       setIsLoading(true);
-      new Users().getProfile().then((res) => {
+      new Users().getUserProfile().then((res) => {
         setRole(res.data.data.role);
         setIsLoading(false);
       });

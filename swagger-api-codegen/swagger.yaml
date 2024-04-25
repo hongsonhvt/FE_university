@@ -2,8 +2,8 @@ openapi: 3.0.0
 paths:
   /academic-years:
     post:
-      operationId: create
-      summary: Create
+      operationId: createAcademicYear
+      summary: Create Academic Year
       parameters: []
       requestBody:
         required: true
@@ -65,8 +65,8 @@ paths:
       security:
         - accessToken: []
     get:
-      operationId: findInRange
-      summary: Find In Range
+      operationId: findAcademicYearInRange
+      summary: Find Academic Year In Range
       parameters:
         - name: start
           required: false
@@ -104,8 +104,8 @@ paths:
         - accessToken: []
   /academic-years/current:
     get:
-      operationId: getCurrent
-      summary: Get Current
+      operationId: getCurrentAcademicYear
+      summary: Get Current Academic Year
       parameters: []
       responses:
         '200':
@@ -131,8 +131,8 @@ paths:
         - accessToken: []
   /academic-years/{id}:
     get:
-      operationId: findOne
-      summary: Find One
+      operationId: findOneAcademicYear
+      summary: Find One Academic Year
       parameters:
         - name: id
           required: true
@@ -162,8 +162,8 @@ paths:
       security:
         - accessToken: []
     delete:
-      operationId: remove
-      summary: Remove
+      operationId: removeAcademicYear
+      summary: Remove Academic Year
       parameters:
         - name: id
           required: true
@@ -320,8 +320,8 @@ paths:
         - auth
   /users:
     post:
-      operationId: create
-      summary: Create
+      operationId: createUser
+      summary: Create User
       parameters: []
       requestBody:
         required: true
@@ -338,8 +338,8 @@ paths:
         - accessToken: []
   /users/me:
     get:
-      operationId: getProfile
-      summary: Get Profile
+      operationId: getUserProfile
+      summary: Get User Profile
       parameters: []
       responses:
         '200':
@@ -365,8 +365,8 @@ paths:
         - accessToken: []
   /course-classes:
     post:
-      operationId: create
-      summary: Create
+      operationId: createCourseClass
+      summary: Create Course Class
       parameters: []
       requestBody:
         required: true
@@ -412,8 +412,8 @@ paths:
       security:
         - accessToken: []
     get:
-      operationId: findByCondition
-      summary: Find By Condition
+      operationId: findCourseClassByCondition
+      summary: Find Course Class By Condition
       parameters:
         - name: code
           required: false
@@ -451,8 +451,8 @@ paths:
         - accessToken: []
   /course-classes/{id}:
     get:
-      operationId: findOne
-      summary: Find One
+      operationId: findOneCourseClass
+      summary: Find One Course Class
       parameters:
         - name: id
           required: true
@@ -481,10 +481,78 @@ paths:
         - course-classes
       security:
         - accessToken: []
-  /course-classes/{id}/sessions:
-    get:
-      operationId: getSessions
-      summary: Get Sessions
+    patch:
+      operationId: updateCourseClass
+      summary: Update Course Class
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCourseClassDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/CourseClassListItemDto'
+                        nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+        '409':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - course-classes
+      security:
+        - accessToken: []
+    delete:
+      operationId: removeCourseClass
+      summary: Remove Course Class
       parameters:
         - name: id
           required: true
@@ -494,6 +562,71 @@ paths:
       responses:
         '200':
           description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/CourseClassListItemDto'
+                        nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - course-classes
+      security:
+        - accessToken: []
+  /course-classes/{id}/sessions:
+    get:
+      operationId: getCourseClassSessions
+      summary: Get Course Class Sessions
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/SessionDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
         '404':
           description: ''
           content:
@@ -516,8 +649,8 @@ paths:
         - accessToken: []
   /course-classes/{id}/students:
     put:
-      operationId: updateStudentsList
-      summary: Update Students List
+      operationId: updateCourseClassStudentsList
+      summary: Update Course Class Students List
       parameters:
         - name: id
           required: true
@@ -570,8 +703,8 @@ paths:
         - accessToken: []
   /courses:
     post:
-      operationId: create
-      summary: Create
+      operationId: createCourse
+      summary: Create Course
       parameters: []
       requestBody:
         required: true
@@ -633,8 +766,8 @@ paths:
       security:
         - accessToken: []
     get:
-      operationId: findByCondition
-      summary: Find By Condition
+      operationId: findCourseByCondition
+      summary: Find Course By Condition
       parameters:
         - name: code
           required: false
@@ -646,13 +779,6 @@ paths:
           in: query
           schema:
             type: string
-        - name: programIds
-          required: false
-          in: query
-          schema:
-            type: array
-            items:
-              type: string
       responses:
         '200':
           description: ''
@@ -679,8 +805,8 @@ paths:
         - accessToken: []
   /courses/{id}:
     get:
-      operationId: findOne
-      summary: Find One
+      operationId: findOneCourse
+      summary: Find One Course
       parameters:
         - name: id
           required: true
@@ -710,8 +836,8 @@ paths:
       security:
         - accessToken: []
     patch:
-      operationId: update
-      summary: Update
+      operationId: updateCourse
+      summary: Update Course
       parameters:
         - name: id
           required: true
@@ -779,8 +905,8 @@ paths:
       security:
         - accessToken: []
     delete:
-      operationId: remove
-      summary: Remove
+      operationId: removeCourse
+      summary: Remove Course
       parameters:
         - name: id
           required: true
@@ -827,8 +953,8 @@ paths:
         - accessToken: []
   /management-classes:
     post:
-      operationId: create
-      summary: Create
+      operationId: createManagementClass
+      summary: Create Management Class
       parameters: []
       requestBody:
         required: true
@@ -890,8 +1016,8 @@ paths:
       security:
         - accessToken: []
     get:
-      operationId: findByCondition
-      summary: Find By Condition
+      operationId: findManagementClassByCondition
+      summary: Find Management Class By Condition
       parameters:
         - name: code
           required: false
@@ -939,8 +1065,8 @@ paths:
         - accessToken: []
   /management-classes/{id}:
     get:
-      operationId: findOne
-      summary: Find One
+      operationId: findOneManagementClass
+      summary: Find One Management Class
       parameters:
         - name: id
           required: true
@@ -970,8 +1096,8 @@ paths:
       security:
         - accessToken: []
     patch:
-      operationId: update
-      summary: Update
+      operationId: updateManagementClass
+      summary: Update Management Class
       parameters:
         - name: id
           required: true
@@ -1039,8 +1165,8 @@ paths:
       security:
         - accessToken: []
     delete:
-      operationId: remove
-      summary: Remove
+      operationId: removeManagementClass
+      summary: Remove Management Class
       parameters:
         - name: id
           required: true
@@ -1087,8 +1213,8 @@ paths:
         - accessToken: []
   /programs:
     post:
-      operationId: create
-      summary: Create
+      operationId: createProgram
+      summary: Create Program
       parameters: []
       requestBody:
         required: true
@@ -1134,8 +1260,8 @@ paths:
       security:
         - accessToken: []
     get:
-      operationId: findByCondition
-      summary: Find By Condition
+      operationId: findProgramByCondition
+      summary: Find Program By Condition
       parameters:
         - name: code
           required: false
@@ -1173,8 +1299,8 @@ paths:
         - accessToken: []
   /programs/{id}:
     get:
-      operationId: findOne
-      summary: Find One
+      operationId: findOneProgram
+      summary: Find One Program
       parameters:
         - name: id
           required: true
@@ -1204,8 +1330,8 @@ paths:
       security:
         - accessToken: []
     patch:
-      operationId: update
-      summary: Update
+      operationId: updateProgram
+      summary: Update Program
       parameters:
         - name: id
           required: true
@@ -1273,8 +1399,8 @@ paths:
       security:
         - accessToken: []
     delete:
-      operationId: remove
-      summary: Remove
+      operationId: removeProgram
+      summary: Remove Program
       parameters:
         - name: id
           required: true
@@ -1321,8 +1447,8 @@ paths:
         - accessToken: []
   /programs/{id}/courses:
     patch:
-      operationId: addCourses
-      summary: Add Courses
+      operationId: addProgramCourses
+      summary: Add Program Courses
       parameters:
         - name: id
           required: true
@@ -1371,6 +1497,96 @@ paths:
                         type: string
       tags:
         - programs
+      security:
+        - accessToken: []
+  /sessions:
+    get:
+      operationId: getSessionByCondition
+      summary: Get Session By Condition
+      parameters:
+        - name: courseClassId
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: substituteTeacherId
+          required: false
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/SessionDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+      tags:
+        - sessions
+      security:
+        - accessToken: []
+  /sessions/{id}:
+    get:
+      operationId: findOneSession
+      summary: Find One Session
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/SessionDto'
+                        nullable: true
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+      tags:
+        - sessions
+      security:
+        - accessToken: []
+    delete:
+      operationId: removeSession
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+      tags:
+        - sessions
       security:
         - accessToken: []
 info:
@@ -1679,6 +1895,77 @@ components:
         - sessionCount
         - isoSlots
         - students
+    UpdateCourseClassDto:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        startAt:
+          type: string
+        endAt:
+          type: string
+    CourseClass:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - code
+        - name
+    TeacherProfile:
+      type: object
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        middleName:
+          type: string
+        lastName:
+          type: string
+      required:
+        - id
+        - firstName
+        - middleName
+        - lastName
+    Teacher:
+      type: object
+      properties:
+        id:
+          type: string
+        teacherId:
+          type: string
+        profile:
+          $ref: '#/components/schemas/TeacherProfile'
+      required:
+        - id
+        - teacherId
+        - profile
+    SessionDto:
+      type: object
+      properties:
+        id:
+          type: string
+        courseClass:
+          $ref: '#/components/schemas/CourseClass'
+        startAt:
+          type: string
+        endAt:
+          type: string
+        substituteTeacher:
+          $ref: '#/components/schemas/Teacher'
+      required:
+        - id
+        - courseClass
+        - startAt
+        - endAt
     UpdateCourseClassStudentsListDto:
       type: object
       properties:

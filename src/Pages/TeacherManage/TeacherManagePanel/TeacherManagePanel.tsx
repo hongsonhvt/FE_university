@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Table, Button, Drawer, Form, Input, Select } from 'antd';
-import styles from './TeacherManagePanel.module.scss';
+import { Button, Drawer, Form, Input, Select } from 'antd';
 import { Option } from 'antd/es/mentions';
+import { useState } from 'react';
+import styles from './TeacherManagePanel.module.scss';
 
 const TeacherManagePanel = () => {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);

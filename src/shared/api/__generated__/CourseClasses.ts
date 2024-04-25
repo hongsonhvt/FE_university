@@ -10,17 +10,22 @@
  */
 
 import {
+  CreateCourseClassData,
   CreateCourseClassDto,
-  CreateFail,
-  CreateOutput,
-  FindByConditionData,
-  FindByConditionQuery,
-  FindOneResult,
-  GetSessionsData,
-  GetSessionsError,
+  CreateCourseClassError,
+  FindCourseClassByConditionData,
+  FindCourseClassByConditionQuery,
+  FindOneCourseClassData,
+  GetCourseClassSessionsData,
+  GetCourseClassSessionsError,
+  RemoveCourseClassData,
+  RemoveCourseClassError,
+  UpdateCourseClassData,
+  UpdateCourseClassDto,
+  UpdateCourseClassError,
+  UpdateCourseClassStudentsListData,
   UpdateCourseClassStudentsListDto,
-  UpdateStudentsListData,
-  UpdateStudentsListError,
+  UpdateCourseClassStudentsListError,
 } from './data-contracts';
 import { ContentType, HttpClient, RequestParams } from './http-client';
 
@@ -31,11 +36,11 @@ export class CourseClasses<
  * No description
  *
  * @tags course-classes
- * @name Create
- * @summary Create
+ * @name CreateCourseClass
+ * @summary Create Course Class
  * @request POST:/course-classes
  * @secure
- * @response `201` `CreateOutput`
+ * @response `201` `CreateCourseClassData`
  * @response `409` `({
   \** @example null *\
     data?: object | null,
@@ -45,8 +50,11 @@ export class CourseClasses<
 
 })`
  */
-  create = (data: CreateCourseClassDto, params: RequestParams = {}) =>
-    this.request<CreateOutput, CreateFail>({
+  createCourseClass = (
+    data: CreateCourseClassDto,
+    params: RequestParams = {},
+  ) =>
+    this.request<CreateCourseClassData, CreateCourseClassError>({
       path: `/course-classes`,
       method: 'POST',
       body: data,
@@ -58,14 +66,17 @@ export class CourseClasses<
    * No description
    *
    * @tags course-classes
-   * @name FindByCondition
-   * @summary Find By Condition
+   * @name FindCourseClassByCondition
+   * @summary Find Course Class By Condition
    * @request GET:/course-classes
    * @secure
-   * @response `200` `FindByConditionData`
+   * @response `200` `FindCourseClassByConditionData`
    */
-  findByCondition = (query: FindByConditionQuery, params: RequestParams = {}) =>
-    this.request<FindByConditionData, any>({
+  findCourseClassByCondition = (
+    query: FindCourseClassByConditionQuery,
+    params: RequestParams = {},
+  ) =>
+    this.request<FindCourseClassByConditionData, any>({
       path: `/course-classes`,
       method: 'GET',
       query: query,
@@ -76,14 +87,14 @@ export class CourseClasses<
    * No description
    *
    * @tags course-classes
-   * @name FindOne
-   * @summary Find One
+   * @name FindOneCourseClass
+   * @summary Find One Course Class
    * @request GET:/course-classes/{id}
    * @secure
-   * @response `200` `FindOneResult`
+   * @response `200` `FindOneCourseClassData`
    */
-  findOne = (id: string, params: RequestParams = {}) =>
-    this.request<FindOneResult, any>({
+  findOneCourseClass = (id: string, params: RequestParams = {}) =>
+    this.request<FindOneCourseClassData, any>({
       path: `/course-classes/${id}`,
       method: 'GET',
       secure: true,
@@ -93,11 +104,50 @@ export class CourseClasses<
  * No description
  *
  * @tags course-classes
- * @name GetSessions
- * @summary Get Sessions
- * @request GET:/course-classes/{id}/sessions
+ * @name UpdateCourseClass
+ * @summary Update Course Class
+ * @request PATCH:/course-classes/{id}
  * @secure
- * @response `200` `GetSessionsData`
+ * @response `200` `UpdateCourseClassData`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ * @response `409` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
+  updateCourseClass = (
+    id: string,
+    data: UpdateCourseClassDto,
+    params: RequestParams = {},
+  ) =>
+    this.request<UpdateCourseClassData, UpdateCourseClassError>({
+      path: `/course-classes/${id}`,
+      method: 'PATCH',
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+ * No description
+ *
+ * @tags course-classes
+ * @name RemoveCourseClass
+ * @summary Remove Course Class
+ * @request DELETE:/course-classes/{id}
+ * @secure
+ * @response `200` `RemoveCourseClassData`
  * @response `404` `({
   \** @example null *\
     data?: object | null,
@@ -107,8 +157,33 @@ export class CourseClasses<
 
 })`
  */
-  getSessions = (id: string, params: RequestParams = {}) =>
-    this.request<GetSessionsData, GetSessionsError>({
+  removeCourseClass = (id: string, params: RequestParams = {}) =>
+    this.request<RemoveCourseClassData, RemoveCourseClassError>({
+      path: `/course-classes/${id}`,
+      method: 'DELETE',
+      secure: true,
+      ...params,
+    });
+  /**
+ * No description
+ *
+ * @tags course-classes
+ * @name GetCourseClassSessions
+ * @summary Get Course Class Sessions
+ * @request GET:/course-classes/{id}/sessions
+ * @secure
+ * @response `200` `GetCourseClassSessionsData`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
+  getCourseClassSessions = (id: string, params: RequestParams = {}) =>
+    this.request<GetCourseClassSessionsData, GetCourseClassSessionsError>({
       path: `/course-classes/${id}/sessions`,
       method: 'GET',
       secure: true,
@@ -118,11 +193,11 @@ export class CourseClasses<
  * No description
  *
  * @tags course-classes
- * @name UpdateStudentsList
- * @summary Update Students List
+ * @name UpdateCourseClassStudentsList
+ * @summary Update Course Class Students List
  * @request PUT:/course-classes/{id}/students
  * @secure
- * @response `200` `UpdateStudentsListData`
+ * @response `200` `UpdateCourseClassStudentsListData`
  * @response `404` `({
   \** @example null *\
     data?: object | null,
@@ -132,12 +207,15 @@ export class CourseClasses<
 
 })`
  */
-  updateStudentsList = (
+  updateCourseClassStudentsList = (
     id: string,
     data: UpdateCourseClassStudentsListDto,
     params: RequestParams = {},
   ) =>
-    this.request<UpdateStudentsListData, UpdateStudentsListError>({
+    this.request<
+      UpdateCourseClassStudentsListData,
+      UpdateCourseClassStudentsListError
+    >({
       path: `/course-classes/${id}/students`,
       method: 'PUT',
       body: data,

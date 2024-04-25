@@ -1,35 +1,29 @@
-import { Button, DatePicker, Form, Input, Modal, message } from "antd";
-import React, { useState } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Programs } from "../../../shared/api/__generated__/Programs";
-import { CreateProgramDto } from "../../../shared/api/__generated__/data-contracts";
+import { Button, Form, Input, Modal, message } from 'antd';
+import { useState } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Programs } from '../../../shared/api/__generated__/Programs';
+import { CreateProgramDto } from '../../../shared/api/__generated__/data-contracts';
 
 const ProgramManagePopup = () => {
   const [modal2Open, setModal2Open] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    control,
-  } = useForm<CreateProgramDto>();
+  const { handleSubmit, reset, control } = useForm<CreateProgramDto>();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const programsApi = new Programs();
 
   const onSubmit: SubmitHandler<CreateProgramDto> = async (
-    data: CreateProgramDto
+    data: CreateProgramDto,
   ) => {
     setIsSubmitting(true);
     try {
-      await programsApi.create(data);
+      await programsApi.createProgram(data);
       console.log(data);
 
-      message.success("Program added successfully!");
+      message.success('Program added successfully!');
       onCloseModal();
       refreshPage();
     } catch (error) {
-      console.error("Error creating program:", error);
-      message.error("Failed to add program. Please try again later.");
+      console.error('Error creating program:', error);
+      message.error('Failed to add program. Please try again later.');
     } finally {
       setIsSubmitting(false);
     }

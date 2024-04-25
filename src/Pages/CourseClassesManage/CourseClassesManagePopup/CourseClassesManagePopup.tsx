@@ -8,19 +8,19 @@ import {
   Select,
   TimePicker,
   message,
-} from "antd";
-import { useEffect, useState } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { CourseClasses } from "../../../shared/api/__generated__/CourseClasses";
-import { Courses } from "../../../shared/api/__generated__/Courses";
+} from 'antd';
+import { useEffect, useState } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { CourseClasses } from '../../../shared/api/__generated__/CourseClasses';
+import { Courses } from '../../../shared/api/__generated__/Courses';
 import {
   CourseListItemDto,
   CreateCourseClassDto,
-} from "../../../shared/api/__generated__/data-contracts";
+} from '../../../shared/api/__generated__/data-contracts';
 
 const { Option } = Select;
 
-type FormType = Omit<CreateCourseClassDto, "isoSlots"> & {
+type FormType = Omit<CreateCourseClassDto, 'isoSlots'> & {
   isoSlots: { range: string; dayOfWeek: number }[];
 };
 
@@ -28,13 +28,13 @@ const CourseClassesManagePopup = () => {
   const [modal2Open, setModal2Open] = useState(false);
   const [courses, setCourses] = useState<CourseListItemDto[]>([]);
   const [dayOfWeekOptions] = useState([
-    { value: "1", label: "Monday" },
-    { value: "2", label: "Tuesday" },
-    { value: "3", label: "Wednesday" },
-    { value: "4", label: "Thursday" },
-    { value: "5", label: "Friday" },
-    { value: "6", label: "Saturday" },
-    { value: "7", label: "Sunday" },
+    { value: '1', label: 'Monday' },
+    { value: '2', label: 'Tuesday' },
+    { value: '3', label: 'Wednesday' },
+    { value: '4', label: 'Thursday' },
+    { value: '5', label: 'Friday' },
+    { value: '6', label: 'Saturday' },
+    { value: '7', label: 'Sunday' },
   ]);
 
   const { handleSubmit, reset, control } = useForm<FormType>();
@@ -47,11 +47,11 @@ const CourseClassesManagePopup = () => {
 
   const fetchCourses = async () => {
     try {
-      const response = await new Courses().findByCondition({});
+      const response = await new Courses().findCourseByCondition({});
       setCourses(response.data.data);
     } catch (error) {
-      console.error("Error fetching Course:", error);
-      message.error("Failed to fetch Course");
+      console.error('Error fetching Course:', error);
+      message.error('Failed to fetch Course');
     }
   };
 
@@ -70,13 +70,13 @@ const CourseClassesManagePopup = () => {
           };
         }),
       };
-      await courseClassesApi.create(formData);
-      message.success("Course class added successfully!");
+      await courseClassesApi.createCourseClass(formData);
+      message.success('Course class added successfully!');
       onCloseModal();
       refreshPage();
     } catch (error) {
-      console.error("Error creating course class:", error);
-      message.error("Failed to add course class. Please try again later.");
+      console.error('Error creating course class:', error);
+      message.error('Failed to add course class. Please try again later.');
     } finally {
       setIsSubmitting(false);
     }
@@ -137,7 +137,7 @@ const CourseClassesManagePopup = () => {
               render={({ field }) => (
                 <DatePicker
                   {...field}
-                  style={{ width: "100%" }}
+                  style={{ width: '100%' }}
                   format="YYYY-MM-DD"
                   placeholder="Start Date"
                 />
@@ -155,7 +155,7 @@ const CourseClassesManagePopup = () => {
               render={({ field }) => (
                 <DatePicker
                   {...field}
-                  style={{ width: "100%" }}
+                  style={{ width: '100%' }}
                   format="YYYY-MM-DD"
                   placeholder="End Date"
                 />
@@ -227,7 +227,7 @@ const CourseClassesManagePopup = () => {
                   {...field}
                   placeholder="Select a course"
                   allowClear
-                  style={{ width: "100%" }}
+                  style={{ width: '100%' }}
                 >
                   {courses.map((course) => {
                     return (

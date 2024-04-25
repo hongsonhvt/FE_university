@@ -10,6 +10,7 @@
     "start": "react-app-rewired start",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "generate-api": "node ./swagger-api-codegen"
   },
   "dependencies": {
