@@ -1,7 +1,11 @@
 import { Button, Form, Input, Modal, Select, message } from "antd";
 import React, { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { CreateManagementClassDto } from "../../../shared/api/__generated__/data-contracts";
+import {
+  AcademicYearDto,
+  CreateManagementClassDto,
+  ProgramListItemDto,
+} from "../../../shared/api/__generated__/data-contracts";
 import { ManagementClasses } from "../../../shared/api/__generated__/ManagementClasses";
 import axios from "axios";
 import moment from "moment";
@@ -18,10 +22,8 @@ const ClassManagePopUp = () => {
     control,
   } = useForm<CreateManagementClassDto>();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [programs, setPrograms] = useState<CreateManagementClassDto[]>([]);
-  const [academicYears, setAcademicYears] = useState<
-    CreateManagementClassDto[]
-  >([]);
+  const [programs, setPrograms] = useState<ProgramListItemDto[]>([]);
+  const [academicYears, setAcademicYears] = useState<AcademicYearDto[]>([]);
   const manageClassesAPI = new ManagementClasses();
 
   const onSubmit: SubmitHandler<CreateManagementClassDto> = async (
@@ -58,7 +60,7 @@ const ClassManagePopUp = () => {
           deletedAt: item.deletedAt
             ? moment(item.deletedAt).format("DD MMM YYYY")
             : "",
-          programId: item.id,
+          programId: item.id.toString(),
         }))
       );
     } catch (error) {
@@ -82,7 +84,7 @@ const ClassManagePopUp = () => {
           deletedAt: item.deletedAt
             ? moment(item.deletedAt).format("DD MMM YYYY")
             : "",
-          academicYearId: item.id,
+          academicYearId: item.id.toString(),
         }))
       );
     } catch (error) {
@@ -154,14 +156,7 @@ const ClassManagePopUp = () => {
                 >
                   {programs.map((program) => {
                     return (
-                      <Option
-                        key={
-                          program.programId && program.programId.length > 0
-                            ? program.programId[0]
-                            : program.code
-                        }
-                        value={program?.programId}
-                      >
+                      <Option key={program.id} value={program.id}>
                         {program.name}
                       </Option>
                     );
@@ -170,6 +165,7 @@ const ClassManagePopUp = () => {
               )}
             />
           </Form.Item>
+
           <Form.Item name="academicYears" label="Academic Years">
             <Controller
               name="academicYearId"
@@ -184,14 +180,7 @@ const ClassManagePopUp = () => {
                 >
                   {academicYears.map((academicYear) => {
                     return (
-                      <Option
-                        key={
-                          academicYear.academicYearId && academicYear.academicYearId.length > 0
-                            ? academicYear.academicYearId[0]
-                            : academicYear.code
-                        }
-                        value={academicYear?.academicYearId}
-                      >
+                      <Option key={academicYear.id} value={academicYear.id}>
                         {academicYear.name}
                       </Option>
                     );
@@ -200,6 +189,7 @@ const ClassManagePopUp = () => {
               )}
             />
           </Form.Item>
+
           <Form.Item>
             <Button type="primary" htmlType="submit" loading={isSubmitting}>
               Save
