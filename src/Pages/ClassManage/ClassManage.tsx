@@ -6,6 +6,7 @@ import Search from "antd/es/input/Search";
 import axios from "axios";
 import moment from "moment";
 import { FindByConditionResult } from "../../shared/api/__generated__/data-contracts";
+import ClassManagePopUp from "./ClassManagePopUp/ClassManagePopUp";
 
 const { confirm } = Modal;
 
@@ -128,6 +129,7 @@ const ClassManage = () => {
         >
           <Button icon={<UploadOutlined />}>Click to Upload</Button>
         </Upload>
+        <ClassManagePopUp />
         <Search
           placeholder="input search text"
           allowClear

@@ -1,6 +1,17 @@
 import React, { useState } from "react";
 import styles from "./CourseClassesManagePanel.module.scss";
-import { Button, DatePicker, Drawer, Form, Input } from "antd";
+import {
+  Button,
+  DatePicker,
+  Drawer,
+  Form,
+  Input,
+  InputNumber,
+  Modal,
+  Select,
+  TimePicker,
+  message,
+} from "antd";
 const CourseClassesManagePanel = () => {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
 

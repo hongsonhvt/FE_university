@@ -24,11 +24,6 @@ const Sidebar = () => {
             label: <Link to="./Home"> Home</Link>,
           },
           {
-            key: "2",
-            icon: <VideoCameraOutlined />,
-            label: <Link to="./Course"> Course</Link>,
-          },
-          {
             key: "3",
             icon: <UploadOutlined />,
             label: <Link to="./Classroom"> Classroom</Link>,
@@ -72,11 +67,6 @@ const Sidebar = () => {
             key: "11",
             icon: <UserOutlined />,
             label: <Link to="./GradeDetail">Grades Detail</Link>,
-          },
-          {
-            key: "12",
-            icon: <UserOutlined />,
-            label: <Link to="./ClassroomManage">Classroom Manage</Link>,
           },
           {
             key: "13",

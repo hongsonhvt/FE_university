@@ -8,19 +8,19 @@ import {
   Select,
   TimePicker,
   message,
-} from 'antd';
-import { useEffect, useState } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { CourseClasses } from '../../../shared/api/__generated__/CourseClasses';
-import { Courses } from '../../../shared/api/__generated__/Courses';
+} from "antd";
+import { useEffect, useState } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { CourseClasses } from "../../../shared/api/__generated__/CourseClasses";
+import { Courses } from "../../../shared/api/__generated__/Courses";
 import {
   CourseListItemDto,
   CreateCourseClassDto,
-} from '../../../shared/api/__generated__/data-contracts';
+} from "../../../shared/api/__generated__/data-contracts";
 
 const { Option } = Select;
 
-type FormType = Omit<CreateCourseClassDto, 'isoSlots'> & {
+type FormType = Omit<CreateCourseClassDto, "isoSlots"> & {
   isoSlots: { range: string; dayOfWeek: number }[];
 };
 
@@ -28,13 +28,13 @@ const CourseClassesManagePopup = () => {
   const [modal2Open, setModal2Open] = useState(false);
   const [courses, setCourses] = useState<CourseListItemDto[]>([]);
   const [dayOfWeekOptions] = useState([
-    { value: '1', label: 'Monday' },
-    { value: '2', label: 'Tuesday' },
-    { value: '3', label: 'Wednesday' },
-    { value: '4', label: 'Thursday' },
-    { value: '5', label: 'Friday' },
-    { value: '6', label: 'Saturday' },
-    { value: '7', label: 'Sunday' },
+    { value: "1", label: "Monday" },
+    { value: "2", label: "Tuesday" },
+    { value: "3", label: "Wednesday" },
+    { value: "4", label: "Thursday" },
+    { value: "5", label: "Friday" },
+    { value: "6", label: "Saturday" },
+    { value: "7", label: "Sunday" },
   ]);
 
   const { handleSubmit, reset, control } = useForm<FormType>();
@@ -50,8 +50,8 @@ const CourseClassesManagePopup = () => {
       const response = await new Courses().findByCondition({});
       setCourses(response.data.data);
     } catch (error) {
-      console.error('Error fetching Course:', error);
-      message.error('Failed to fetch Course');
+      console.error("Error fetching Course:", error);
+      message.error("Failed to fetch Course");
     }
   };
 
@@ -71,12 +71,12 @@ const CourseClassesManagePopup = () => {
         }),
       };
       await courseClassesApi.create(formData);
-      message.success('Course class added successfully!');
+      message.success("Course class added successfully!");
       onCloseModal();
       refreshPage();
     } catch (error) {
-      console.error('Error creating course class:', error);
-      message.error('Failed to add course class. Please try again later.');
+      console.error("Error creating course class:", error);
+      message.error("Failed to add course class. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
@@ -99,72 +99,72 @@ const CourseClassesManagePopup = () => {
     <div>
       <Button onClick={() => setModal2Open(true)}>Add Course Class</Button>
       <Modal
-        title='Add Course Class'
+        title="Add Course Class"
         centered
         visible={modal2Open}
         onCancel={onClose}
         footer={null}
       >
-        <Form layout='vertical' onFinish={handleSubmit(onSubmit)}>
-          <Form.Item name='name' label='Course Class Name'>
+        <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
+          <Form.Item name="name" label="Course Class Name">
             <Controller
-              name='name'
+              name="name"
               control={control}
               rules={{ required: true }}
               render={(x) => (
-                <Input placeholder='Course Class Name' {...(x.field as any)} />
+                <Input placeholder="Course Class Name" {...(x.field as any)} />
               )}
             />
           </Form.Item>
-          <Form.Item name='code' label='Course Class Code'>
+          <Form.Item name="code" label="Course Class Code">
             <Controller
-              name='code'
+              name="code"
               control={control}
               rules={{ required: true }}
               render={(x) => (
-                <Input placeholder='Course Class Code' {...(x.field as any)} />
+                <Input placeholder="Course Class Code" {...(x.field as any)} />
               )}
             />
           </Form.Item>
           <Form.Item
-            name='startAt'
-            label='Start Date'
+            name="startAt"
+            label="Start Date"
             // rules={[{ required: true, message: "Please select start date!" }]}
           >
             <Controller
-              name='startAt'
+              name="startAt"
               control={control}
               render={({ field }) => (
                 <DatePicker
                   {...field}
-                  style={{ width: '100%' }}
-                  format='YYYY-MM-DD'
-                  placeholder='Start Date'
+                  style={{ width: "100%" }}
+                  format="YYYY-MM-DD"
+                  placeholder="Start Date"
                 />
               )}
             />
           </Form.Item>
           <Form.Item
-            name='endAt'
-            label='End Date'
+            name="endAt"
+            label="End Date"
             // rules={[{ required: true, message: "Please select start date!" }]}
           >
             <Controller
-              name='endAt'
+              name="endAt"
               control={control}
               render={({ field }) => (
                 <DatePicker
                   {...field}
-                  style={{ width: '100%' }}
-                  format='YYYY-MM-DD'
-                  placeholder='End Date'
+                  style={{ width: "100%" }}
+                  format="YYYY-MM-DD"
+                  placeholder="End Date"
                 />
               )}
             />
           </Form.Item>
           <Form.Item
-            name='sessionCount'
-            label='Sessions Total'
+            name="sessionCount"
+            label="Sessions Total"
             rules={
               [
                 // { required: true, message: "Please input Sessions Total!" },
@@ -172,22 +172,22 @@ const CourseClassesManagePopup = () => {
             }
           >
             <Controller
-              name='sessionCount'
+              name="sessionCount"
               control={control}
               rules={{ required: true }}
               render={(x) => (
                 <InputNumber
-                  placeholder='Sessions Total'
+                  placeholder="Sessions Total"
                   {...(x.field as any)}
-                  type='number'
+                  type="number"
                   max={50}
                 />
               )}
             />
           </Form.Item>
           <Form.Item
-            name='isoSlots'
-            label='Iso Slots'
+            name="isoSlots"
+            label="Iso Slots"
             rules={
               [
                 // { required: true, message: "Please input Sessions Total!" },
@@ -195,7 +195,7 @@ const CourseClassesManagePopup = () => {
             }
           >
             <Controller
-              name='isoSlots.0.dayOfWeek'
+              name="isoSlots.0.dayOfWeek"
               control={control}
               rules={{ required: true }}
               render={(x) => (
@@ -203,31 +203,31 @@ const CourseClassesManagePopup = () => {
               )}
             />
             <Controller
-              name='isoSlots.0.range'
+              name="isoSlots.0.range"
               control={control}
               rules={{ required: true }}
               render={(x) => (
                 <TimePicker.RangePicker
-                  placeholder='Start time'
+                  placeholder="Start time"
                   {...(x.field as any)}
                 />
               )}
             />
           </Form.Item>
           <Form.Item
-            name='courseId'
-            label='Course'
+            name="courseId"
+            label="Course"
             // rules={[{ required: true, message: "Please select a program!" }]}
           >
             <Controller
-              name='courseId'
+              name="courseId"
               control={control}
               render={({ field }) => (
                 <Select
                   {...field}
-                  placeholder='Select a course'
+                  placeholder="Select a course"
                   allowClear
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                 >
                   {courses.map((course) => {
                     return (
@@ -241,7 +241,7 @@ const CourseClassesManagePopup = () => {
             />
           </Form.Item>
           <Form.Item>
-            <Button type='primary' htmlType='submit' loading={isSubmitting}>
+            <Button type="primary" htmlType="submit" loading={isSubmitting}>
               Save
             </Button>
           </Form.Item>
