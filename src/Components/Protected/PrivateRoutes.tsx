@@ -1,0 +1,135 @@
+import { UploadOutlined, UserOutlined } from '@ant-design/icons';
+import CalendarManage from '../../Pages/Calendar/CalendarManage';
+import ClassManage from '../../Pages/ClassManage/ClassManage';
+import CourseClassesManage from '../../Pages/CourseClassesManage/CourseClassesManage';
+import CourseManage from '../../Pages/CourseManage/CourseManage';
+import GradeDetail from '../../Pages/GradeDetail/GradeDetail';
+import Grades from '../../Pages/Grades/Grades';
+import { Home } from '../../Pages/Home/Home';
+import Information from '../../Pages/Information/Information';
+import ProgramManage from '../../Pages/ProgramManage/ProgramManage';
+import StudentManage from '../../Pages/StudentManage/StudentManage';
+import SubjectManage from '../../Pages/SubjectManage/SubjectManage';
+import TeacherManage from '../../Pages/TeacherManage/TeacherManage';
+import { Role } from '../../shared/api/__generated__/data-contracts';
+
+type RouteMapType = {
+  route: string;
+  component: JSX.Element;
+  roles?: Role[];
+  sideBar?: {
+    icon: JSX.Element;
+    label: string;
+  };
+};
+
+export const routeMap: RouteMapType[] = [
+  {
+    route: '/Calendar',
+    component: <CalendarManage />,
+    roles: [Role.Student, Role.Teacher],
+    sideBar: {
+      icon: <UserOutlined />,
+      label: 'Calendar',
+    },
+  },
+  {
+    route: '/Class',
+    component: <ClassManage />,
+    roles: [Role.Student, Role.Teacher],
+    sideBar: {
+      icon: <UserOutlined />,
+      label: 'Class',
+    },
+  },
+  // { route: '/Classroom', component: Classroom },
+  // { route: '/Classroom', component: ClassroomManage },
+  {
+    route: '/CourseClasses',
+    component: <CourseClassesManage />,
+    sideBar: {
+      icon: <UserOutlined />,
+      label: 'CourseClasses',
+    },
+  },
+  {
+    route: '/Course',
+    component: <CourseManage />,
+    roles: [Role.Admin],
+    sideBar: {
+      icon: <UserOutlined />,
+      label: 'Course',
+    },
+  },
+  {
+    route: '/GradeDetail',
+    component: <GradeDetail />,
+    roles: [Role.Student, Role.Teacher],
+    sideBar: {
+      icon: <UserOutlined />,
+      label: 'Grade Details',
+    },
+  },
+  {
+    route: '/Grades',
+    component: <Grades />,
+    roles: [Role.Student, Role.Teacher],
+    sideBar: {
+      icon: <UserOutlined />,
+      label: 'Grades',
+    },
+  },
+  {
+    route: '/Home',
+    component: <Home />,
+    sideBar: {
+      icon: <UploadOutlined />,
+      label: 'Home',
+    },
+  },
+  {
+    route: '/Information',
+    component: <Information />,
+    roles: [Role.Student, Role.Teacher],
+    sideBar: {
+      icon: <UserOutlined />,
+      label: 'Information',
+    },
+  },
+  {
+    route: '/Program',
+    component: <ProgramManage />,
+    roles: [Role.Admin],
+    sideBar: {
+      icon: <UserOutlined />,
+      label: 'Program',
+    },
+  },
+  {
+    route: '/Student',
+    component: <StudentManage />,
+    roles: [Role.Admin],
+    sideBar: {
+      icon: <UserOutlined />,
+      label: 'Student',
+    },
+  },
+  {
+    route: '/Subject',
+    component: <SubjectManage />,
+    roles: [Role.Admin],
+    sideBar: {
+      icon: <UserOutlined />,
+      label: 'Subject',
+    },
+  },
+  {
+    route: '/Teacher',
+    component: <TeacherManage />,
+    roles: [Role.Admin],
+    sideBar: {
+      icon: <UserOutlined />,
+      label: 'Teacher',
+    },
+  },
+];

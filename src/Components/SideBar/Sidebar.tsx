@@ -1,84 +1,50 @@
-import { UploadOutlined, UserOutlined } from '@ant-design/icons';
-import { Menu } from 'antd';
-import { Link } from 'react-router-dom';
+import { Menu, Spin } from 'antd';
+import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../../hooks';
+import { routeMap } from '../Protected/PrivateRoutes';
 import styles from './Sidebar.module.scss';
+import { useMemo } from 'react';
 
 const Sidebar = () => {
+  const { role } = useAuth();
+  const { pathname } = useLocation();
+
+  const validRoutes = useMemo(
+    () =>
+      routeMap.filter(
+        (item) =>
+          !!item.sideBar &&
+          (!item.roles ||
+            item.roles.length === 0 ||
+            (role && item.roles.includes(role))),
+      ),
+    [role],
+  );
+
+  const selectedKeys = useMemo(
+    () =>
+      validRoutes
+        .filter((item) => pathname.startsWith(item.route))
+        .map((item) => item.route),
+    [validRoutes, pathname],
+  );
+
+  if (!role) {
+    return <Spin />;
+  }
+
   return (
     <>
       <div className={styles.leftBar} />
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={['1']}
-        // style={{ width: "500px" }}
-        items={[
-          {
-            key: '1',
-            icon: <UploadOutlined />,
-            label: <Link to="./Home"> Home</Link>,
-          },
-          {
-            key: '3',
-            icon: <UploadOutlined />,
-            label: <Link to="./Classroom"> Classroom</Link>,
-          },
-          {
-            key: '4',
-            icon: <UploadOutlined />,
-            label: <Link to="./Information"> Information</Link>,
-          },
-          {
-            key: '5',
-            icon: <UploadOutlined />,
-            label: <Link to="./Grades"> Grades</Link>,
-          },
-          {
-            key: '6',
-            icon: <UserOutlined />,
-            label: <Link to="./CalendarManage"> Calendar</Link>,
-          },
-          {
-            key: '7',
-            icon: <UserOutlined />,
-            label: <Link to="./ProgramManage">Program Manage</Link>,
-          },
-          {
-            key: '8',
-            icon: <UserOutlined />,
-            label: <Link to="./StudentManage">Student Management</Link>,
-          },
-          {
-            key: '9',
-            icon: <UserOutlined />,
-            label: <Link to="./TeacherManage">Teacher Management</Link>,
-          },
-          {
-            key: '10',
-            icon: <UserOutlined />,
-            label: <Link to="./SubjectManage">Subject Management</Link>,
-          },
-          {
-            key: '11',
-            icon: <UserOutlined />,
-            label: <Link to="./GradeDetail">Grades Detail</Link>,
-          },
-          {
-            key: '13',
-            icon: <UserOutlined />,
-            label: <Link to="./CourseManage">Course Manage</Link>,
-          },
-          {
-            key: '14',
-            icon: <UserOutlined />,
-            label: <Link to="./CourseClasses">Course Classes</Link>,
-          },
-          {
-            key: '15',
-            icon: <UserOutlined />,
-            label: <Link to="./ClassManage">Management Classes</Link>,
-          },
-        ]}
+        selectedKeys={selectedKeys}
+        items={validRoutes.map((item) => ({
+          key: item.route,
+          icon: item.sideBar?.icon,
+          label: <Link to={item.route}> {item.sideBar?.label}</Link>,
+        }))}
       />
     </>
   );

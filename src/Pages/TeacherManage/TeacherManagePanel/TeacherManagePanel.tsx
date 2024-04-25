@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Table, Button, Drawer, Form, Input, Select } from "antd";
-import styles from "./TeacherManagePanel.module.scss";
-import { Option } from "antd/es/mentions";
+import React, { useState } from 'react';
+import { Table, Button, Drawer, Form, Input, Select } from 'antd';
+import styles from './TeacherManagePanel.module.scss';
+import { Option } from 'antd/es/mentions';
 
 const TeacherManagePanel = () => {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
@@ -15,11 +15,11 @@ const TeacherManagePanel = () => {
   };
 
   const onFinish = (values: any) => {
-    console.log("Received values:", values);
+    console.log('Received values:', values);
     onCloseDrawer();
   };
 
-  const genderOptions = ["Male", "Female"];
+  const genderOptions = ['Male', 'Female'];
 
   return (
     <div className={styles.TeacherManagePanel}>
@@ -37,14 +37,14 @@ const TeacherManagePanel = () => {
           <Form.Item
             name="id"
             label="ID"
-            rules={[{ required: true, message: "Please input Teacher ID!" }]}
+            rules={[{ required: true, message: 'Please input Teacher ID!' }]}
           >
             <Input placeholder="Teacher ID" />
           </Form.Item>
           <Form.Item
             name="name"
             label="Name"
-            rules={[{ required: true, message: "Please input Teacher name!" }]}
+            rules={[{ required: true, message: 'Please input Teacher name!' }]}
           >
             <Input placeholder="Teacher Name" />
           </Form.Item>
@@ -52,12 +52,14 @@ const TeacherManagePanel = () => {
             name="gender"
             label="Gender"
             rules={[
-              { required: true, message: "Please select Teacher gender!" },
+              { required: true, message: 'Please select Teacher gender!' },
             ]}
           >
             <Select placeholder="Select gender">
-              {genderOptions.map((option) => (
-                <Option value={option}>{option}</Option>
+              {genderOptions.map((option, idx) => (
+                <Option key={`${idx}`} value={option}>
+                  {option}
+                </Option>
               ))}
             </Select>
           </Form.Item>
@@ -65,7 +67,7 @@ const TeacherManagePanel = () => {
           <Form.Item
             name="email"
             label="Email"
-            rules={[{ required: true, message: "Please input Teacher email!" }]}
+            rules={[{ required: true, message: 'Please input Teacher email!' }]}
           >
             <Input placeholder="Teacher Email" type="email" />
           </Form.Item>
