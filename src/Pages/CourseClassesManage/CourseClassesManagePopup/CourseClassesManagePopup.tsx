@@ -6,6 +6,7 @@ import {
   InputNumber,
   Modal,
   Select,
+  Space,
   TimePicker,
   message,
 } from 'antd';
@@ -185,34 +186,36 @@ const CourseClassesManagePopup = () => {
               )}
             />
           </Form.Item>
-          <Form.Item
-            name="isoSlots"
-            label="Iso Slots"
-            rules={
-              [
-                // { required: true, message: "Please input Sessions Total!" },
-              ]
-            }
-          >
-            <Controller
-              name="isoSlots.0.dayOfWeek"
-              control={control}
-              rules={{ required: true }}
-              render={(x) => (
-                <Select options={dayOfWeekOptions} {...(x.field as any)} />
-              )}
-            />
-            <Controller
-              name="isoSlots.0.range"
-              control={control}
-              rules={{ required: true }}
-              render={(x) => (
-                <TimePicker.RangePicker
-                  placeholder="Start time"
-                  {...(x.field as any)}
+          <Form.Item label="Iso Slots">
+            <Space>
+              <Form.Item name="isoSlots.0.dayOfWeek" noStyle>
+                <Controller
+                  name="isoSlots.0.dayOfWeek"
+                  control={control}
+                  rules={{ required: true }}
+                  render={(x) => (
+                    <Select
+                      options={dayOfWeekOptions}
+                      {...(x.field as any)}
+                      placeholder="Day of week"
+                    />
+                  )}
                 />
-              )}
-            />
+              </Form.Item>
+              <Form.Item name="isoSlots.0.range" noStyle>
+                <Controller
+                  name="isoSlots.0.range"
+                  control={control}
+                  rules={{ required: true }}
+                  render={(x) => (
+                    <TimePicker.RangePicker
+                      placeholder="Start time"
+                      {...(x.field as any)}
+                    />
+                  )}
+                />
+              </Form.Item>
+            </Space>
           </Form.Item>
           <Form.Item
             name="courseId"
