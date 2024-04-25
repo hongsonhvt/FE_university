@@ -1,14 +1,15 @@
-import { useState } from "react";
-import axios from "axios";
-import { Button, Input, message } from "antd";
-import styles from "./Login.module.scss";
-import { UserOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { UserOutlined } from '@ant-design/icons';
+import { Button, Input, message } from 'antd';
+import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../../hooks';
+import { Auth } from '../../shared/api/__generated__/Auth';
+import styles from './Login.module.scss';
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { accessToken, login } = useAuth();
 
   const handleEmailChange = (e: any) => {
     setEmail(e.target.value);
@@ -19,21 +20,18 @@ const Login = () => {
   };
 
   const handleLogin = () => {
-    axios
-      .post("http://localhost:3000/auth/login", {
-        email: email,
-        password: password,
-      })
-      .then((response) => {
-        localStorage.setItem("accessToken", response.data.data.accessToken); 
-        message.success("Login successful");
-        navigate("/Home");
-      })
+    new Auth()
+      .login({ email, password })
+      .then((response) => login(response.data.data.accessToken))
       .catch((error) => {
-        console.error("Login error:", error);
-        message.error("Login failed");
+        console.error('Login error:', error);
+        message.error('Login failed');
       });
   };
+
+  if (accessToken) {
+    return <Navigate to="/Home" />;
+  }
 
   return (
     <div className={styles.Login}>
@@ -57,9 +55,9 @@ const Login = () => {
         />
       </div>
       <div
-        style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
+        style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}
       >
-        <Button type="primary" style={{ width: "200px" }} onClick={handleLogin}>
+        <Button type="primary" style={{ width: '200px' }} onClick={handleLogin}>
           Login
         </Button>
       </div>

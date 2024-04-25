@@ -1,12 +1,7 @@
-import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
-import { Menu } from "antd";
-import { Link, Route, Routes } from "react-router-dom";
-import styles from "./Sidebar.module.scss";
-import CalendarManage from "../../Pages/Calendar/CalendarManage";
+import { UploadOutlined, UserOutlined } from '@ant-design/icons';
+import { Menu } from 'antd';
+import { Link } from 'react-router-dom';
+import styles from './Sidebar.module.scss';
 
 const Sidebar = () => {
   return (
@@ -15,71 +10,71 @@ const Sidebar = () => {
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={["1"]}
+        defaultSelectedKeys={['1']}
         // style={{ width: "500px" }}
         items={[
           {
-            key: "1",
+            key: '1',
             icon: <UploadOutlined />,
             label: <Link to="./Home"> Home</Link>,
           },
           {
-            key: "3",
+            key: '3',
             icon: <UploadOutlined />,
             label: <Link to="./Classroom"> Classroom</Link>,
           },
           {
-            key: "4",
+            key: '4',
             icon: <UploadOutlined />,
             label: <Link to="./Information"> Information</Link>,
           },
           {
-            key: "5",
+            key: '5',
             icon: <UploadOutlined />,
             label: <Link to="./Grades"> Grades</Link>,
           },
           {
-            key: "6",
+            key: '6',
             icon: <UserOutlined />,
             label: <Link to="./CalendarManage"> Calendar</Link>,
           },
           {
-            key: "7",
+            key: '7',
             icon: <UserOutlined />,
             label: <Link to="./ProgramManage">Program Manage</Link>,
           },
           {
-            key: "8",
+            key: '8',
             icon: <UserOutlined />,
             label: <Link to="./StudentManage">Student Management</Link>,
           },
           {
-            key: "9",
+            key: '9',
             icon: <UserOutlined />,
             label: <Link to="./TeacherManage">Teacher Management</Link>,
           },
           {
-            key: "10",
+            key: '10',
             icon: <UserOutlined />,
             label: <Link to="./SubjectManage">Subject Management</Link>,
           },
           {
-            key: "11",
+            key: '11',
             icon: <UserOutlined />,
             label: <Link to="./GradeDetail">Grades Detail</Link>,
           },
           {
-            key: "13",
+            key: '13',
             icon: <UserOutlined />,
             label: <Link to="./CourseManage">Course Manage</Link>,
           },
           {
-            key: "14",
+            key: '14',
             icon: <UserOutlined />,
             label: <Link to="./CourseClasses">Course Classes</Link>,
           },
           {
-            key: "15",
+            key: '15',
             icon: <UserOutlined />,
             label: <Link to="./ClassManage">Management Classes</Link>,
           },
