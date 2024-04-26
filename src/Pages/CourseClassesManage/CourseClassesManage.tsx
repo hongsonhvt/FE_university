@@ -7,6 +7,7 @@ import { CourseClassListItemDto } from '../../shared/api/__generated__/data-cont
 import styles from './CourseClassesManage.module.scss';
 import CourseClassesManagePanel from './CourseClassesManagePanel/CourseClassesManagePanel';
 import CourseClassesManagePopup from './CourseClassesManagePopup/CourseClassesManagePopup';
+import moment from 'moment';
 
 const CourseClassesManage = () => {
   const [courseClasses, setCourseClasses] = useState<CourseClassListItemDto[]>(
@@ -55,11 +56,13 @@ const CourseClassesManage = () => {
       title: 'Date Start',
       dataIndex: 'startAt',
       key: 'startAt',
+      render: (text: string) => moment(text).format('DD MMM YYYY'),
     },
     {
       title: 'Date End',
       dataIndex: 'endAt',
       key: 'endAt',
+      render: (text: string) => moment(text).format('DD MMM YYYY'),
     },
     {
       title: 'Sessions Total',

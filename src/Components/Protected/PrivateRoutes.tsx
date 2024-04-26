@@ -25,6 +25,14 @@ type RouteMapType = {
 
 export const routeMap: RouteMapType[] = [
   {
+    route: '/Home',
+    component: <Home />,
+    sideBar: {
+      icon: <UploadOutlined />,
+      label: 'Home',
+    },
+  },
+  {
     route: '/Calendar',
     component: <CalendarManage />,
     roles: [Role.Student, Role.Teacher],
@@ -47,9 +55,10 @@ export const routeMap: RouteMapType[] = [
   {
     route: '/CourseClasses',
     component: <CourseClassesManage />,
+    roles: [Role.Admin],
     sideBar: {
       icon: <UserOutlined />,
-      label: 'CourseClasses',
+      label: 'Course Classes',
     },
   },
   {
@@ -80,14 +89,6 @@ export const routeMap: RouteMapType[] = [
     },
   },
   {
-    route: '/Home',
-    component: <Home />,
-    sideBar: {
-      icon: <UploadOutlined />,
-      label: 'Home',
-    },
-  },
-  {
     route: '/Information',
     component: <Information />,
     roles: [Role.Student, Role.Teacher],
@@ -112,6 +113,15 @@ export const routeMap: RouteMapType[] = [
     sideBar: {
       icon: <UserOutlined />,
       label: 'Student',
+    },
+  },
+  {
+    route: '/ClassManagement',
+    component: <ClassManage />,
+    roles: [Role.Admin],
+    sideBar: {
+      icon: <UserOutlined />,
+      label: 'ClassManagement',
     },
   },
   {
