@@ -146,6 +146,7 @@ export interface CreateCourseClassDto {
    */
   sessionCount: number;
   startAt: string;
+  teacherId: string;
 }
 
 export type CreateCourseClassError = {
@@ -388,7 +389,9 @@ export type GetSessionByConditionData = Result & {
 
 export interface GetSessionByConditionQuery {
   courseClassId?: string;
+  from?: string;
   substituteTeacherId?: string;
+  to?: string;
 }
 
 export type GetUserProfileData = Result & {
@@ -601,6 +604,7 @@ export interface UpdateCourseClassDto {
   endAt?: string;
   name?: string;
   startAt?: string;
+  teacherId?: string;
 }
 
 export type UpdateCourseClassError = {

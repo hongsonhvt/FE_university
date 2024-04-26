@@ -1514,6 +1514,16 @@ paths:
           in: query
           schema:
             type: string
+        - name: from
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: to
+          required: false
+          in: query
+          schema:
+            type: string
       responses:
         '200':
           description: ''
@@ -1824,6 +1834,8 @@ components:
             $ref: '#/components/schemas/CreateCourseClassSlotDto'
         courseId:
           type: string
+        teacherId:
+          type: string
       required:
         - code
         - name
@@ -1831,6 +1843,7 @@ components:
         - sessionCount
         - isoSlots
         - courseId
+        - teacherId
     StudentProfileDto:
       type: object
       properties:
@@ -1905,6 +1918,8 @@ components:
         startAt:
           type: string
         endAt:
+          type: string
+        teacherId:
           type: string
     CourseClass:
       type: object

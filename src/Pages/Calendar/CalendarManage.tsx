@@ -1,77 +1,85 @@
-import type { BadgeProps, CalendarProps } from 'antd';
-import { Badge, Calendar } from 'antd';
+import type { CalendarProps } from 'antd';
+import { Calendar } from 'antd';
 import type { Dayjs } from 'dayjs';
+import { useEffect, useState } from 'react';
+import { Sessions } from '../../shared/api/__generated__/Sessions';
 
-const getListData = (value: Dayjs) => {
-  let listData;
-  switch (value.date()) {
-    case 8:
-      listData = [
-        { type: 'warning', content: 'This is warning event.' },
-        { type: 'success', content: 'This is usual event.' },
-      ];
-      break;
-    case 10:
-      listData = [
-        { type: 'warning', content: 'This is warning event.' },
-        { type: 'success', content: 'This is usual event.' },
-        { type: 'error', content: 'This is error event.' },
-      ];
-      break;
-    case 15:
-      listData = [
-        { type: 'warning', content: 'This is warning event' },
-        { type: 'success', content: 'This is very long usual event......' },
-        { type: 'error', content: 'This is error event 1.' },
-        { type: 'error', content: 'This is error event 2.' },
-        { type: 'error', content: 'This is error event 3.' },
-        { type: 'error', content: 'This is error event 4.' },
-      ];
-      break;
-    default:
-  }
-  return listData || [];
-};
+type CalendarDataType = Record<number, { id: string; name: string }[]>;
 
-const getMonthData = (value: Dayjs) => {
-  if (value.month() === 8) {
-    return 1394;
-  }
-};
 const CalendarManage = () => {
-  const monthCellRender = (value: Dayjs) => {
-    const num = getMonthData(value);
-    return num ? (
-      <div className="notes-month">
-        <section>{num}</section>
-        <span>Backlog number</span>
-      </div>
-    ) : null;
-  };
+  const [data, setData] = useState<CalendarDataType>({});
+  const [monthYear, setMonthYear] = useState({
+    month: new Date().getMonth(),
+    year: new Date().getFullYear(),
+  });
+
+  useEffect(() => {
+    new Sessions()
+      .getSessionByCondition({
+        from: new Date(monthYear.year, monthYear.month + 1, 1).toISOString(),
+        to: new Date(monthYear.year, monthYear.month + 2, 0).toISOString(),
+      })
+      .then((res) => {
+        const newData = res.data.data.reduce((acc, x) => {
+          const date = new Date(x.startAt).getDate();
+          if (!date) {
+            return acc;
+          }
+
+          if (!acc[date]) {
+            acc[date] = [];
+          }
+          acc[date].push({ id: x.id, name: x.courseClass.name });
+
+          return acc;
+        }, {} as CalendarDataType);
+        setData(newData);
+      });
+  }, [monthYear]);
 
   const dateCellRender = (value: Dayjs) => {
-    const listData = getListData(value);
+    // console.log(data);
     return (
-      <ul className="events">
-        {listData.map((item) => (
-          <li key={item.content}>
-            <Badge
-              status={item.type as BadgeProps['status']}
-              text={item.content}
-            />
-          </li>
+      <>
+        {(data[value.date()] ?? []).map((evt) => (
+          <div
+            key={evt.id}
+            style={{
+              background: '#dddddd',
+              borderRadius: '4px',
+              padding: '0 4px',
+              marginBottom: '2px',
+            }}
+          >
+            {evt.name}
+          </div>
         ))}
-      </ul>
+      </>
     );
   };
 
   const cellRender: CalendarProps<Dayjs>['cellRender'] = (current, info) => {
     if (info.type === 'date') return dateCellRender(current);
-    if (info.type === 'month') return monthCellRender(current);
     return info.originNode;
   };
 
-  return <Calendar cellRender={cellRender} />;
+  const onChange: CalendarProps<Dayjs>['onChange'] = (date) => {
+    let shouldClearOld = false;
+    if (date.month() !== monthYear.month) {
+      setMonthYear({ month: date.month(), year: monthYear.year });
+      shouldClearOld = true;
+    }
+    if (date.year() !== monthYear.year) {
+      setMonthYear({ month: monthYear.month, year: date.year() });
+      shouldClearOld = true;
+    }
+
+    if (shouldClearOld) {
+      setData({});
+    }
+  };
+
+  return <Calendar cellRender={cellRender} onChange={onChange} />;
 };
 
 export default CalendarManage;
