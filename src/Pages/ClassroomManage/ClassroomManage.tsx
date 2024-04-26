@@ -18,127 +18,125 @@ const ClassroomManage = () => {
     }
   };
   return (
-    <>
-      <div style={{ display: 'grid' }}>
-        <div style={{ display: 'flex' }}>
-          <Upload
-            fileList={fileList}
-            onChange={handleUpload}
-            beforeUpload={() => false}
-          >
-            <Button icon={<UploadOutlined />}>Click to Upload</Button>
-          </Upload>
-          <Search
-            placeholder="input search text"
-            allowClear
-            enterButton="Search"
-            size="large"
-            style={{
-              marginBottom: '35px',
-              width: '500px',
-              marginLeft: 'auto',
-            }}
-            // onSearch={onSearch}
+    <div style={{ display: 'grid' }}>
+      <div style={{ display: 'flex' }}>
+        <Upload
+          fileList={fileList}
+          onChange={handleUpload}
+          beforeUpload={() => false}
+        >
+          <Button icon={<UploadOutlined />}>Click to Upload</Button>
+        </Upload>
+        <Search
+          placeholder="input search text"
+          allowClear
+          enterButton="Search"
+          size="large"
+          style={{
+            marginBottom: '35px',
+            width: '500px',
+            marginLeft: 'auto',
+          }}
+          // onSearch={onSearch}
+        />
+      </div>
+      <div>
+        <div className={styles.boxClassroom}>
+          <Avatar
+            shape="square"
+            size={64}
+            icon={<UserOutlined />}
+            className={styles.boxAva}
           />
-        </div>
-        <div>
-          <div className={styles.boxClassroom}>
-            <Avatar
-              shape="square"
-              size={64}
-              icon={<UserOutlined />}
-              className={styles.boxAva}
-            />
-            <div className={styles.boxDetail}>
-              <h2 className={styles.boxName}>GCH220001</h2>
-              <b className={styles.boxMajor}>2023-2045</b>
-            </div>
-            <Button
-              style={{
-                marginLeft: 'auto',
-                marginRight: '20px',
-                height: '40px',
-                width: '100px',
-              }}
-            >
-              Edit
-            </Button>
+          <div className={styles.boxDetail}>
+            <h2 className={styles.boxName}>GCH220001</h2>
+            <b className={styles.boxMajor}>2023-2045</b>
           </div>
-        </div>
-        <div>
-          <div className={styles.boxClassroom}>
-            <Avatar
-              shape="square"
-              size={64}
-              icon={<UserOutlined />}
-              className={styles.boxAva}
-            />
-            <div className={styles.boxDetail}>
-              <h2 className={styles.boxName}>GCH220001</h2>
-              <b className={styles.boxMajor}>2023-2045</b>
-            </div>
-            <Button
-              style={{
-                marginLeft: 'auto',
-                marginRight: '20px',
-                height: '40px',
-                width: '100px',
-              }}
-            >
-              Edit
-            </Button>
-          </div>
-        </div>
-        <div>
-          <div className={styles.boxClassroom}>
-            <Avatar
-              shape="square"
-              size={64}
-              icon={<UserOutlined />}
-              className={styles.boxAva}
-            />
-            <div className={styles.boxDetail}>
-              <h2 className={styles.boxName}>GCH220001</h2>
-              <b className={styles.boxMajor}>2023-2045</b>
-            </div>
-            <Button
-              style={{
-                marginLeft: 'auto',
-                marginRight: '20px',
-                height: '40px',
-                width: '100px',
-              }}
-            >
-              Edit
-            </Button>
-          </div>
-        </div>
-        <div>
-          <div className={styles.boxClassroom}>
-            <Avatar
-              shape="square"
-              size={64}
-              icon={<UserOutlined />}
-              className={styles.boxAva}
-            />
-            <div className={styles.boxDetail}>
-              <h2 className={styles.boxName}>GCH220001</h2>
-              <b className={styles.boxMajor}>2023-2045</b>
-            </div>
-            <Button
-              style={{
-                marginLeft: 'auto',
-                marginRight: '20px',
-                height: '40px',
-                width: '100px',
-              }}
-            >
-              Edit
-            </Button>
-          </div>
+          <Button
+            style={{
+              marginLeft: 'auto',
+              marginRight: '20px',
+              height: '40px',
+              width: '100px',
+            }}
+          >
+            Edit
+          </Button>
         </div>
       </div>
-    </>
+      <div>
+        <div className={styles.boxClassroom}>
+          <Avatar
+            shape="square"
+            size={64}
+            icon={<UserOutlined />}
+            className={styles.boxAva}
+          />
+          <div className={styles.boxDetail}>
+            <h2 className={styles.boxName}>GCH220001</h2>
+            <b className={styles.boxMajor}>2023-2045</b>
+          </div>
+          <Button
+            style={{
+              marginLeft: 'auto',
+              marginRight: '20px',
+              height: '40px',
+              width: '100px',
+            }}
+          >
+            Edit
+          </Button>
+        </div>
+      </div>
+      <div>
+        <div className={styles.boxClassroom}>
+          <Avatar
+            shape="square"
+            size={64}
+            icon={<UserOutlined />}
+            className={styles.boxAva}
+          />
+          <div className={styles.boxDetail}>
+            <h2 className={styles.boxName}>GCH220001</h2>
+            <b className={styles.boxMajor}>2023-2045</b>
+          </div>
+          <Button
+            style={{
+              marginLeft: 'auto',
+              marginRight: '20px',
+              height: '40px',
+              width: '100px',
+            }}
+          >
+            Edit
+          </Button>
+        </div>
+      </div>
+      <div>
+        <div className={styles.boxClassroom}>
+          <Avatar
+            shape="square"
+            size={64}
+            icon={<UserOutlined />}
+            className={styles.boxAva}
+          />
+          <div className={styles.boxDetail}>
+            <h2 className={styles.boxName}>GCH220001</h2>
+            <b className={styles.boxMajor}>2023-2045</b>
+          </div>
+          <Button
+            style={{
+              marginLeft: 'auto',
+              marginRight: '20px',
+              height: '40px',
+              width: '100px',
+            }}
+          >
+            Edit
+          </Button>
+        </div>
+      </div>
+    </div>
   );
 };
 

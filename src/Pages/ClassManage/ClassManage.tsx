@@ -3,7 +3,10 @@ import { Button, Modal, Space, Table, Upload, message } from 'antd';
 import Search from 'antd/es/input/Search';
 import { useEffect, useState } from 'react';
 import { ManagementClasses } from '../../shared/api/__generated__/ManagementClasses';
-import { ManagementClassListItemDto } from '../../shared/api/__generated__/data-contracts';
+import {
+  AcademicYearDto,
+  ManagementClassListItemDto,
+} from '../../shared/api/__generated__/data-contracts';
 import styles from './ClassManage.module.scss';
 import ClassManagePopUp from './ClassManagePopUp/ClassManagePopUp';
 

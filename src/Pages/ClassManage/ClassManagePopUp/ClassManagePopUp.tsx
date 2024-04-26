@@ -25,9 +25,9 @@ const ClassManagePopUp = () => {
     data: CreateManagementClassDto,
   ) => {
     setIsSubmitting(true);
+    console.log(data);
     try {
       await manageClassesAPI.createManagementClass(data);
-      console.log(data);
 
       message.success('Class added successfully!');
       onCloseModal();
@@ -145,7 +145,6 @@ const ClassManagePopUp = () => {
                 <Select
                   {...field}
                   placeholder="Select a program"
-                  mode="multiple"
                   allowClear
                   style={{ width: '100%' }}
                 >
@@ -169,7 +168,6 @@ const ClassManagePopUp = () => {
                 <Select
                   {...field}
                   placeholder="Select a program"
-                  mode="multiple"
                   allowClear
                   style={{ width: '100%' }}
                 >
