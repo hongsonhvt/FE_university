@@ -619,7 +619,7 @@ paths:
                       data:
                         type: array
                         items:
-                          $ref: '#/components/schemas/SessionDto'
+                          $ref: '#/components/schemas/SessionListItemDto'
                           nullable: false
                       success:
                         type: boolean
@@ -1536,7 +1536,7 @@ paths:
                       data:
                         type: array
                         items:
-                          $ref: '#/components/schemas/SessionDto'
+                          $ref: '#/components/schemas/SessionListItemDto'
                           nullable: false
                       success:
                         type: boolean
@@ -1568,7 +1568,7 @@ paths:
                   - $ref: '#/components/schemas/Result'
                   - properties:
                       data:
-                        $ref: '#/components/schemas/SessionDto'
+                        $ref: '#/components/schemas/SessionListItemDto'
                         nullable: true
                       success:
                         type: boolean
@@ -1580,8 +1580,20 @@ paths:
         - sessions
       security:
         - accessToken: []
-    delete:
-      operationId: removeSession
+  /students:
+    get:
+      operationId: findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  /students/{id}:
+    get:
+      operationId: findOne
       parameters:
         - name: id
           required: true
@@ -1595,10 +1607,42 @@ paths:
             application/json:
               schema:
                 type: string
-      tags:
-        - sessions
-      security:
-        - accessToken: []
+    patch:
+      operationId: update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStudentDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      operationId: remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
 info:
   title: ''
   description: ''
@@ -1754,6 +1798,22 @@ components:
         - role
         - sub
         - email
+    CourseListItemDto:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+        createdAt:
+          type: string
+      required:
+        - id
+        - code
+        - name
+        - createdAt
     CourseClassSlotDto:
       type: object
       properties:
@@ -1774,17 +1834,7 @@ components:
         name:
           type: string
         course:
-          type: object
-          properties:
-            id:
-              required: true
-              type: string
-            code:
-              required: true
-              type: string
-            name:
-              required: true
-              type: string
+          $ref: '#/components/schemas/CourseListItemDto'
         startAt:
           type: string
         endAt:
@@ -1844,25 +1894,34 @@ components:
         - isoSlots
         - courseId
         - teacherId
-    StudentProfileDto:
+    ProfileDto:
       type: object
       properties:
         id:
           type: string
         firstName:
           type: string
+        middleName:
+          type: string
         lastName:
           type: string
       required:
         - id
         - firstName
+        - middleName
         - lastName
-    StudentDto:
+    StudentSimpleDto:
       type: object
       properties:
+        id:
+          type: string
+        studentId:
+          type: string
         profile:
-          $ref: '#/components/schemas/StudentProfileDto'
+          $ref: '#/components/schemas/ProfileDto'
       required:
+        - id
+        - studentId
         - profile
     CourseClassDto:
       type: object
@@ -1874,17 +1933,7 @@ components:
         name:
           type: string
         course:
-          type: object
-          properties:
-            id:
-              required: true
-              type: string
-            code:
-              required: true
-              type: string
-            name:
-              required: true
-              type: string
+          $ref: '#/components/schemas/CourseListItemDto'
         startAt:
           type: string
         endAt:
@@ -1898,7 +1947,7 @@ components:
         students:
           type: array
           items:
-            $ref: '#/components/schemas/StudentDto'
+            $ref: '#/components/schemas/StudentSimpleDto'
       required:
         - id
         - code
@@ -1921,61 +1970,17 @@ components:
           type: string
         teacherId:
           type: string
-    CourseClass:
-      type: object
-      properties:
-        id:
-          type: string
-        code:
-          type: string
-        name:
-          type: string
-      required:
-        - id
-        - code
-        - name
-    TeacherProfile:
-      type: object
-      properties:
-        id:
-          type: string
-        firstName:
-          type: string
-        middleName:
-          type: string
-        lastName:
-          type: string
-      required:
-        - id
-        - firstName
-        - middleName
-        - lastName
-    Teacher:
-      type: object
-      properties:
-        id:
-          type: string
-        teacherId:
-          type: string
-        profile:
-          $ref: '#/components/schemas/TeacherProfile'
-      required:
-        - id
-        - teacherId
-        - profile
-    SessionDto:
+    SessionListItemDto:
       type: object
       properties:
         id:
           type: string
         courseClass:
-          $ref: '#/components/schemas/CourseClass'
+          $ref: '#/components/schemas/CourseClassListItemDto'
         startAt:
           type: string
         endAt:
           type: string
-        substituteTeacher:
-          $ref: '#/components/schemas/Teacher'
       required:
         - id
         - courseClass
@@ -1990,7 +1995,7 @@ components:
             type: string
       required:
         - studentIds
-    Program:
+    ProgramListItemDto:
       type: object
       properties:
         id:
@@ -1999,10 +2004,13 @@ components:
           type: string
         name:
           type: string
+        createdAt:
+          type: string
       required:
         - id
         - code
         - name
+        - createdAt
     CourseDto:
       type: object
       properties:
@@ -2017,7 +2025,7 @@ components:
         programs:
           type: array
           items:
-            $ref: '#/components/schemas/Program'
+            $ref: '#/components/schemas/ProgramListItemDto'
       required:
         - id
         - code
@@ -2039,22 +2047,6 @@ components:
         - code
         - name
         - programIds
-    CourseListItemDto:
-      type: object
-      properties:
-        id:
-          type: string
-        code:
-          type: string
-        name:
-          type: string
-        createdAt:
-          type: string
-      required:
-        - id
-        - code
-        - name
-        - createdAt
     UpdateCourseDto:
       type: object
       properties:
@@ -2066,6 +2058,19 @@ components:
           type: array
           items:
             type: string
+    AcademicYearSimpleDto:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - code
+        - name
     ManagementClassListItemDto:
       type: object
       properties:
@@ -2076,7 +2081,7 @@ components:
         name:
           type: string
         academicYear:
-          $ref: '#/components/schemas/AcademicYearDto'
+          $ref: '#/components/schemas/AcademicYearSimpleDto'
       required:
         - id
         - code
@@ -2098,32 +2103,6 @@ components:
         - name
         - academicYearId
         - programId
-    ProgramDto:
-      type: object
-      properties:
-        id:
-          type: string
-        code:
-          type: string
-        name:
-          type: string
-        createdAt:
-          type: string
-        courses:
-          type: array
-          items:
-            $ref: '#/components/schemas/Course'
-        managementClass:
-          type: array
-          items:
-            $ref: '#/components/schemas/ManagementClass'
-      required:
-        - id
-        - code
-        - name
-        - createdAt
-        - courses
-        - managementClass
     ManagementClassDto:
       type: object
       properties:
@@ -2134,13 +2113,13 @@ components:
         name:
           type: string
         academicYear:
-          $ref: '#/components/schemas/AcademicYearDto'
+          $ref: '#/components/schemas/AcademicYearSimpleDto'
         program:
-          $ref: '#/components/schemas/ProgramDto'
+          $ref: '#/components/schemas/ProgramListItemDto'
         students:
           type: array
           items:
-            $ref: '#/components/schemas/StudentDto'
+            $ref: '#/components/schemas/StudentSimpleDto'
       required:
         - id
         - code
@@ -2159,22 +2138,6 @@ components:
           type: string
         programId:
           type: string
-    ProgramListItemDto:
-      type: object
-      properties:
-        id:
-          type: string
-        code:
-          type: string
-        name:
-          type: string
-        createdAt:
-          type: string
-      required:
-        - id
-        - code
-        - name
-        - createdAt
     CreateProgramDto:
       type: object
       properties:
@@ -2185,7 +2148,7 @@ components:
       required:
         - code
         - name
-    Course:
+    ProgramDto:
       type: object
       properties:
         id:
@@ -2194,23 +2157,23 @@ components:
           type: string
         name:
           type: string
+        createdAt:
+          type: string
+        courses:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseListItemDto'
+        managementClass:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManagementClassListItemDto'
       required:
         - id
         - code
         - name
-    ManagementClass:
-      type: object
-      properties:
-        id:
-          type: string
-        code:
-          type: string
-        name:
-          type: string
-      required:
-        - id
-        - code
-        - name
+        - createdAt
+        - courses
+        - managementClass
     UpdateProgramDto:
       type: object
       properties:
@@ -2227,3 +2190,6 @@ components:
             type: string
       required:
         - courses
+    UpdateStudentDto:
+      type: object
+      properties: {}
