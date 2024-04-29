@@ -252,8 +252,6 @@ export interface FindAcademicYearInRangeQuery {
   start?: number;
 }
 
-export type FindAllData = string;
-
 export type FindCourseByConditionData = Result & {
   data?: CourseListItemDto[];
   /** @example null */
@@ -313,8 +311,6 @@ export type FindOneCourseData = Result & {
   success?: boolean;
 };
 
-export type FindOneData = string;
-
 export type FindOneManagementClassData = Result & {
   data?: ManagementClassDto | null;
   /** @example null */
@@ -336,6 +332,20 @@ export type FindOneSessionData = Result & {
   success?: boolean;
 };
 
+export type FindOneStudentData = Result & {
+  data?: StudentDto[];
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
+
+export type FindOneTeacherData = Result & {
+  data?: TeacherDto[];
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
+
 export type FindProgramByConditionData = Result & {
   data?: ProgramListItemDto[];
   /** @example null */
@@ -346,6 +356,28 @@ export type FindProgramByConditionData = Result & {
 export interface FindProgramByConditionQuery {
   code?: string;
   name?: string;
+}
+
+export type FindStudentsByConditionData = Result & {
+  data?: StudentSimpleDto[];
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
+
+export interface FindStudentsByConditionQuery {
+  studentId?: string;
+}
+
+export type FindTeachersByConditionData = Result & {
+  data?: TeacherSimpleDto[];
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
+
+export interface FindTeachersByConditionQuery {
+  teacherId?: string;
 }
 
 export type GetCourseClassSessionsData = Result & {
@@ -501,8 +533,6 @@ export type RemoveCourseError = {
   success?: boolean;
 };
 
-export type RemoveData = string;
-
 export type RemoveManagementClassData = Result & {
   data?: ManagementClassDto;
   /** @example null */
@@ -533,6 +563,36 @@ export type RemoveProgramError = {
   success?: boolean;
 };
 
+export type RemoveStudentData = Result & {
+  data?: StudentSimpleDto[];
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
+
+export type RemoveStudentError = {
+  /** @example null */
+  data?: object | null;
+  message?: string;
+  /** @example false */
+  success?: boolean;
+};
+
+export type RemoveTeacherData = Result & {
+  data?: TeacherSimpleDto[];
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
+
+export type RemoveTeacherError = {
+  /** @example null */
+  data?: object | null;
+  message?: string;
+  /** @example false */
+  success?: boolean;
+};
+
 export interface Result {
   data: object;
   message: object;
@@ -553,10 +613,30 @@ export interface SessionListItemDto {
   startAt: string;
 }
 
+export interface StudentDto {
+  id: string;
+  managementClass: ManagementClassListItemDto;
+  profile: ProfileDto;
+  studentId: string;
+}
+
 export interface StudentSimpleDto {
   id: string;
   profile: ProfileDto;
   studentId: string;
+}
+
+export interface TeacherDto {
+  courseClasses: CourseClassListItemDto;
+  id: string;
+  profile: ProfileDto;
+  teacherId: string;
+}
+
+export interface TeacherSimpleDto {
+  id: string;
+  profile: ProfileDto;
+  teacherId: string;
 }
 
 export type UpdateCourseClassData = Result & {
@@ -583,7 +663,7 @@ export type UpdateCourseClassError = {
 };
 
 export type UpdateCourseClassStudentsListData = Result & {
-  data?: CourseClassDto;
+  data?: StudentSimpleDto[];
   /** @example null */
   message?: string | null;
   success?: boolean;
@@ -637,8 +717,6 @@ export type UpdateCurrentError = {
   success?: boolean;
 };
 
-export type UpdateData = string;
-
 export type UpdateManagementClassData = Result & {
   data?: ManagementClassListItemDto;
   /** @example null */
@@ -680,5 +758,3 @@ export type UpdateProgramError = {
   /** @example false */
   success?: boolean;
 };
-
-export type UpdateStudentDto = object;

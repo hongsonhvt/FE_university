@@ -10,33 +10,33 @@
  */
 
 import {
-  FindOneStudentData,
-  FindStudentsByConditionData,
-  FindStudentsByConditionQuery,
-  RemoveStudentData,
-  RemoveStudentError,
+  FindOneTeacherData,
+  FindTeachersByConditionData,
+  FindTeachersByConditionQuery,
+  RemoveTeacherData,
+  RemoveTeacherError,
 } from './data-contracts';
 import { HttpClient, RequestParams } from './http-client';
 
-export class Students<
+export class Teachers<
   SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
   /**
    * No description
    *
-   * @tags students
-   * @name FindStudentsByCondition
-   * @summary Find Students By Condition
-   * @request GET:/students
+   * @tags teachers
+   * @name FindTeachersByCondition
+   * @summary Find Teachers By Condition
+   * @request GET:/teachers
    * @secure
-   * @response `200` `FindStudentsByConditionData`
+   * @response `200` `FindTeachersByConditionData`
    */
-  findStudentsByCondition = (
-    query: FindStudentsByConditionQuery,
+  findTeachersByCondition = (
+    query: FindTeachersByConditionQuery,
     params: RequestParams = {},
   ) =>
-    this.request<FindStudentsByConditionData, any>({
-      path: `/students`,
+    this.request<FindTeachersByConditionData, any>({
+      path: `/teachers`,
       method: 'GET',
       query: query,
       secure: true,
@@ -45,16 +45,16 @@ export class Students<
   /**
    * No description
    *
-   * @tags students
-   * @name FindOneStudent
-   * @summary Find One Student
-   * @request GET:/students/{id}
+   * @tags teachers
+   * @name FindOneTeacher
+   * @summary Find One Teacher
+   * @request GET:/teachers/{id}
    * @secure
-   * @response `200` `FindOneStudentData`
+   * @response `200` `FindOneTeacherData`
    */
-  findOneStudent = (id: string, params: RequestParams = {}) =>
-    this.request<FindOneStudentData, any>({
-      path: `/students/${id}`,
+  findOneTeacher = (id: string, params: RequestParams = {}) =>
+    this.request<FindOneTeacherData, any>({
+      path: `/teachers/${id}`,
       method: 'GET',
       secure: true,
       ...params,
@@ -62,12 +62,12 @@ export class Students<
   /**
  * No description
  *
- * @tags students
- * @name RemoveStudent
- * @summary Remove Student
- * @request DELETE:/students/{id}
+ * @tags teachers
+ * @name RemoveTeacher
+ * @summary Remove Teacher
+ * @request DELETE:/teachers/{id}
  * @secure
- * @response `200` `RemoveStudentData`
+ * @response `200` `RemoveTeacherData`
  * @response `404` `({
   \** @example null *\
     data?: object | null,
@@ -77,9 +77,9 @@ export class Students<
 
 })`
  */
-  removeStudent = (id: string, params: RequestParams = {}) =>
-    this.request<RemoveStudentData, RemoveStudentError>({
-      path: `/students/${id}`,
+  removeTeacher = (id: string, params: RequestParams = {}) =>
+    this.request<RemoveTeacherData, RemoveTeacherError>({
+      path: `/teachers/${id}`,
       method: 'DELETE',
       secure: true,
       ...params,

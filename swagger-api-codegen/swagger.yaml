@@ -673,8 +673,10 @@ paths:
                   - $ref: '#/components/schemas/Result'
                   - properties:
                       data:
-                        $ref: '#/components/schemas/CourseClassDto'
-                        nullable: false
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/StudentSimpleDto'
+                          nullable: false
                       success:
                         type: boolean
                       message:
@@ -1582,18 +1584,42 @@ paths:
         - accessToken: []
   /students:
     get:
-      operationId: findAll
-      parameters: []
+      operationId: findStudentsByCondition
+      summary: Find Students By Condition
+      parameters:
+        - name: studentId
+          required: false
+          in: query
+          schema:
+            type: string
       responses:
         '200':
           description: ''
           content:
             application/json:
               schema:
-                type: string
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/StudentSimpleDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+      tags:
+        - students
+      security:
+        - accessToken: []
   /students/{id}:
     get:
-      operationId: findOne
+      operationId: findOneStudent
+      summary: Find One Student
       parameters:
         - name: id
           required: true
@@ -1606,30 +1632,27 @@ paths:
           content:
             application/json:
               schema:
-                type: string
-    patch:
-      operationId: update
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateStudentDto'
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: string
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/StudentDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+      tags:
+        - students
+      security:
+        - accessToken: []
     delete:
-      operationId: remove
+      operationId: removeStudent
+      summary: Remove Student
       parameters:
         - name: id
           required: true
@@ -1642,7 +1665,157 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/StudentSimpleDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - students
+      security:
+        - accessToken: []
+  /teachers:
+    get:
+      operationId: findTeachersByCondition
+      summary: Find Teachers By Condition
+      parameters:
+        - name: teacherId
+          required: false
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/TeacherSimpleDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+      tags:
+        - teachers
+      security:
+        - accessToken: []
+  /teachers/{id}:
+    get:
+      operationId: findOneTeacher
+      summary: Find One Teacher
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/TeacherDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+      tags:
+        - teachers
+      security:
+        - accessToken: []
+    delete:
+      operationId: removeTeacher
+      summary: Remove Teacher
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/TeacherSimpleDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - teachers
+      security:
+        - accessToken: []
 info:
   title: ''
   description: ''
@@ -2190,6 +2363,48 @@ components:
             type: string
       required:
         - courses
-    UpdateStudentDto:
+    StudentDto:
       type: object
-      properties: {}
+      properties:
+        id:
+          type: string
+        studentId:
+          type: string
+        profile:
+          $ref: '#/components/schemas/ProfileDto'
+        managementClass:
+          $ref: '#/components/schemas/ManagementClassListItemDto'
+      required:
+        - id
+        - studentId
+        - profile
+        - managementClass
+    TeacherSimpleDto:
+      type: object
+      properties:
+        id:
+          type: string
+        teacherId:
+          type: string
+        profile:
+          $ref: '#/components/schemas/ProfileDto'
+      required:
+        - id
+        - teacherId
+        - profile
+    TeacherDto:
+      type: object
+      properties:
+        id:
+          type: string
+        teacherId:
+          type: string
+        profile:
+          $ref: '#/components/schemas/ProfileDto'
+        courseClasses:
+          $ref: '#/components/schemas/CourseClassListItemDto'
+      required:
+        - id
+        - teacherId
+        - profile
+        - courseClasses
