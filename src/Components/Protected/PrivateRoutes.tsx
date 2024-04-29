@@ -124,15 +124,15 @@ export const routeMap: RouteMapType[] = [
       label: 'ClassManagement',
     },
   },
-  {
-    route: '/Subject',
-    component: <SubjectManage />,
-    roles: [Role.Admin],
-    sideBar: {
-      icon: <UserOutlined />,
-      label: 'Subject',
-    },
-  },
+  // {
+  //   route: '/Subject',
+  //   component: <SubjectManage />,
+  //   roles: [Role.Admin],
+  //   sideBar: {
+  //     icon: <UserOutlined />,
+  //     label: 'Subject',
+  //   },
+  // },
   {
     route: '/Teacher',
     component: <TeacherManage />,

@@ -619,7 +619,7 @@ paths:
                       data:
                         type: array
                         items:
-                          $ref: '#/components/schemas/SessionDto'
+                          $ref: '#/components/schemas/SessionListItemDto'
                           nullable: false
                       success:
                         type: boolean
@@ -673,8 +673,10 @@ paths:
                   - $ref: '#/components/schemas/Result'
                   - properties:
                       data:
-                        $ref: '#/components/schemas/CourseClassDto'
-                        nullable: false
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/StudentSimpleDto'
+                          nullable: false
                       success:
                         type: boolean
                       message:
@@ -1536,7 +1538,7 @@ paths:
                       data:
                         type: array
                         items:
-                          $ref: '#/components/schemas/SessionDto'
+                          $ref: '#/components/schemas/SessionListItemDto'
                           nullable: false
                       success:
                         type: boolean
@@ -1568,7 +1570,7 @@ paths:
                   - $ref: '#/components/schemas/Result'
                   - properties:
                       data:
-                        $ref: '#/components/schemas/SessionDto'
+                        $ref: '#/components/schemas/SessionListItemDto'
                         nullable: true
                       success:
                         type: boolean
@@ -1580,8 +1582,44 @@ paths:
         - sessions
       security:
         - accessToken: []
-    delete:
-      operationId: removeSession
+  /students:
+    get:
+      operationId: findStudentsByCondition
+      summary: Find Students By Condition
+      parameters:
+        - name: studentId
+          required: false
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/StudentSimpleDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+      tags:
+        - students
+      security:
+        - accessToken: []
+  /students/{id}:
+    get:
+      operationId: findOneStudent
+      summary: Find One Student
       parameters:
         - name: id
           required: true
@@ -1594,9 +1632,188 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/StudentDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
       tags:
-        - sessions
+        - students
+      security:
+        - accessToken: []
+    delete:
+      operationId: removeStudent
+      summary: Remove Student
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/StudentSimpleDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - students
+      security:
+        - accessToken: []
+  /teachers:
+    get:
+      operationId: findTeachersByCondition
+      summary: Find Teachers By Condition
+      parameters:
+        - name: teacherId
+          required: false
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/TeacherSimpleDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+      tags:
+        - teachers
+      security:
+        - accessToken: []
+  /teachers/{id}:
+    get:
+      operationId: findOneTeacher
+      summary: Find One Teacher
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/TeacherDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+      tags:
+        - teachers
+      security:
+        - accessToken: []
+    delete:
+      operationId: removeTeacher
+      summary: Remove Teacher
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/TeacherSimpleDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - teachers
       security:
         - accessToken: []
 info:
@@ -1754,6 +1971,22 @@ components:
         - role
         - sub
         - email
+    CourseListItemDto:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+        createdAt:
+          type: string
+      required:
+        - id
+        - code
+        - name
+        - createdAt
     CourseClassSlotDto:
       type: object
       properties:
@@ -1774,17 +2007,7 @@ components:
         name:
           type: string
         course:
-          type: object
-          properties:
-            id:
-              required: true
-              type: string
-            code:
-              required: true
-              type: string
-            name:
-              required: true
-              type: string
+          $ref: '#/components/schemas/CourseListItemDto'
         startAt:
           type: string
         endAt:
@@ -1844,25 +2067,34 @@ components:
         - isoSlots
         - courseId
         - teacherId
-    StudentProfileDto:
+    ProfileDto:
       type: object
       properties:
         id:
           type: string
         firstName:
           type: string
+        middleName:
+          type: string
         lastName:
           type: string
       required:
         - id
         - firstName
+        - middleName
         - lastName
-    StudentDto:
+    StudentSimpleDto:
       type: object
       properties:
+        id:
+          type: string
+        studentId:
+          type: string
         profile:
-          $ref: '#/components/schemas/StudentProfileDto'
+          $ref: '#/components/schemas/ProfileDto'
       required:
+        - id
+        - studentId
         - profile
     CourseClassDto:
       type: object
@@ -1874,17 +2106,7 @@ components:
         name:
           type: string
         course:
-          type: object
-          properties:
-            id:
-              required: true
-              type: string
-            code:
-              required: true
-              type: string
-            name:
-              required: true
-              type: string
+          $ref: '#/components/schemas/CourseListItemDto'
         startAt:
           type: string
         endAt:
@@ -1898,7 +2120,7 @@ components:
         students:
           type: array
           items:
-            $ref: '#/components/schemas/StudentDto'
+            $ref: '#/components/schemas/StudentSimpleDto'
       required:
         - id
         - code
@@ -1921,61 +2143,17 @@ components:
           type: string
         teacherId:
           type: string
-    CourseClass:
-      type: object
-      properties:
-        id:
-          type: string
-        code:
-          type: string
-        name:
-          type: string
-      required:
-        - id
-        - code
-        - name
-    TeacherProfile:
-      type: object
-      properties:
-        id:
-          type: string
-        firstName:
-          type: string
-        middleName:
-          type: string
-        lastName:
-          type: string
-      required:
-        - id
-        - firstName
-        - middleName
-        - lastName
-    Teacher:
-      type: object
-      properties:
-        id:
-          type: string
-        teacherId:
-          type: string
-        profile:
-          $ref: '#/components/schemas/TeacherProfile'
-      required:
-        - id
-        - teacherId
-        - profile
-    SessionDto:
+    SessionListItemDto:
       type: object
       properties:
         id:
           type: string
         courseClass:
-          $ref: '#/components/schemas/CourseClass'
+          $ref: '#/components/schemas/CourseClassListItemDto'
         startAt:
           type: string
         endAt:
           type: string
-        substituteTeacher:
-          $ref: '#/components/schemas/Teacher'
       required:
         - id
         - courseClass
@@ -1990,7 +2168,7 @@ components:
             type: string
       required:
         - studentIds
-    Program:
+    ProgramListItemDto:
       type: object
       properties:
         id:
@@ -1999,10 +2177,13 @@ components:
           type: string
         name:
           type: string
+        createdAt:
+          type: string
       required:
         - id
         - code
         - name
+        - createdAt
     CourseDto:
       type: object
       properties:
@@ -2017,7 +2198,7 @@ components:
         programs:
           type: array
           items:
-            $ref: '#/components/schemas/Program'
+            $ref: '#/components/schemas/ProgramListItemDto'
       required:
         - id
         - code
@@ -2039,22 +2220,6 @@ components:
         - code
         - name
         - programIds
-    CourseListItemDto:
-      type: object
-      properties:
-        id:
-          type: string
-        code:
-          type: string
-        name:
-          type: string
-        createdAt:
-          type: string
-      required:
-        - id
-        - code
-        - name
-        - createdAt
     UpdateCourseDto:
       type: object
       properties:
@@ -2066,6 +2231,19 @@ components:
           type: array
           items:
             type: string
+    AcademicYearSimpleDto:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - code
+        - name
     ManagementClassListItemDto:
       type: object
       properties:
@@ -2076,7 +2254,7 @@ components:
         name:
           type: string
         academicYear:
-          $ref: '#/components/schemas/AcademicYearDto'
+          $ref: '#/components/schemas/AcademicYearSimpleDto'
       required:
         - id
         - code
@@ -2098,32 +2276,6 @@ components:
         - name
         - academicYearId
         - programId
-    ProgramDto:
-      type: object
-      properties:
-        id:
-          type: string
-        code:
-          type: string
-        name:
-          type: string
-        createdAt:
-          type: string
-        courses:
-          type: array
-          items:
-            $ref: '#/components/schemas/Course'
-        managementClass:
-          type: array
-          items:
-            $ref: '#/components/schemas/ManagementClass'
-      required:
-        - id
-        - code
-        - name
-        - createdAt
-        - courses
-        - managementClass
     ManagementClassDto:
       type: object
       properties:
@@ -2134,13 +2286,13 @@ components:
         name:
           type: string
         academicYear:
-          $ref: '#/components/schemas/AcademicYearDto'
+          $ref: '#/components/schemas/AcademicYearSimpleDto'
         program:
-          $ref: '#/components/schemas/ProgramDto'
+          $ref: '#/components/schemas/ProgramListItemDto'
         students:
           type: array
           items:
-            $ref: '#/components/schemas/StudentDto'
+            $ref: '#/components/schemas/StudentSimpleDto'
       required:
         - id
         - code
@@ -2159,22 +2311,6 @@ components:
           type: string
         programId:
           type: string
-    ProgramListItemDto:
-      type: object
-      properties:
-        id:
-          type: string
-        code:
-          type: string
-        name:
-          type: string
-        createdAt:
-          type: string
-      required:
-        - id
-        - code
-        - name
-        - createdAt
     CreateProgramDto:
       type: object
       properties:
@@ -2185,7 +2321,7 @@ components:
       required:
         - code
         - name
-    Course:
+    ProgramDto:
       type: object
       properties:
         id:
@@ -2194,23 +2330,23 @@ components:
           type: string
         name:
           type: string
+        createdAt:
+          type: string
+        courses:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseListItemDto'
+        managementClass:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManagementClassListItemDto'
       required:
         - id
         - code
         - name
-    ManagementClass:
-      type: object
-      properties:
-        id:
-          type: string
-        code:
-          type: string
-        name:
-          type: string
-      required:
-        - id
-        - code
-        - name
+        - createdAt
+        - courses
+        - managementClass
     UpdateProgramDto:
       type: object
       properties:
@@ -2227,3 +2363,48 @@ components:
             type: string
       required:
         - courses
+    StudentDto:
+      type: object
+      properties:
+        id:
+          type: string
+        studentId:
+          type: string
+        profile:
+          $ref: '#/components/schemas/ProfileDto'
+        managementClass:
+          $ref: '#/components/schemas/ManagementClassListItemDto'
+      required:
+        - id
+        - studentId
+        - profile
+        - managementClass
+    TeacherSimpleDto:
+      type: object
+      properties:
+        id:
+          type: string
+        teacherId:
+          type: string
+        profile:
+          $ref: '#/components/schemas/ProfileDto'
+      required:
+        - id
+        - teacherId
+        - profile
+    TeacherDto:
+      type: object
+      properties:
+        id:
+          type: string
+        teacherId:
+          type: string
+        profile:
+          $ref: '#/components/schemas/ProfileDto'
+        courseClasses:
+          $ref: '#/components/schemas/CourseClassListItemDto'
+      required:
+        - id
+        - teacherId
+        - profile
+        - courseClasses

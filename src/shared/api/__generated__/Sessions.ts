@@ -13,7 +13,6 @@ import {
   FindOneSessionData,
   GetSessionByConditionData,
   GetSessionByConditionQuery,
-  RemoveSessionData,
 } from './data-contracts';
 import { HttpClient, RequestParams } from './http-client';
 
@@ -55,22 +54,6 @@ export class Sessions<
     this.request<FindOneSessionData, any>({
       path: `/sessions/${id}`,
       method: 'GET',
-      secure: true,
-      ...params,
-    });
-  /**
-   * No description
-   *
-   * @tags sessions
-   * @name RemoveSession
-   * @request DELETE:/sessions/{id}
-   * @secure
-   * @response `200` `RemoveSessionData`
-   */
-  removeSession = (id: string, params: RequestParams = {}) =>
-    this.request<RemoveSessionData, any>({
-      path: `/sessions/${id}`,
-      method: 'DELETE',
       secure: true,
       ...params,
     });
