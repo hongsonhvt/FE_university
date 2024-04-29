@@ -9,7 +9,6 @@ import { Home } from '../../Pages/Home/Home';
 import Information from '../../Pages/Information/Information';
 import ProgramManage from '../../Pages/ProgramManage/ProgramManage';
 import StudentManage from '../../Pages/StudentManage/StudentManage';
-import SubjectManage from '../../Pages/SubjectManage/SubjectManage';
 import TeacherManage from '../../Pages/TeacherManage/TeacherManage';
 import { Role } from '../../shared/api/__generated__/data-contracts';
 

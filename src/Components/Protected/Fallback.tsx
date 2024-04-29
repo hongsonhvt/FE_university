@@ -1,5 +1,4 @@
 import { Navigate } from 'react-router-dom';
-import { Home } from '../../Pages/Home/Home';
 import { useAuth } from '../../hooks';
 
 export const Fallback = () => {
@@ -9,5 +8,5 @@ export const Fallback = () => {
     return <Navigate to="/Login" />;
   }
 
-  return <Home />;
+  return <Navigate to="/Home" />;
 };
