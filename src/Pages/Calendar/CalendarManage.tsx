@@ -1,10 +1,13 @@
 import type { CalendarProps } from 'antd';
 import { Calendar } from 'antd';
-import type { Dayjs } from 'dayjs';
+import dayjs, { type Dayjs } from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Sessions } from '../../shared/api/__generated__/Sessions';
 
-type CalendarDataType = Record<number, { id: string; name: string }[]>;
+type CalendarDataType = Record<
+  number,
+  { id: string; name: string; startAt: string; endAt: string }[]
+>;
 
 const CalendarManage = () => {
   const [data, setData] = useState<CalendarDataType>({});
@@ -29,7 +32,12 @@ const CalendarManage = () => {
           if (!acc[date]) {
             acc[date] = [];
           }
-          acc[date].push({ id: x.id, name: x.courseClass.name });
+          acc[date].push({
+            id: x.id,
+            name: x.courseClass.name,
+            startAt: dayjs(x.startAt).format('HH:mm'),
+            endAt: dayjs(x.endAt).format('HH:mm'),
+          });
 
           return acc;
         }, {} as CalendarDataType);
@@ -51,7 +59,7 @@ const CalendarManage = () => {
               marginBottom: '2px',
             }}
           >
-            {evt.name}
+            {evt.name} ({evt.startAt} - {evt.endAt})
           </div>
         ))}
       </>
