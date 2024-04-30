@@ -13,6 +13,9 @@ import {
   FindOneStudentData,
   FindStudentsByConditionData,
   FindStudentsByConditionQuery,
+  GetStudentScoresData,
+  GetStudentScoresError,
+  GetStudentScoresQuery,
   RemoveStudentData,
   RemoveStudentError,
 } from './data-contracts';
@@ -81,6 +84,35 @@ export class Students<
     this.request<RemoveStudentData, RemoveStudentError>({
       path: `/students/${id}`,
       method: 'DELETE',
+      secure: true,
+      ...params,
+    });
+  /**
+ * No description
+ *
+ * @tags students
+ * @name GetStudentScores
+ * @summary Get Student Scores
+ * @request GET:/students/{id}/scores
+ * @secure
+ * @response `200` `GetStudentScoresData`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
+  getStudentScores = (
+    { id, ...query }: GetStudentScoresQuery,
+    params: RequestParams = {},
+  ) =>
+    this.request<GetStudentScoresData, GetStudentScoresError>({
+      path: `/students/${id}/scores`,
+      method: 'GET',
+      query: query,
       secure: true,
       ...params,
     });

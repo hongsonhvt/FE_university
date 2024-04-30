@@ -597,6 +597,111 @@ paths:
         - course-classes
       security:
         - accessToken: []
+  /course-classes/{id}/scores:
+    get:
+      operationId: getCourseClassScores
+      summary: Get Course Class Scores
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/StudentScoreListItemDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - course-classes
+      security:
+        - accessToken: []
+    put:
+      operationId: updateCourseClassScores
+      summary: Update Course Class Scores
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCourseClassScoreDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/StudentScoreListItemDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - course-classes
+      security:
+        - accessToken: []
   /course-classes/{id}/sessions:
     get:
       operationId: getCourseClassSessions
@@ -1501,6 +1606,101 @@ paths:
         - programs
       security:
         - accessToken: []
+  /programs/import:
+    post:
+      operationId: importPrograms
+      summary: Import Programs
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/ProgramDto'
+                        nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '201':
+          description: ''
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - programs
+      security:
+        - accessToken: []
+  /scores:
+    get:
+      operationId: getMyScores
+      summary: Get My Scores
+      parameters:
+        - name: academicYearId
+          required: false
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/StudentScoreDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - scores
+      security:
+        - accessToken: []
   /sessions:
     get:
       operationId: getSessionByCondition
@@ -1672,6 +1872,61 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/StudentSimpleDto'
+                          nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - students
+      security:
+        - accessToken: []
+  /students/{id}/scores:
+    get:
+      operationId: getStudentScores
+      summary: Get Student Scores
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: academicYearId
+          required: false
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/StudentScoreDto'
                           nullable: false
                       success:
                         type: boolean
@@ -2143,6 +2398,45 @@ components:
           type: string
         teacherId:
           type: string
+    StudentScoreListItemDto:
+      type: object
+      properties:
+        id:
+          type: string
+        profile:
+          $ref: '#/components/schemas/ProfileDto'
+        score:
+          type: number
+          nullable: true
+        studentId:
+          type: string
+      required:
+        - id
+        - profile
+        - score
+        - studentId
+    UpdateCourseClassScoreItemDto:
+      type: object
+      properties:
+        id:
+          type: string
+        score:
+          type: number
+          nullable: true
+          minimum: 0
+          maximum: 10
+      required:
+        - id
+        - score
+    UpdateCourseClassScoreDto:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpdateCourseClassScoreItemDto'
+      required:
+        - data
     SessionListItemDto:
       type: object
       properties:
@@ -2363,6 +2657,38 @@ components:
             type: string
       required:
         - courses
+    StudentScoreScoreDto:
+      type: object
+      properties:
+        score:
+          type: number
+          nullable: true
+        id:
+          type: string
+        studentId:
+          type: string
+        courseClassId:
+          type: string
+      required:
+        - score
+        - id
+        - studentId
+        - courseClassId
+    StudentScoreDto:
+      type: object
+      properties:
+        id:
+          type: string
+        academicYear:
+          $ref: '#/components/schemas/AcademicYearDto'
+        scores:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudentScoreScoreDto'
+      required:
+        - id
+        - academicYear
+        - scores
     StudentDto:
       type: object
       properties:

@@ -380,6 +380,21 @@ export interface FindTeachersByConditionQuery {
   teacherId?: string;
 }
 
+export type GetCourseClassScoresData = Result & {
+  data?: StudentScoreListItemDto[];
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
+
+export type GetCourseClassScoresError = {
+  /** @example null */
+  data?: object | null;
+  message?: string;
+  /** @example false */
+  success?: boolean;
+};
+
 export type GetCourseClassSessionsData = Result & {
   data?: SessionListItemDto[];
   /** @example null */
@@ -402,6 +417,25 @@ export type GetCurrentAcademicYearData = Result & {
   success?: boolean;
 };
 
+export type GetMyScoresData = Result & {
+  data?: StudentScoreDto[];
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
+
+export type GetMyScoresError = {
+  /** @example null */
+  data?: object | null;
+  message?: string;
+  /** @example false */
+  success?: boolean;
+};
+
+export interface GetMyScoresQuery {
+  academicYearId?: string;
+}
+
 export type GetSessionByConditionData = Result & {
   data?: SessionListItemDto[];
   /** @example null */
@@ -416,10 +450,45 @@ export interface GetSessionByConditionQuery {
   to?: string;
 }
 
+export type GetStudentScoresData = Result & {
+  data?: StudentScoreDto[];
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
+
+export type GetStudentScoresError = {
+  /** @example null */
+  data?: object | null;
+  message?: string;
+  /** @example false */
+  success?: boolean;
+};
+
+export interface GetStudentScoresQuery {
+  academicYearId?: string;
+  id: string;
+}
+
 export type GetUserProfileData = Result & {
   data?: JwtUserDto;
   /** @example null */
   message?: string | null;
+  success?: boolean;
+};
+
+export type ImportProgramsData = Result & {
+  data?: ProgramDto;
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
+
+export type ImportProgramsError = {
+  /** @example null */
+  data?: object | null;
+  message?: string;
+  /** @example false */
   success?: boolean;
 };
 
@@ -620,6 +689,26 @@ export interface StudentDto {
   studentId: string;
 }
 
+export interface StudentScoreDto {
+  academicYear: AcademicYearDto;
+  id: string;
+  scores: StudentScoreScoreDto[];
+}
+
+export interface StudentScoreListItemDto {
+  id: string;
+  profile: ProfileDto;
+  score: number | null;
+  studentId: string;
+}
+
+export interface StudentScoreScoreDto {
+  courseClassId: string;
+  id: string;
+  score: number | null;
+  studentId: string;
+}
+
 export interface StudentSimpleDto {
   id: string;
   profile: ProfileDto;
@@ -655,6 +744,34 @@ export interface UpdateCourseClassDto {
 }
 
 export type UpdateCourseClassError = {
+  /** @example null */
+  data?: object | null;
+  message?: string;
+  /** @example false */
+  success?: boolean;
+};
+
+export interface UpdateCourseClassScoreDto {
+  data: UpdateCourseClassScoreItemDto[];
+}
+
+export interface UpdateCourseClassScoreItemDto {
+  id: string;
+  /**
+   * @min 0
+   * @max 10
+   */
+  score: number | null;
+}
+
+export type UpdateCourseClassScoresData = Result & {
+  data?: StudentScoreListItemDto[];
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
+
+export type UpdateCourseClassScoresError = {
   /** @example null */
   data?: object | null;
   message?: string;

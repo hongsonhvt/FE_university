@@ -1,30 +1,40 @@
 import type { CalendarProps } from 'antd';
 import { Calendar } from 'antd';
 import dayjs, { type Dayjs } from 'dayjs';
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { Sessions } from '../../shared/api/__generated__/Sessions';
 
 type CalendarDataType = Record<
-  number,
+  string,
   { id: string; name: string; startAt: string; endAt: string }[]
 >;
 
+type CalendarStateType = {
+  month: number;
+  year: number;
+};
+
 const CalendarManage = () => {
   const [data, setData] = useState<CalendarDataType>({});
-  const [monthYear, setMonthYear] = useState({
-    month: new Date().getMonth(),
-    year: new Date().getFullYear(),
-  });
+  const [monthYear, dispatchMonthYear] = useReducer(
+    (state: CalendarStateType, action: Partial<CalendarStateType>) => {
+      return { ...state, ...action };
+    },
+    {
+      month: new Date().getMonth(),
+      year: new Date().getFullYear(),
+    },
+  );
 
   useEffect(() => {
     new Sessions()
       .getSessionByCondition({
-        from: new Date(monthYear.year, monthYear.month + 1, 1).toISOString(),
-        to: new Date(monthYear.year, monthYear.month + 2, 0).toISOString(),
+        from: new Date(monthYear.year, monthYear.month - 1, 1).toISOString(),
+        to: new Date(monthYear.year, monthYear.month + 2, 1).toISOString(),
       })
       .then((res) => {
         const newData = res.data.data.reduce((acc, x) => {
-          const date = new Date(x.startAt).getDate();
+          const date = dayjs(x.startAt).format('YYMMDD');
           if (!date) {
             return acc;
           }
@@ -49,7 +59,7 @@ const CalendarManage = () => {
     // console.log(data);
     return (
       <>
-        {(data[value.date()] ?? []).map((evt) => (
+        {(data[value.format('YYMMDD')] ?? []).map((evt) => (
           <div
             key={evt.id}
             style={{
@@ -72,22 +82,21 @@ const CalendarManage = () => {
   };
 
   const onChange: CalendarProps<Dayjs>['onChange'] = (date) => {
-    let shouldClearOld = false;
     if (date.month() !== monthYear.month) {
-      setMonthYear({ month: date.month(), year: monthYear.year });
-      shouldClearOld = true;
+      dispatchMonthYear({ month: date.month() });
     }
     if (date.year() !== monthYear.year) {
-      setMonthYear({ month: monthYear.month, year: date.year() });
-      shouldClearOld = true;
-    }
-
-    if (shouldClearOld) {
-      setData({});
+      dispatchMonthYear({ year: date.year() });
     }
   };
 
-  return <Calendar cellRender={cellRender} onChange={onChange} />;
+  return (
+    <Calendar
+      cellRender={cellRender}
+      onChange={onChange}
+      style={{ height: '100%' }}
+    />
+  );
 };
 
 export default CalendarManage;

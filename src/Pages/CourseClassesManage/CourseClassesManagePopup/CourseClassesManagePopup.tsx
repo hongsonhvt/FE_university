@@ -19,28 +19,25 @@ import {
   CreateCourseClassDto,
 } from '../../../shared/api/__generated__/data-contracts';
 
-const { Option } = Select;
-
 type FormType = Omit<CreateCourseClassDto, 'isoSlots'> & {
   isoSlots: { range: string; dayOfWeek: number }[];
 };
 
-const CourseClassesManagePopup = () => {
-  const [modal2Open, setModal2Open] = useState(false);
-  const [courses, setCourses] = useState<CourseListItemDto[]>([]);
-  const [dayOfWeekOptions] = useState([
-    { value: '1', label: 'Monday' },
-    { value: '2', label: 'Tuesday' },
-    { value: '3', label: 'Wednesday' },
-    { value: '4', label: 'Thursday' },
-    { value: '5', label: 'Friday' },
-    { value: '6', label: 'Saturday' },
-    { value: '7', label: 'Sunday' },
-  ]);
+const dayOfWeekOptions = [
+  { value: '1', label: 'Monday' },
+  { value: '2', label: 'Tuesday' },
+  { value: '3', label: 'Wednesday' },
+  { value: '4', label: 'Thursday' },
+  { value: '5', label: 'Friday' },
+  { value: '6', label: 'Saturday' },
+  { value: '7', label: 'Sunday' },
+];
 
+const CourseClassesManagePopup = () => {
   const { handleSubmit, reset, control } = useForm<FormType>();
+  const [modal2Open, setModal2Open] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const courseClassesApi = new CourseClasses();
+  const [courses, setCourses] = useState<CourseListItemDto[]>([]);
 
   useEffect(() => {
     fetchCourses();
@@ -71,7 +68,7 @@ const CourseClassesManagePopup = () => {
           };
         }),
       };
-      await courseClassesApi.createCourseClass(formData);
+      await new CourseClasses().createCourseClass(formData);
       message.success('Course class added successfully!');
       onCloseModal();
       refreshPage();
@@ -234,9 +231,9 @@ const CourseClassesManagePopup = () => {
                 >
                   {courses.map((course) => {
                     return (
-                      <Option key={course.id} value={course.id}>
+                      <Select.Option key={course.id} value={course.id}>
                         {course.name}
-                      </Option>
+                      </Select.Option>
                     );
                   })}
                 </Select>
