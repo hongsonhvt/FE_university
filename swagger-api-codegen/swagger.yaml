@@ -2226,6 +2226,35 @@ components:
         - role
         - sub
         - email
+    ProfileDto:
+      type: object
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        middleName:
+          type: string
+        lastName:
+          type: string
+      required:
+        - id
+        - firstName
+        - middleName
+        - lastName
+    TeacherSimpleDto:
+      type: object
+      properties:
+        id:
+          type: string
+        teacherId:
+          type: string
+        profile:
+          $ref: '#/components/schemas/ProfileDto'
+      required:
+        - id
+        - teacherId
+        - profile
     CourseListItemDto:
       type: object
       properties:
@@ -2255,6 +2284,8 @@ components:
     CourseClassListItemDto:
       type: object
       properties:
+        teacher:
+          $ref: '#/components/schemas/TeacherSimpleDto'
         id:
           type: string
         code:
@@ -2274,6 +2305,7 @@ components:
           items:
             $ref: '#/components/schemas/CourseClassSlotDto'
       required:
+        - teacher
         - id
         - code
         - name
@@ -2322,22 +2354,6 @@ components:
         - isoSlots
         - courseId
         - teacherId
-    ProfileDto:
-      type: object
-      properties:
-        id:
-          type: string
-        firstName:
-          type: string
-        middleName:
-          type: string
-        lastName:
-          type: string
-      required:
-        - id
-        - firstName
-        - middleName
-        - lastName
     StudentSimpleDto:
       type: object
       properties:
@@ -2705,19 +2721,6 @@ components:
         - studentId
         - profile
         - managementClass
-    TeacherSimpleDto:
-      type: object
-      properties:
-        id:
-          type: string
-        teacherId:
-          type: string
-        profile:
-          $ref: '#/components/schemas/ProfileDto'
-      required:
-        - id
-        - teacherId
-        - profile
     TeacherDto:
       type: object
       properties:

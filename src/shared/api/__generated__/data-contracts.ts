@@ -68,6 +68,7 @@ export interface CourseClassListItemDto {
   name: string;
   sessionCount: number;
   startAt: string;
+  teacher: TeacherSimpleDto;
 }
 
 export interface CourseClassSlotDto {

@@ -124,11 +124,7 @@ const CourseClassesManagePopup = () => {
               )}
             />
           </Form.Item>
-          <Form.Item
-            name="startAt"
-            label="Start Date"
-            // rules={[{ required: true, message: "Please select start date!" }]}
-          >
+          <Form.Item name="startAt" label="Start Date">
             <Controller
               name="startAt"
               control={control}
@@ -142,11 +138,7 @@ const CourseClassesManagePopup = () => {
               )}
             />
           </Form.Item>
-          <Form.Item
-            name="endAt"
-            label="End Date"
-            // rules={[{ required: true, message: "Please select start date!" }]}
-          >
+          <Form.Item name="endAt" label="End Date">
             <Controller
               name="endAt"
               control={control}
@@ -160,15 +152,7 @@ const CourseClassesManagePopup = () => {
               )}
             />
           </Form.Item>
-          <Form.Item
-            name="sessionCount"
-            label="Sessions Total"
-            rules={
-              [
-                // { required: true, message: "Please input Sessions Total!" },
-              ]
-            }
-          >
+          <Form.Item name="sessionCount" label="Sessions Total">
             <Controller
               name="sessionCount"
               control={control}
@@ -214,11 +198,7 @@ const CourseClassesManagePopup = () => {
               </Form.Item>
             </Space>
           </Form.Item>
-          <Form.Item
-            name="courseId"
-            label="Course"
-            // rules={[{ required: true, message: "Please select a program!" }]}
-          >
+          <Form.Item name="courseId" label="Course">
             <Controller
               name="courseId"
               control={control}

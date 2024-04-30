@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import { AuthorizedRoute } from './Components/Protected/AuthorizedRoute';
@@ -7,8 +7,13 @@ import { routeMap } from './Components/Protected/PrivateRoutes';
 import { ProtectedRoute } from './Components/Protected/ProtectedRoute';
 import Login from './Pages/Login/Login';
 import { AuthProvider } from './hooks';
+import { notification } from 'antd';
 
 const App: React.FC = () => {
+  useEffect(() => {
+    notification.config({ placement: 'bottomRight' });
+  }, []);
+
   return (
     <AuthProvider>
       <Routes>
