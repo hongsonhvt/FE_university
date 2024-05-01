@@ -51,7 +51,6 @@ const CourseClassesManagePanel = ({
   };
 
   useEffect(() => {
-    console.log(data);
     if (data) {
       form.setFieldsValue({
         ...data,
