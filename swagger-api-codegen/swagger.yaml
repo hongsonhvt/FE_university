@@ -1685,6 +1685,51 @@ paths:
         - programs
       security:
         - accessToken: []
+  /programs/import:
+    post:
+      operationId: importPrograms
+      summary: Import Programs
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/ProgramDto'
+                        nullable: false
+                      success:
+                        type: boolean
+                      message:
+                        type: string
+                        nullable: true
+                        example: null
+        '201':
+          description: ''
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: object
+                        nullable: true
+                        example: null
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+      tags:
+        - programs
+      security:
+        - accessToken: []
   /scores:
     get:
       operationId: getMyScores
@@ -2145,6 +2190,85 @@ paths:
         - teachers
       security:
         - accessToken: []
+  /change-session-requests:
+    post:
+      operationId: create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateChangeSessionRequestDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+    get:
+      operationId: findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+  /change-session-requests/{id}:
+    get:
+      operationId: findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+    patch:
+      operationId: update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateChangeSessionRequestDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      operationId: remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
 info:
   title: ''
   description: ''
@@ -2852,6 +2976,18 @@ components:
         - startAt
         - endAt
         - changeSessionRequests
+    CreateChangeSessionRequestDto:
+      type: object
+      properties:
+        startAt:
+          type: string
+        endAt:
+          type: string
+        substituteTeacherId:
+          type: string
+      required:
+        - startAt
+        - endAt
     StudentDto:
       type: object
       properties:
@@ -2884,3 +3020,13 @@ components:
         - teacherId
         - profile
         - courseClasses
+        - courseClasses
+    UpdateChangeSessionRequestDto:
+      type: object
+      properties:
+        startAt:
+          type: string
+        endAt:
+          type: string
+        substituteTeacherId:
+          type: string

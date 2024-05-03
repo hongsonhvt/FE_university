@@ -1,28 +1,76 @@
 import { UploadOutlined } from '@ant-design/icons';
-import { Button, Space, Table, Upload, message } from 'antd';
+import { Button, Drawer, Table, Upload, message, notification } from 'antd';
 import Search from 'antd/es/input/Search';
-import { useEffect, useState } from 'react';
+import moment from 'moment';
+import { useEffect, useMemo, useState } from 'react';
 import { CourseClasses } from '../../shared/api/__generated__/CourseClasses';
-import { CourseClassListItemDto } from '../../shared/api/__generated__/data-contracts';
+import { Teachers } from '../../shared/api/__generated__/Teachers';
+import {
+  CourseClassListItemDto,
+  TeacherSimpleDto,
+} from '../../shared/api/__generated__/data-contracts';
 import styles from './CourseClassesManage.module.scss';
 import CourseClassesManagePanel from './CourseClassesManagePanel/CourseClassesManagePanel';
 import CourseClassesManagePopup from './CourseClassesManagePopup/CourseClassesManagePopup';
-import moment from 'moment';
 
 const CourseClassesManage = () => {
+  const [api, contextHolder] = notification.useNotification();
+  const [_, setFileList] = useState<CourseClassListItemDto[]>([]);
+  const [teachers, setTeachers] = useState<TeacherSimpleDto[]>([]);
+  const [isOpenPanel, setIsOpenPanel] = useState(false);
+  const [panelData, setPanelData] = useState<CourseClassListItemDto | null>(
+    null,
+  );
   const [courseClasses, setCourseClasses] = useState<CourseClassListItemDto[]>(
     [],
   );
-  const [_, setFileList] = useState<CourseClassListItemDto[]>([]);
+
+  const onClickShowPanel = (courseClass: CourseClassListItemDto) => {
+    setPanelData(courseClass);
+    setIsOpenPanel(true);
+  };
+
+  const columns = useMemo(
+    () => [
+      ...fixedColumns,
+      {
+        title: 'Action',
+        key: 'action',
+        render: (_: any, record: CourseClassListItemDto) => (
+          <Button type="primary" onClick={() => onClickShowPanel(record)}>
+            Edit
+          </Button>
+        ),
+      },
+    ],
+    [teachers],
+  );
 
   useEffect(() => {
     fetchCourseClasses();
+    fetchTeachers();
   }, []);
+
+  useEffect(() => {
+    if (!isOpenPanel) {
+      setPanelData(null);
+    }
+  }, [isOpenPanel]);
 
   const fetchCourseClasses = async () => {
     try {
       const response = await new CourseClasses().findCourseClassByCondition({});
       setCourseClasses(response.data.data.map((x) => ({ ...x, key: x.id })));
+    } catch (error) {
+      console.error('Error fetching course class:', error);
+      message.error('Failed to fetch course class');
+    }
+  };
+
+  const fetchTeachers = async () => {
+    try {
+      const response = await new Teachers().findTeachersByCondition({});
+      setTeachers(response.data.data);
     } catch (error) {
       console.error('Error fetching course class:', error);
       message.error('Failed to fetch course class');
@@ -41,49 +89,10 @@ const CourseClassesManage = () => {
     }
   };
 
-  const columns = [
-    {
-      title: 'Course Class Name',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Course Class Code',
-      dataIndex: 'code',
-      key: 'code',
-    },
-    {
-      title: 'Date Start',
-      dataIndex: 'startAt',
-      key: 'startAt',
-      render: (text: string) => moment(text).format('DD MMM YYYY'),
-    },
-    {
-      title: 'Date End',
-      dataIndex: 'endAt',
-      key: 'endAt',
-      render: (text: string) => moment(text).format('DD MMM YYYY'),
-    },
-    {
-      title: 'Sessions Total',
-      dataIndex: 'sessionCount',
-      key: 'sessionCount',
-    },
-    {
-      title: 'Courses',
-      dataIndex: ['course', 'name'],
-      key: 'course',
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (_: any, __: any) => (
-        <Space size="middle">
-          <CourseClassesManagePanel />
-        </Space>
-      ),
-    },
-  ];
+  const handleUpdate = () => {
+    setIsOpenPanel(false);
+    api.success({ message: 'Updated' });
+  };
 
   return (
     <div className={styles.studentManage}>
@@ -92,11 +101,7 @@ const CourseClassesManage = () => {
         style={{ display: 'flex', justifyContent: 'space-between' }}
       >
         <CourseClassesManagePopup />
-        <Upload
-          // fileList={fileList}
-          onChange={handleUpload}
-          beforeUpload={() => false}
-        >
+        <Upload onChange={handleUpload} beforeUpload={() => false}>
           <Button icon={<UploadOutlined />}>Click to Upload</Button>
         </Upload>
         <Search
@@ -109,18 +114,64 @@ const CourseClassesManage = () => {
             width: '500px',
             float: 'right',
           }}
-          // onSearch={onSearch}
         />
       </div>
-      <div className={styles.addProgram}>{/* <ProgramManagePopup /> */}</div>
       <Table
         columns={columns}
         dataSource={courseClasses}
         pagination={{ pageSize: 5 }}
-        // onChange={handlePaginationChange}
       />
+      <Drawer
+        title="Edit Course class information"
+        width={720}
+        onClose={() => setIsOpenPanel(false)}
+        open={isOpenPanel}
+        styles={{ body: { paddingBottom: 80 } }}
+      >
+        <CourseClassesManagePanel
+          data={panelData}
+          teachers={teachers}
+          onFinish={handleUpdate}
+        />
+      </Drawer>
+      {contextHolder}
     </div>
   );
 };
+
+const fixedColumns = [
+  {
+    title: 'Course Class Name',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: 'Course Class Code',
+    dataIndex: 'code',
+    key: 'code',
+  },
+  {
+    title: 'Date Start',
+    dataIndex: 'startAt',
+    key: 'startAt',
+    render: (text: string) => moment(text).format('DD MMM YYYY'),
+  },
+  {
+    title: 'Date End',
+    dataIndex: 'endAt',
+    key: 'endAt',
+    render: (text: string) => moment(text).format('DD MMM YYYY'),
+  },
+  {
+    title: 'Sessions Total',
+    dataIndex: 'sessionCount',
+    key: 'sessionCount',
+  },
+  {
+    title: 'Courses',
+    dataIndex: ['course', 'code'],
+    key: 'course',
+  },
+];
 
 export default CourseClassesManage;

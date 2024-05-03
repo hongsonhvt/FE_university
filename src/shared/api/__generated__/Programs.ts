@@ -19,6 +19,8 @@ import {
   FindOneProgramData,
   FindProgramByConditionData,
   FindProgramByConditionQuery,
+  ImportProgramsData,
+  ImportProgramsError,
   RemoveProgramData,
   RemoveProgramError,
   UpdateProgramData,
@@ -188,6 +190,32 @@ export class Programs<
       body: data,
       secure: true,
       type: ContentType.Json,
+      ...params,
+    });
+  /**
+ * No description
+ *
+ * @tags programs
+ * @name ImportPrograms
+ * @summary Import Programs
+ * @request POST:/programs/import
+ * @secure
+ * @response `200` `ImportProgramsData`
+ * @response `201` `void`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
+  importPrograms = (params: RequestParams = {}) =>
+    this.request<ImportProgramsData, ImportProgramsError>({
+      path: `/programs/import`,
+      method: 'POST',
+      secure: true,
       ...params,
     });
 }

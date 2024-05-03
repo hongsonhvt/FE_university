@@ -101,7 +101,7 @@ const CourseManagePanel = ({ selected }: ICourse) => {
         width={720}
         onClose={onCloseDrawer}
         open={isDrawerVisible}
-        bodyStyle={{ paddingBottom: 80 }}
+        styles={{ body: { paddingBottom: 80 } }}
       >
         <Form layout="vertical" onFinish={handleSubmit(onFinish)}>
           <Form.Item name="name" label="Courses Name">

@@ -19,28 +19,25 @@ import {
   CreateCourseClassDto,
 } from '../../../shared/api/__generated__/data-contracts';
 
-const { Option } = Select;
-
 type FormType = Omit<CreateCourseClassDto, 'isoSlots'> & {
   isoSlots: { range: string; dayOfWeek: number }[];
 };
 
-const CourseClassesManagePopup = () => {
-  const [modal2Open, setModal2Open] = useState(false);
-  const [courses, setCourses] = useState<CourseListItemDto[]>([]);
-  const [dayOfWeekOptions] = useState([
-    { value: '1', label: 'Monday' },
-    { value: '2', label: 'Tuesday' },
-    { value: '3', label: 'Wednesday' },
-    { value: '4', label: 'Thursday' },
-    { value: '5', label: 'Friday' },
-    { value: '6', label: 'Saturday' },
-    { value: '7', label: 'Sunday' },
-  ]);
+const dayOfWeekOptions = [
+  { value: '1', label: 'Monday' },
+  { value: '2', label: 'Tuesday' },
+  { value: '3', label: 'Wednesday' },
+  { value: '4', label: 'Thursday' },
+  { value: '5', label: 'Friday' },
+  { value: '6', label: 'Saturday' },
+  { value: '7', label: 'Sunday' },
+];
 
+const CourseClassesManagePopup = () => {
   const { handleSubmit, reset, control } = useForm<FormType>();
+  const [modal2Open, setModal2Open] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const courseClassesApi = new CourseClasses();
+  const [courses, setCourses] = useState<CourseListItemDto[]>([]);
 
   useEffect(() => {
     fetchCourses();
@@ -71,7 +68,7 @@ const CourseClassesManagePopup = () => {
           };
         }),
       };
-      await courseClassesApi.createCourseClass(formData);
+      await new CourseClasses().createCourseClass(formData);
       message.success('Course class added successfully!');
       onCloseModal();
       refreshPage();
@@ -127,11 +124,7 @@ const CourseClassesManagePopup = () => {
               )}
             />
           </Form.Item>
-          <Form.Item
-            name="startAt"
-            label="Start Date"
-            // rules={[{ required: true, message: "Please select start date!" }]}
-          >
+          <Form.Item name="startAt" label="Start Date">
             <Controller
               name="startAt"
               control={control}
@@ -145,11 +138,7 @@ const CourseClassesManagePopup = () => {
               )}
             />
           </Form.Item>
-          <Form.Item
-            name="endAt"
-            label="End Date"
-            // rules={[{ required: true, message: "Please select start date!" }]}
-          >
+          <Form.Item name="endAt" label="End Date">
             <Controller
               name="endAt"
               control={control}
@@ -163,15 +152,7 @@ const CourseClassesManagePopup = () => {
               )}
             />
           </Form.Item>
-          <Form.Item
-            name="sessionCount"
-            label="Sessions Total"
-            rules={
-              [
-                // { required: true, message: "Please input Sessions Total!" },
-              ]
-            }
-          >
+          <Form.Item name="sessionCount" label="Sessions Total">
             <Controller
               name="sessionCount"
               control={control}
@@ -217,11 +198,7 @@ const CourseClassesManagePopup = () => {
               </Form.Item>
             </Space>
           </Form.Item>
-          <Form.Item
-            name="courseId"
-            label="Course"
-            // rules={[{ required: true, message: "Please select a program!" }]}
-          >
+          <Form.Item name="courseId" label="Course">
             <Controller
               name="courseId"
               control={control}
@@ -234,9 +211,9 @@ const CourseClassesManagePopup = () => {
                 >
                   {courses.map((course) => {
                     return (
-                      <Option key={course.id} value={course.id}>
+                      <Select.Option key={course.id} value={course.id}>
                         {course.name}
-                      </Option>
+                      </Select.Option>
                     );
                   })}
                 </Select>

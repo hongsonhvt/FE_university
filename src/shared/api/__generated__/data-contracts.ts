@@ -507,6 +507,21 @@ export type GetUserProfileData = Result & {
   success?: boolean;
 };
 
+export type ImportProgramsData = Result & {
+  data?: ProgramDto;
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
+
+export type ImportProgramsError = {
+  /** @example null */
+  data?: object | null;
+  message?: string;
+  /** @example false */
+  success?: boolean;
+};
+
 export interface JwtUserDto {
   email: string;
   role: Role;

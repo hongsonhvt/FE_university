@@ -24,7 +24,7 @@ const Sidebar = () => {
   const selectedKeys = useMemo(
     () =>
       validRoutes
-        .filter((item) => pathname.startsWith(item.route))
+        .filter((item) => pathname === item.route)
         .map((item) => item.route),
     [validRoutes, pathname],
   );
