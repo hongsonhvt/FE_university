@@ -102,7 +102,7 @@ const ClassManagePopUp = () => {
   };
   return (
     <div>
-      <Button onClick={() => setModal2Open(true)}>Add Program</Button>
+      <Button onClick={() => setModal2Open(true)}>Add Class Management</Button>
       <Modal
         title="Add Management Classes"
         centered

@@ -115,7 +115,11 @@ const CourseManage = () => {
 
   return (
     <div className={styles.studentManage}>
-      <div className={styles.header}>
+      <div
+        className={styles.header}
+        style={{ display: 'flex', justifyContent: 'space-between' }}
+      >
+        <CourseManagePopup />
         <Upload
           // fileList={fileList}
           onChange={handleUpload}
@@ -136,9 +140,7 @@ const CourseManage = () => {
           // onSearch={onSearch}
         />
       </div>
-      <div className={styles.addProgram}>
-        <CourseManagePopup />
-      </div>
+      <div className={styles.addProgram}></div>
       <Table
         columns={columns}
         dataSource={courses}

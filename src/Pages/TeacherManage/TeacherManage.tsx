@@ -1,31 +1,41 @@
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, Modal, Space, Table, Upload, message } from 'antd';
 import Search from 'antd/es/input/Search';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './TeacherManage.module.scss';
 import TeacherManagePanel from './TeacherManagePanel/TeacherManagePanel';
+import { FindTeachersByConditionData } from '../../shared/api/__generated__/data-contracts';
+import { Teachers } from '../../shared/api/__generated__/Teachers';
+import TeacherManagePopup from './TeacherManagePopup/TeacherManagePopup';
 
 const { confirm } = Modal;
 
 const TeacherManage = () => {
-  const [teachers] = useState<any>([
-    {
-      key: '1',
-      id: '001',
-      name: 'John Doe',
-      gender: 'Male',
-      email: 'john.doe@example.com',
-    },
-    {
-      key: '2',
-      id: '002',
-      name: 'Jane Smith',
-      gender: 'Female',
-      email: 'jane.smith@example.com',
-    },
-  ]);
+  const [teachers, setTeachers] = useState<FindTeachersByConditionData[]>([]);
+  const [_, setFileList] = useState<FindTeachersByConditionData[]>([]);
 
-  const [fileList, setFileList] = useState<any>([]);
+  useEffect(() => {
+    fetchTeachers();
+  }, []);
+
+  const fetchTeachers = async () => {
+    try {
+      const response = await new Teachers().findTeachersByCondition({});
+      setTeachers(
+        response.data.data.map((item: any) => ({
+          key: item.id,
+          teacherId: item.teacherId,
+          firstName: item.profile.firstName,
+          middleName: item.profile.middleName,
+          lastName: item.profile.lastName,
+          ...item,
+        })),
+      );
+    } catch (error) {
+      console.error('Error fetching Teachers:', error);
+      message.error('Failed to fetch Teachers');
+    }
+  };
 
   const handleUpload = (info: any) => {
     let fileList = [...info.fileList];
@@ -58,23 +68,23 @@ const TeacherManage = () => {
   const columns = [
     {
       title: 'ID teacher',
-      dataIndex: 'id',
-      key: 'id',
+      dataIndex: 'teacherId',
+      key: 'teacherId',
     },
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: ' First Name',
+      dataIndex: 'firstName',
+      key: 'firstName',
     },
     {
-      title: 'Gender',
-      dataIndex: 'gender',
-      key: 'gender',
+      title: 'Middle Name',
+      dataIndex: 'middleName',
+      key: 'middleName',
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: 'Last Name',
+      dataIndex: 'lastName',
+      key: 'lastName',
     },
     {
       title: 'Action',
@@ -93,8 +103,9 @@ const TeacherManage = () => {
   return (
     <div className={styles.teacherManage}>
       <div className={styles.header}>
+        <TeacherManagePopup />
         <Upload
-          fileList={fileList}
+          // fileList={fileList}
           onChange={handleUpload}
           beforeUpload={() => false}
         >

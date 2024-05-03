@@ -87,7 +87,10 @@ const CourseClassesManage = () => {
 
   return (
     <div className={styles.studentManage}>
-      <div className={styles.header}>
+      <div
+        className={styles.header}
+        style={{ display: 'flex', justifyContent: 'space-between' }}
+      >
         <CourseClassesManagePopup />
         <Upload
           // fileList={fileList}

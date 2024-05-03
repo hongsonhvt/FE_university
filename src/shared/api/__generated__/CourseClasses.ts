@@ -16,6 +16,8 @@ import {
   FindCourseClassByConditionData,
   FindCourseClassByConditionQuery,
   FindOneCourseClassData,
+  GetCourseClassScoresData,
+  GetCourseClassScoresError,
   GetCourseClassSessionsData,
   GetCourseClassSessionsError,
   RemoveCourseClassData,
@@ -23,6 +25,9 @@ import {
   UpdateCourseClassData,
   UpdateCourseClassDto,
   UpdateCourseClassError,
+  UpdateCourseClassScoreDto,
+  UpdateCourseClassScoresData,
+  UpdateCourseClassScoresError,
   UpdateCourseClassStudentsListData,
   UpdateCourseClassStudentsListDto,
   UpdateCourseClassStudentsListError,
@@ -162,6 +167,62 @@ export class CourseClasses<
       path: `/course-classes/${id}`,
       method: 'DELETE',
       secure: true,
+      ...params,
+    });
+  /**
+ * No description
+ *
+ * @tags course-classes
+ * @name GetCourseClassScores
+ * @summary Get Course Class Scores
+ * @request GET:/course-classes/{id}/scores
+ * @secure
+ * @response `200` `GetCourseClassScoresData`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
+  getCourseClassScores = (id: string, params: RequestParams = {}) =>
+    this.request<GetCourseClassScoresData, GetCourseClassScoresError>({
+      path: `/course-classes/${id}/scores`,
+      method: 'GET',
+      secure: true,
+      ...params,
+    });
+  /**
+ * No description
+ *
+ * @tags course-classes
+ * @name UpdateCourseClassScores
+ * @summary Update Course Class Scores
+ * @request PUT:/course-classes/{id}/scores
+ * @secure
+ * @response `200` `UpdateCourseClassScoresData`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
+  updateCourseClassScores = (
+    id: string,
+    data: UpdateCourseClassScoreDto,
+    params: RequestParams = {},
+  ) =>
+    this.request<UpdateCourseClassScoresData, UpdateCourseClassScoresError>({
+      path: `/course-classes/${id}/scores`,
+      method: 'PUT',
+      body: data,
+      secure: true,
+      type: ContentType.Json,
       ...params,
     });
   /**

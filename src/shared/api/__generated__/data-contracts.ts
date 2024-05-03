@@ -47,6 +47,16 @@ export type AddProgramCoursesError = {
   success?: boolean;
 };
 
+export interface ChangeSessionRequestDto {
+  newEndAt: string;
+  newStartAt: string;
+  oldEndAt: string;
+  oldStartAt: string;
+  session: SessionListItemDto;
+  status: string;
+  substituteTeacher?: TeacherSimpleDto;
+}
+
 export interface CourseClassDto {
   code: string;
   course: CourseListItemDto;
@@ -68,6 +78,7 @@ export interface CourseClassListItemDto {
   name: string;
   sessionCount: number;
   startAt: string;
+  teacher: TeacherSimpleDto;
 }
 
 export interface CourseClassSlotDto {
@@ -112,6 +123,19 @@ export type CreateAcademicYearError = {
   /** @example false */
   success?: boolean;
 };
+
+export type CreateChangeRequestData = Result & {
+  data?: ChangeSessionRequestDto | null;
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
+
+export interface CreateChangeSessionRequestDto {
+  endAt: string;
+  startAt: string;
+  substituteTeacherId?: string;
+}
 
 export type CreateCourseClassData = Result & {
   data?: CourseClassListItemDto;
@@ -168,6 +192,8 @@ export type CreateCourseError = {
   /** @example false */
   success?: boolean;
 };
+
+export type CreateData = string;
 
 export type CreateManagementClassData = Result & {
   data?: ManagementClassListItemDto;
@@ -252,6 +278,8 @@ export interface FindAcademicYearInRangeQuery {
   start?: number;
 }
 
+export type FindAllData = string;
+
 export type FindCourseByConditionData = Result & {
   data?: CourseListItemDto[];
   /** @example null */
@@ -311,6 +339,8 @@ export type FindOneCourseData = Result & {
   success?: boolean;
 };
 
+export type FindOneData = string;
+
 export type FindOneManagementClassData = Result & {
   data?: ManagementClassDto | null;
   /** @example null */
@@ -326,7 +356,7 @@ export type FindOneProgramData = Result & {
 };
 
 export type FindOneSessionData = Result & {
-  data?: SessionListItemDto | null;
+  data?: SessionDto | null;
   /** @example null */
   message?: string | null;
   success?: boolean;
@@ -380,6 +410,21 @@ export interface FindTeachersByConditionQuery {
   teacherId?: string;
 }
 
+export type GetCourseClassScoresData = Result & {
+  data?: StudentScoreListItemDto[];
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
+
+export type GetCourseClassScoresError = {
+  /** @example null */
+  data?: object | null;
+  message?: string;
+  /** @example false */
+  success?: boolean;
+};
+
 export type GetCourseClassSessionsData = Result & {
   data?: SessionListItemDto[];
   /** @example null */
@@ -402,6 +447,25 @@ export type GetCurrentAcademicYearData = Result & {
   success?: boolean;
 };
 
+export type GetMyScoresData = Result & {
+  data?: StudentScoreDto[];
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
+
+export type GetMyScoresError = {
+  /** @example null */
+  data?: object | null;
+  message?: string;
+  /** @example false */
+  success?: boolean;
+};
+
+export interface GetMyScoresQuery {
+  academicYearId?: string;
+}
+
 export type GetSessionByConditionData = Result & {
   data?: SessionListItemDto[];
   /** @example null */
@@ -414,6 +478,26 @@ export interface GetSessionByConditionQuery {
   from?: string;
   substituteTeacherId?: string;
   to?: string;
+}
+
+export type GetStudentScoresData = Result & {
+  data?: StudentScoreDto[];
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
+
+export type GetStudentScoresError = {
+  /** @example null */
+  data?: object | null;
+  message?: string;
+  /** @example false */
+  success?: boolean;
+};
+
+export interface GetStudentScoresQuery {
+  academicYearId?: string;
+  id: string;
 }
 
 export type GetUserProfileData = Result & {
@@ -533,6 +617,8 @@ export type RemoveCourseError = {
   success?: boolean;
 };
 
+export type RemoveData = string;
+
 export type RemoveManagementClassData = Result & {
   data?: ManagementClassDto;
   /** @example null */
@@ -606,7 +692,17 @@ export enum Role {
   Student = 'Student',
 }
 
+export interface SessionDto {
+  changeSessionRequests: ChangeSessionRequestDto[];
+  courseClass: CourseClassListItemDto;
+  endAt: string;
+  id: string;
+  startAt: string;
+  substituteTeacher?: TeacherSimpleDto;
+}
+
 export interface SessionListItemDto {
+  changeSessionRequests: ChangeSessionRequestDto[];
   courseClass: CourseClassListItemDto;
   endAt: string;
   id: string;
@@ -617,6 +713,26 @@ export interface StudentDto {
   id: string;
   managementClass: ManagementClassListItemDto;
   profile: ProfileDto;
+  studentId: string;
+}
+
+export interface StudentScoreDto {
+  academicYear: AcademicYearDto;
+  id: string;
+  scores: StudentScoreScoreDto[];
+}
+
+export interface StudentScoreListItemDto {
+  id: string;
+  profile: ProfileDto;
+  score: number | null;
+  studentId: string;
+}
+
+export interface StudentScoreScoreDto {
+  courseClassId: string;
+  id: string;
+  score: number | null;
   studentId: string;
 }
 
@@ -639,6 +755,12 @@ export interface TeacherSimpleDto {
   teacherId: string;
 }
 
+export interface UpdateChangeSessionRequestDto {
+  endAt?: string;
+  startAt?: string;
+  substituteTeacherId?: string;
+}
+
 export type UpdateCourseClassData = Result & {
   data?: CourseClassListItemDto;
   /** @example null */
@@ -655,6 +777,34 @@ export interface UpdateCourseClassDto {
 }
 
 export type UpdateCourseClassError = {
+  /** @example null */
+  data?: object | null;
+  message?: string;
+  /** @example false */
+  success?: boolean;
+};
+
+export interface UpdateCourseClassScoreDto {
+  data: UpdateCourseClassScoreItemDto[];
+}
+
+export interface UpdateCourseClassScoreItemDto {
+  id: string;
+  /**
+   * @min 0
+   * @max 10
+   */
+  score: number | null;
+}
+
+export type UpdateCourseClassScoresData = Result & {
+  data?: StudentScoreListItemDto[];
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
+
+export type UpdateCourseClassScoresError = {
   /** @example null */
   data?: object | null;
   message?: string;
@@ -716,6 +866,8 @@ export type UpdateCurrentError = {
   /** @example false */
   success?: boolean;
 };
+
+export type UpdateData = string;
 
 export type UpdateManagementClassData = Result & {
   data?: ManagementClassListItemDto;

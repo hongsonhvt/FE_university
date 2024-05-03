@@ -10,11 +10,13 @@
  */
 
 import {
+  CreateChangeRequestData,
+  CreateChangeSessionRequestDto,
   FindOneSessionData,
   GetSessionByConditionData,
   GetSessionByConditionQuery,
 } from './data-contracts';
-import { HttpClient, RequestParams } from './http-client';
+import { ContentType, HttpClient, RequestParams } from './http-client';
 
 export class Sessions<
   SecurityDataType = unknown,
@@ -55,6 +57,30 @@ export class Sessions<
       path: `/sessions/${id}`,
       method: 'GET',
       secure: true,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags sessions
+   * @name CreateChangeRequest
+   * @summary Create Change Request
+   * @request POST:/sessions/{id}/change
+   * @secure
+   * @response `200` `CreateChangeRequestData`
+   * @response `201` `void`
+   */
+  createChangeRequest = (
+    id: string,
+    data: CreateChangeSessionRequestDto,
+    params: RequestParams = {},
+  ) =>
+    this.request<CreateChangeRequestData, any>({
+      path: `/sessions/${id}/change`,
+      method: 'POST',
+      body: data,
+      secure: true,
+      type: ContentType.Json,
       ...params,
     });
 }

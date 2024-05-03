@@ -59,7 +59,7 @@ const ProgramManagePanel = ({ selected }: IProgram) => {
   return (
     <div className={styles.studentManagePanel}>
       <Button type="primary" onClick={() => showDrawer(selected)}>
-        Edit Subject
+        Edit Program
       </Button>
       <Drawer
         title="Edit Subject Information"

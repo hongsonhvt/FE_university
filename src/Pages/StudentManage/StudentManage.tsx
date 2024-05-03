@@ -1,33 +1,42 @@
-import { UploadOutlined } from '@ant-design/icons';
+import { DeleteOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Modal, Space, Table, Upload, message } from 'antd';
 import Search from 'antd/es/input/Search';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './StudentManage.module.scss';
-import StudentManagePanel from './StudentManagePanel/StudentManagePanel';
+// import StudentManagePanel from './StudentManagePanel/StudentManagePanel';
+import moment from 'moment';
+import { FindStudentsByConditionData } from '../../shared/api/__generated__/data-contracts';
+import { Students } from '../../shared/api/__generated__/Students';
+import StudentManagePopup from './StudentManagePopup/StudentManagePopup';
 
 const { confirm } = Modal;
 
 const StudentManage = () => {
-  const [students] = useState<any>([
-    {
-      key: '1',
-      id: '001',
-      name: 'John Doe',
-      gender: 'Male',
-      managementClass: 'A',
-      email: 'john.doe@example.com',
-    },
-    {
-      key: '2',
-      id: '002',
-      name: 'Jane Smith',
-      gender: 'Female',
-      managementClass: 'B',
-      email: 'jane.smith@example.com',
-    },
-  ]);
+  const [students, setStudents] = useState<FindStudentsByConditionData[]>([]);
+  const [_, setFileList] = useState<FindStudentsByConditionData[]>([]);
 
-  const [fileList, setFileList] = useState<any>([]);
+  useEffect(() => {
+    fetchStudents();
+  }, []);
+
+  const fetchStudents = async () => {
+    try {
+      const response = await new Students().findStudentsByCondition({});
+      setStudents(
+        response.data.data.map((item: any) => ({
+          key: item.id,
+          studentId: item.studentId,
+          firstName: item.profile.firstName,
+          middleName: item.profile.middleName,
+          lastName: item.profile.lastName,
+          ...item,
+        })),
+      );
+    } catch (error) {
+      console.error('Error fetching Students:', error);
+      message.error('Failed to fetch Students');
+    }
+  };
 
   const handleUpload = (info: any) => {
     let fileList = [...info.fileList];
@@ -60,28 +69,23 @@ const StudentManage = () => {
   const columns = [
     {
       title: 'ID student',
-      dataIndex: 'id',
-      key: 'id',
+      dataIndex: 'studentId',
+      key: 'studentId',
     },
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: ' First Name',
+      dataIndex: 'firstName',
+      key: 'firstName',
     },
     {
-      title: 'Gender',
-      dataIndex: 'gender',
-      key: 'gender',
+      title: 'Middle Name',
+      dataIndex: 'middleName',
+      key: 'middleName',
     },
     {
-      title: 'Management Class',
-      dataIndex: 'managementClass',
-      key: 'managementClass',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: 'Last Name',
+      dataIndex: 'lastName',
+      key: 'lastName',
     },
     {
       title: 'Action',
@@ -89,9 +93,13 @@ const StudentManage = () => {
       render: (_: any, record: any) => (
         <Space size="middle">
           <a>
-            <StudentManagePanel />
+            {/* <StudentManagePanel selected={record} /> */}
           </a>
-          <a onClick={() => showDeleteConfirmation(record)}>Delete</a>{' '}
+          <a onClick={() => showDeleteConfirmation(record)}>
+            {' '}
+            <DeleteOutlined />
+            Delete
+          </a>{' '}
         </Space>
       ),
     },
@@ -100,8 +108,9 @@ const StudentManage = () => {
   return (
     <div className={styles.studentManage}>
       <div className={styles.header}>
+        <StudentManagePopup/>
         <Upload
-          fileList={fileList}
+          // fileList={fileList}
           onChange={handleUpload}
           beforeUpload={() => false}
         >
