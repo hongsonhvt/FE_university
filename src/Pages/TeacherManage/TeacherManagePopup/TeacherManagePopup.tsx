@@ -30,14 +30,16 @@ const TeacherManagePopup = () => {
           phoneNumber: data.phoneNumber,
           address: data.address,
           isMale: data.isMale === 'true',
+          teacher: {
+            teacherId: data.teacherId,
+          },
         },
       };
 
-      if (data.teacherId) {
-        result.profile.teacher = {
-          teacherId: data.teacherId,
-        };
+      if (result.profile && result.profile.student) {
+        delete result.profile.student;
       }
+
 
       await teachersApi.createUser(result);
       message.success('Teacher added successfully!');
