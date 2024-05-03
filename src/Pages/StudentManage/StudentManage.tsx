@@ -58,12 +58,28 @@ const StudentManage = () => {
       okType: 'danger',
       cancelText: 'No',
       onOk() {
-        console.log('Deleting student:', record);
+        deleteStudent(record.id);
       },
       onCancel() {
         console.log('Cancel');
       },
     });
+  };
+
+  const deleteStudent = async (id: string) => {
+    try {
+      const response = await new Students().removeStudent(id);
+      const data = response.data;
+      if (data.success) {
+        fetchStudents();
+        message.success('Program deleted successfully');
+      } else {
+        message.error('Failed to delete program');
+      }
+    } catch (error) {
+      console.error('Error deleting program:', error);
+      message.error('An error occurred while deleting program');
+    }
   };
 
   const columns = [
@@ -92,9 +108,7 @@ const StudentManage = () => {
       key: 'action',
       render: (_: any, record: any) => (
         <Space size="middle">
-          <a>
-            {/* <StudentManagePanel selected={record} /> */}
-          </a>
+          <a>{/* <StudentManagePanel selected={record} /> */}</a>
           <a onClick={() => showDeleteConfirmation(record)}>
             {' '}
             <DeleteOutlined />
@@ -108,7 +122,7 @@ const StudentManage = () => {
   return (
     <div className={styles.studentManage}>
       <div className={styles.header}>
-        <StudentManagePopup/>
+        <StudentManagePopup />
         <Upload
           // fileList={fileList}
           onChange={handleUpload}

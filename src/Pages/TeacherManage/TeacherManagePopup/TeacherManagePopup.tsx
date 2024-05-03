@@ -40,7 +40,6 @@ const TeacherManagePopup = () => {
         delete result.profile.student;
       }
 
-
       await teachersApi.createUser(result);
       message.success('Teacher added successfully!');
       onCloseModal();
@@ -69,7 +68,7 @@ const TeacherManagePopup = () => {
 
   return (
     <div>
-      <Button onClick={() => setModal2Open(true)}>Add Student</Button>
+      <Button onClick={() => setModal2Open(true)}>Add Teacher</Button>
       <Modal
         title="Add Teacher"
         centered
@@ -83,7 +82,11 @@ const TeacherManagePopup = () => {
               name="email"
               control={control}
               render={(x) => (
-                <Input placeholder="Teacher email" {...(x.field as any)} />
+                <Input
+                  placeholder="Teacher email"
+                  {...(x.field as any)}
+                  type="email"
+                />
               )}
             />
           </Form.Item>
@@ -92,7 +95,11 @@ const TeacherManagePopup = () => {
               name="password"
               control={control}
               render={(x) => (
-                <Input placeholder="Teacher password" {...(x.field as any)} />
+                <Input
+                  placeholder="Teacher password"
+                  {...(x.field as any)}
+                  type="password"
+                />
               )}
             />
           </Form.Item>

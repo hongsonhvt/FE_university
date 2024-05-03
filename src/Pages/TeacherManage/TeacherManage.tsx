@@ -57,12 +57,28 @@ const TeacherManage = () => {
       okType: 'danger',
       cancelText: 'No',
       onOk() {
-        console.log('Deleting teacher:', record);
+        deleteTeacher(record.id);
       },
       onCancel() {
         console.log('Cancel');
       },
     });
+  };
+
+  const deleteTeacher = async (id: string) => {
+    try {
+      const response = await new Teachers().removeTeacher(id);
+      const data = response.data;
+      if (data.success) {
+        fetchTeachers();
+        message.success('Program deleted successfully');
+      } else {
+        message.error('Failed to delete program');
+      }
+    } catch (error) {
+      console.error('Error deleting program:', error);
+      message.error('An error occurred while deleting program');
+    }
   };
 
   const columns = [
@@ -91,9 +107,7 @@ const TeacherManage = () => {
       key: 'action',
       render: (_: any, record: any) => (
         <Space size="middle">
-          <a>
-            <TeacherManagePanel />
-          </a>
+          <a>{/* <TeacherManagePanel /> */}</a>
           <a onClick={() => showDeleteConfirmation(record)}>Delete</a>{' '}
         </Space>
       ),
