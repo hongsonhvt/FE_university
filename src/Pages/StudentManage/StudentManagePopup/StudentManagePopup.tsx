@@ -1,19 +1,14 @@
 import { Button, Form, Input, Modal, Select, message } from 'antd';
+import { Option } from 'antd/es/mentions';
 import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { Students } from '../../../shared/api/__generated__/Students';
-import { Option } from 'antd/es/mentions';
-
+import { ManagementClasses } from '../../../shared/api/__generated__/ManagementClasses';
+import { Users } from '../../../shared/api/__generated__/Users';
 import {
-  CourseClassListItemDto,
   CreateUserData,
-  CreateUserDto,
   ManagementClassListItemDto,
   Role,
 } from '../../../shared/api/__generated__/data-contracts';
-import { Users } from '../../../shared/api/__generated__/Users';
-import { CourseClasses } from '../../../shared/api/__generated__/CourseClasses';
-import { ManagementClasses } from '../../../shared/api/__generated__/ManagementClasses';
 
 const StudentManagePopup = () => {
   const [modal2Open, setModal2Open] = useState(false);

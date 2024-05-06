@@ -21,7 +21,7 @@ type CalendarStateType = {
 };
 
 const CalendarManage = () => {
-  const [data, setData] = useState<CalendarDataType>({});
+  const [data, setData] = useState<CalendarDataType | null>(null);
   const [teachers, setTeachers] = useState<TeacherSimpleDto[]>([]);
   const [openSessionId, setOpenSessionId] = useState<string | null>(null);
   const [monthYear, dispatchMonthYear] = useReducer(
@@ -55,7 +55,7 @@ const CalendarManage = () => {
   };
 
   const cellRender: CalendarProps<Dayjs>['cellRender'] = (current, info) => {
-    if (info.type === 'date') {
+    if (info.type === 'date' && !!data) {
       return dateCellRender(data, current, onClickSession);
     }
     return info.originNode;
@@ -79,8 +79,7 @@ const CalendarManage = () => {
     }
   };
 
-  if (!Object.keys(data).length) {
-    console.log('ok');
+  if (!data) {
     return <Spin />;
   }
 
