@@ -97,7 +97,7 @@ const CourseManagePanel = ({ selected }: ICourse) => {
         Edit Course
       </Button>
       <Drawer
-        title="Edit Subject Information"
+        title="Edit Course Information"
         width={720}
         onClose={onCloseDrawer}
         open={isDrawerVisible}

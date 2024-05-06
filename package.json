@@ -14,7 +14,7 @@
     "generate-api": "node ./swagger-api-codegen"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.3.1",
+    "@ant-design/icons": "^5.3.6",
     "@uidotdev/usehooks": "^2.4.1",
     "antd": "^5.15.0",
     "axios": "^1.6.8",

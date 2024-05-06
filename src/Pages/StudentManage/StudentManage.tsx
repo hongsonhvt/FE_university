@@ -72,13 +72,13 @@ const StudentManage = () => {
       const data = response.data;
       if (data.success) {
         fetchStudents();
-        message.success('Program deleted successfully');
+        message.success('Student deleted successfully');
       } else {
-        message.error('Failed to delete program');
+        message.error('Failed to delete student');
       }
     } catch (error) {
-      console.error('Error deleting program:', error);
-      message.error('An error occurred while deleting program');
+      console.error('Error deleting student:', error);
+      message.error('An error occurred while deleting student');
     }
   };
 

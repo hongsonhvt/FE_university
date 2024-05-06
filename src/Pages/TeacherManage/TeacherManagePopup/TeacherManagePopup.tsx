@@ -1,6 +1,6 @@
 import { Button, Form, Input, Modal, Select, message } from 'antd';
 import React, { useState } from 'react';
-import { Controller, useForm, SubmitHandler } from 'react-hook-form';
+import { Controller, useForm, SubmitHandler, useFormState } from 'react-hook-form';
 import { Option } from 'antd/es/mentions';
 import { Users } from '../../../shared/api/__generated__/Users';
 import {
@@ -13,12 +13,18 @@ const TeacherManagePopup = () => {
   const { handleSubmit, reset, control } = useForm<CreateUserData>();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const teachersApi = new Users();
+  const { errors } = useFormState({ control });
 
   const onSubmit: SubmitHandler<CreateUserData> = async (
     data: CreateUserData,
   ) => {
     setIsSubmitting(true);
     try {
+      if (errors.teacherId) {
+        message.error('Teacher ID must be unique');
+        return;
+      }
+
       const result: CreateUserData = {
         ...data,
         role: Role.Teacher,

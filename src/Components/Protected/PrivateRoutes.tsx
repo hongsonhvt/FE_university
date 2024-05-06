@@ -72,7 +72,7 @@ export const routeMap: RouteMapType[] = [
   {
     route: '/GradeDetail',
     component: <GradeDetail />,
-    roles: [Role.Student, Role.Teacher],
+    roles: [Role.Teacher],
     sideBar: {
       icon: <UserOutlined />,
       label: 'Grade Details',
@@ -81,7 +81,7 @@ export const routeMap: RouteMapType[] = [
   {
     route: '/Grades',
     component: <Grades />,
-    roles: [Role.Student, Role.Teacher],
+    roles: [Role.Student],
     sideBar: {
       icon: <UserOutlined />,
       label: 'Grades',
@@ -120,7 +120,7 @@ export const routeMap: RouteMapType[] = [
     roles: [Role.Admin],
     sideBar: {
       icon: <UserOutlined />,
-      label: 'ClassManagement',
+      label: 'Class Management',
     },
   },
   // {
