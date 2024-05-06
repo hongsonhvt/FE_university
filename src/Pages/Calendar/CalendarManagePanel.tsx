@@ -1,21 +1,27 @@
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import {
+  Badge,
   Button,
   DatePicker,
   Drawer,
   Flex,
   Form,
   Input,
+  Popconfirm,
   Select,
   Table,
   TableProps,
+  Tooltip,
   notification,
 } from 'antd';
 import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 import { useEffect, useMemo, useState } from 'react';
+import { ChangeSessionRequests } from '../../shared/api/__generated__/ChangeSessionRequests';
 import { Sessions } from '../../shared/api/__generated__/Sessions';
 import {
   ChangeSessionRequestDto,
+  ChangeSessionRequestStatus,
   CreateChangeRequestData,
   CreateChangeSessionRequestDto,
   SessionDto,
@@ -36,6 +42,11 @@ const CalendarManagePanel = ({
   const [isOpenListPanel, setIsOpenListPanel] = useState(false);
   const [isOpenCreatePanel, setIsOpenCreatePanel] = useState(false);
   const [session, setSession] = useState<SessionDto | null>(null);
+
+  const hasPendingRequest = useMemo(
+    () => !!session?.changeSessionRequests.some((r) => r.status === 'Pending'),
+    [session],
+  );
 
   useEffect(() => {
     if (sessionId) {
@@ -93,9 +104,12 @@ const CalendarManagePanel = ({
             <Button type="primary" onClick={() => setIsOpenCreatePanel(true)}>
               Create change request
             </Button>
-            <Button type="primary" onClick={() => setIsOpenListPanel(true)}>
-              View requests
-            </Button>
+
+            <Badge dot={hasPendingRequest}>
+              <Button type="primary" onClick={() => setIsOpenListPanel(true)}>
+                View requests
+              </Button>
+            </Badge>
           </Flex>
         </Form.Item>
       </Form>
@@ -172,14 +186,16 @@ const CreateChangeRequestPanel = ({
           rules={[{ required: true }]}
         >
           <DatePicker
+            showTime={{ format: 'HH:mm' }}
             style={{ width: '100%' }}
-            format={{ format: 'DD-MM-YYYY' }}
+            format={{ format: 'HH:mm, DD-MM-YYYY' }}
           />
         </Form.Item>
         <Form.Item name="endAt" label="End Date" rules={[{ required: true }]}>
           <DatePicker
+            showTime={{ format: 'HH:mm' }}
             style={{ width: '100%' }}
-            format={{ format: 'DD-MM-YYYY' }}
+            format={{ format: 'HH:mm, DD-MM-YYYY' }}
           />
         </Form.Item>
         <Form.Item name="substituteTeacherId" label="Teacher">
@@ -213,7 +229,6 @@ const ChangeRequestListPanel = ({ list }: ChangeRequestsListParams) => {
       title: 'Start time',
       colSpan: 2,
       dataIndex: 'oldStartAt',
-      onCell: () => ({ rowSpan: 2 }),
       render: (_, record) =>
         dayjs(record.oldStartAt).format('HH:mm, DD-MM-YYYY'),
     },
@@ -228,7 +243,6 @@ const ChangeRequestListPanel = ({ list }: ChangeRequestsListParams) => {
       title: 'End time',
       colSpan: 2,
       dataIndex: 'oldEndAt',
-      onCell: () => ({ rowSpan: 2 }),
       render: (_, record) => dayjs(record.oldEndAt).format('HH:mm, DD-MM-YYYY'),
     },
     {
@@ -252,7 +266,41 @@ const ChangeRequestListPanel = ({ list }: ChangeRequestsListParams) => {
         return '';
       },
     },
+    {
+      title: 'Action',
+      render: (_, record) => (
+        <>
+          {record.status === ChangeSessionRequestStatus.Pending && (
+            <Flex gap={4}>
+              <Tooltip title="Edit">
+                <Button
+                  onClick={() => updateRequest(record.id)}
+                  type="text"
+                  icon={<EditOutlined />}
+                />
+              </Tooltip>
+              <Popconfirm
+                title="Cancel request?"
+                onConfirm={() => cancelRequest(record.id)}
+              >
+                <Button type="text" icon={<DeleteOutlined />} />
+              </Popconfirm>
+            </Flex>
+          )}
+        </>
+      ),
+    },
   ];
+
+  const updateRequest = (id: string) => {
+    // TODO
+  };
+
+  const cancelRequest = (id: string) => {
+    new ChangeSessionRequests()
+      .cancelRequest(id)
+      .then(() => notification.success({ message: 'Cancelled' }));
+  };
 
   const data = useMemo(() => {
     return list.map((item, idx) => ({
