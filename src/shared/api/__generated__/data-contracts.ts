@@ -47,14 +47,42 @@ export type AddProgramCoursesError = {
   success?: boolean;
 };
 
+export type ApproveRequestData = object;
+
+export type ApproveRequestError = {
+  /** @example null */
+  data?: object | null;
+  message?: string;
+  /** @example false */
+  success?: boolean;
+};
+
+export type CancelRequestData = any;
+
+export type CancelRequestError = {
+  /** @example null */
+  data?: object | null;
+  message?: string;
+  /** @example false */
+  success?: boolean;
+};
+
 export interface ChangeSessionRequestDto {
+  id: string;
   newEndAt: string;
   newStartAt: string;
   oldEndAt: string;
   oldStartAt: string;
   session: SessionListItemDto;
-  status: string;
+  status: ChangeSessionRequestStatus;
   substituteTeacher?: TeacherSimpleDto;
+}
+
+export enum ChangeSessionRequestStatus {
+  Pending = 'Pending',
+  Approved = 'Approved',
+  Rejected = 'Rejected',
+  Cancelled = 'Cancelled',
 }
 
 export interface CourseClassDto {
@@ -193,8 +221,6 @@ export type CreateCourseError = {
   success?: boolean;
 };
 
-export type CreateData = string;
-
 export type CreateManagementClassData = Result & {
   data?: ManagementClassListItemDto;
   /** @example null */
@@ -242,8 +268,8 @@ export type CreateUserData = any;
 export interface CreateUserDto {
   email: string;
   password: string;
-  profile?: CreateUserProfileDto;
-  role: object;
+  profile: CreateUserProfileDto;
+  role: Role;
 }
 
 export interface CreateUserProfileDto {
@@ -277,8 +303,6 @@ export interface FindAcademicYearInRangeQuery {
   end?: number;
   start?: number;
 }
-
-export type FindAllData = string;
 
 export type FindCourseByConditionData = Result & {
   data?: CourseListItemDto[];
@@ -338,8 +362,6 @@ export type FindOneCourseData = Result & {
   message?: string | null;
   success?: boolean;
 };
-
-export type FindOneData = string;
 
 export type FindOneManagementClassData = Result & {
   data?: ManagementClassDto | null;
@@ -587,6 +609,16 @@ export interface ProgramListItemDto {
   name: string;
 }
 
+export type RejectRequestData = object;
+
+export type RejectRequestError = {
+  /** @example null */
+  data?: object | null;
+  message?: string;
+  /** @example false */
+  success?: boolean;
+};
+
 export type RemoveAcademicYearData = Result & {
   data?: AcademicYearDto;
   /** @example null */
@@ -631,8 +663,6 @@ export type RemoveCourseError = {
   /** @example false */
   success?: boolean;
 };
-
-export type RemoveData = string;
 
 export type RemoveManagementClassData = Result & {
   data?: ManagementClassDto;
@@ -882,8 +912,6 @@ export type UpdateCurrentError = {
   success?: boolean;
 };
 
-export type UpdateData = string;
-
 export type UpdateManagementClassData = Result & {
   data?: ManagementClassListItemDto;
   /** @example null */
@@ -919,6 +947,16 @@ export interface UpdateProgramDto {
 }
 
 export type UpdateProgramError = {
+  /** @example null */
+  data?: object | null;
+  message?: string;
+  /** @example false */
+  success?: boolean;
+};
+
+export type UpdateRequestData = any;
+
+export type UpdateRequestError = {
   /** @example null */
   data?: object | null;
   message?: string;

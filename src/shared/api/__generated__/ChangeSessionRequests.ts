@@ -10,13 +10,15 @@
  */
 
 import {
-  CreateChangeSessionRequestDto,
-  CreateData,
-  FindAllData,
-  FindOneData,
-  RemoveData,
+  ApproveRequestData,
+  ApproveRequestError,
+  CancelRequestData,
+  CancelRequestError,
+  RejectRequestData,
+  RejectRequestError,
   UpdateChangeSessionRequestDto,
-  UpdateData,
+  UpdateRequestData,
+  UpdateRequestError,
 } from './data-contracts';
 import { ContentType, HttpClient, RequestParams } from './http-client';
 
@@ -24,76 +26,169 @@ export class ChangeSessionRequests<
   SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
   /**
-   * No description
-   *
-   * @name Create
-   * @request POST:/change-session-requests
-   * @response `201` `CreateData`
-   */
-  create = (data: CreateChangeSessionRequestDto, params: RequestParams = {}) =>
-    this.request<CreateData, any>({
-      path: `/change-session-requests`,
-      method: 'POST',
-      body: data,
-      type: ContentType.Json,
-      ...params,
-    });
-  /**
-   * No description
-   *
-   * @name FindAll
-   * @request GET:/change-session-requests
-   * @response `200` `FindAllData`
-   */
-  findAll = (params: RequestParams = {}) =>
-    this.request<FindAllData, any>({
-      path: `/change-session-requests`,
-      method: 'GET',
-      ...params,
-    });
-  /**
-   * No description
-   *
-   * @name FindOne
-   * @request GET:/change-session-requests/{id}
-   * @response `200` `FindOneData`
-   */
-  findOne = (id: string, params: RequestParams = {}) =>
-    this.request<FindOneData, any>({
-      path: `/change-session-requests/${id}`,
-      method: 'GET',
-      ...params,
-    });
-  /**
-   * No description
-   *
-   * @name Update
-   * @request PATCH:/change-session-requests/{id}
-   * @response `200` `UpdateData`
-   */
-  update = (
+ * No description
+ *
+ * @tags change-session-requests
+ * @name UpdateRequest
+ * @summary Update Request
+ * @request PATCH:/change-session-requests/{id}
+ * @secure
+ * @response `200` `UpdateRequestData`
+ * @response `201` `(Result & {
+    data?: ChangeSessionRequestDto,
+  \** @example null *\
+    message?: string | null,
+    success?: boolean,
+
+})`
+ * @response `400` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
+  updateRequest = (
     id: string,
     data: UpdateChangeSessionRequestDto,
     params: RequestParams = {},
   ) =>
-    this.request<UpdateData, any>({
+    this.request<UpdateRequestData, UpdateRequestError>({
       path: `/change-session-requests/${id}`,
       method: 'PATCH',
       body: data,
+      secure: true,
       type: ContentType.Json,
       ...params,
     });
   /**
-   * No description
-   *
-   * @name Remove
-   * @request DELETE:/change-session-requests/{id}
-   * @response `200` `RemoveData`
-   */
-  remove = (id: string, params: RequestParams = {}) =>
-    this.request<RemoveData, any>({
-      path: `/change-session-requests/${id}`,
-      method: 'DELETE',
+ * No description
+ *
+ * @tags change-session-requests
+ * @name ApproveRequest
+ * @summary Approve Request
+ * @request PATCH:/change-session-requests/{id}/approve
+ * @secure
+ * @response `200` `ApproveRequestData`
+ * @response `201` `(Result & {
+    data?: ChangeSessionRequestDto,
+  \** @example null *\
+    message?: string | null,
+    success?: boolean,
+
+})`
+ * @response `400` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
+  approveRequest = (id: string, params: RequestParams = {}) =>
+    this.request<ApproveRequestData, ApproveRequestError>({
+      path: `/change-session-requests/${id}/approve`,
+      method: 'PATCH',
+      secure: true,
+      ...params,
+    });
+  /**
+ * No description
+ *
+ * @tags change-session-requests
+ * @name CancelRequest
+ * @summary Cancel Request
+ * @request PATCH:/change-session-requests/{id}/cancel
+ * @secure
+ * @response `200` `CancelRequestData`
+ * @response `201` `(Result & {
+    data?: ChangeSessionRequestDto,
+  \** @example null *\
+    message?: string | null,
+    success?: boolean,
+
+})`
+ * @response `400` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
+  cancelRequest = (id: string, params: RequestParams = {}) =>
+    this.request<CancelRequestData, CancelRequestError>({
+      path: `/change-session-requests/${id}/cancel`,
+      method: 'PATCH',
+      secure: true,
+      ...params,
+    });
+  /**
+ * No description
+ *
+ * @tags change-session-requests
+ * @name RejectRequest
+ * @summary Reject Request
+ * @request PATCH:/change-session-requests/{id}/reject
+ * @secure
+ * @response `200` `RejectRequestData`
+ * @response `201` `(Result & {
+    data?: ChangeSessionRequestDto,
+  \** @example null *\
+    message?: string | null,
+    success?: boolean,
+
+})`
+ * @response `400` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ * @response `404` `({
+  \** @example null *\
+    data?: object | null,
+    message?: string,
+  \** @example false *\
+    success?: boolean,
+
+})`
+ */
+  rejectRequest = (id: string, params: RequestParams = {}) =>
+    this.request<RejectRequestData, RejectRequestError>({
+      path: `/change-session-requests/${id}/reject`,
+      method: 'PATCH',
+      secure: true,
       ...params,
     });
 }
