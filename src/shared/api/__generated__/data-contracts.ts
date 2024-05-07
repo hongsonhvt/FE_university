@@ -289,7 +289,7 @@ export interface CreateUserProfileDto {
   lastName: string;
   middleName?: string | null;
   phoneNumber?: string | null;
-  student?: CreateUserProfileStudentDto;
+  student?: StudentDto;
   teacher?: CreateUserProfileTeacherDto;
 }
 
@@ -568,10 +568,10 @@ export type ImportProgramsError = {
 };
 
 export interface JwtUserDto {
-  email: string;
-  role: Role;
-  sub: string;
-  profile: CreateUserProfileDto;
+  email?: string;
+  role?: Role;
+  sub?: string;
+  profile?: CreateUserProfileDto;
 }
 
 export type LoginData = Result & {
