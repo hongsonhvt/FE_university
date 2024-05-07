@@ -11,6 +11,7 @@ import ProgramManage from '../../Pages/ProgramManage/ProgramManage';
 import StudentManage from '../../Pages/StudentManage/StudentManage';
 import TeacherManage from '../../Pages/TeacherManage/TeacherManage';
 import { Role } from '../../shared/api/__generated__/data-contracts';
+import Classroom from '../../Pages/Class/Classroom';
 
 type RouteMapType = {
   route: string;
@@ -42,19 +43,17 @@ export const routeMap: RouteMapType[] = [
   },
   {
     route: '/Class',
-    component: <ClassManage />,
+    component: <Classroom />,
     roles: [Role.Student, Role.Teacher],
     sideBar: {
       icon: <UserOutlined />,
       label: 'Class',
     },
   },
-  // { route: '/Classroom', component: Classroom },
-  // { route: '/Classroom', component: ClassroomManage },
   {
     route: '/CourseClasses',
     component: <CourseClassesManage />,
-    roles: [Role.Admin, Role.Teacher],
+    roles: [Role.Admin],
     sideBar: {
       icon: <UserOutlined />,
       label: 'Course Classes',
@@ -73,10 +72,6 @@ export const routeMap: RouteMapType[] = [
     route: '/GradeDetail',
     component: <GradeDetail />,
     roles: [Role.Teacher],
-    sideBar: {
-      icon: <UserOutlined />,
-      label: 'Grade Details',
-    },
   },
   {
     route: '/Grades',

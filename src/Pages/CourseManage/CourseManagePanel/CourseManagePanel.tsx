@@ -20,11 +20,9 @@ interface ICourse {
 const { Option } = Select;
 
 const CourseManagePanel = ({ selected }: ICourse) => {
-  // console.log(selected);
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const [programs, setPrograms] = useState<UpdateCourseDto[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const { handleSubmit, control, setValue } = useForm<FormData>();
 
   useEffect(() => {
@@ -56,24 +54,20 @@ const CourseManagePanel = ({ selected }: ICourse) => {
     }
   };
 
-  const refreshPage = () => {
-    window.location.reload();
-  };
-
   const onCloseDrawer = () => {
     setIsDrawerVisible(false);
   };
 
   const onFinish = async (values: FormData) => {
-    console.log(selected);
-
     try {
       if (!selected) return;
       setIsSubmitting(true);
       await new Courses().updateCourse(selected.id, values);
       message.success('Course updated successfully');
       onCloseDrawer();
-      refreshPage();
+      setValue('name', values.name);
+      setValue('code', values.code);
+      setValue('programIds', values.programIds);
     } catch (error) {
       console.error('Error updating course:', error);
       message.error('Failed to update course. Please try again later.');
@@ -83,25 +77,24 @@ const CourseManagePanel = ({ selected }: ICourse) => {
   };
 
   useEffect(() => {
-    if (typeof showDrawer === 'function' && selected) {
-      setValue('name', selected.name);
-      setValue('code', selected.code);
-      setValue('programIds', selected.programIds);
+    if (selected) {
+      setValue('name', selected.name || '');
+      setValue('code', selected.code || '');
+      setValue('programIds', selected.programIds || []);
     }
-  }, [showDrawer, selected, setValue]);
-  // console.log(selectedCourse);
+  }, [selected, setValue]);
 
   return (
     <div className={styles.studentManagePanel}>
-      <Button type="primary" onClick={() => showDrawer(selected)}>
+      <Button type="primary" onClick={() => showDrawer(selected?.id)}>
         Edit Course
       </Button>
       <Drawer
         title="Edit Course Information"
         width={720}
         onClose={onCloseDrawer}
-        open={isDrawerVisible}
-        styles={{ body: { paddingBottom: 80 } }}
+        visible={isDrawerVisible}
+        bodyStyle={{ paddingBottom: 80 }}
       >
         <Form layout="vertical" onFinish={handleSubmit(onFinish)}>
           <Form.Item name="name" label="Courses Name">
@@ -136,14 +129,7 @@ const CourseManagePanel = ({ selected }: ICourse) => {
                   style={{ width: '100%' }}
                 >
                   {programs.map((program) => (
-                    <Option
-                      key={
-                        program.programIds && program.programIds.length > 0
-                          ? program.programIds[0]
-                          : program.code
-                      }
-                      value={program?.programIds}
-                    >
+                    <Option key={program.code} value={program.programIds}>
                       {program.name}
                     </Option>
                   ))}
