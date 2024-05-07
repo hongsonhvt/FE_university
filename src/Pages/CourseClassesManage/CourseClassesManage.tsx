@@ -139,7 +139,7 @@ const CourseClassesManage = () => {
       <Table
         columns={columns}
         dataSource={courseClasses}
-        pagination={{ pageSize: 5 }}
+        pagination={{ pageSize: 10 }}
       />
       <Drawer
         title="Edit Course class information"

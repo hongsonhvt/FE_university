@@ -138,6 +138,9 @@ const CourseClassesAddStudents = ({
     (StudentSimpleDto & { label: string; value: string })[]
   >([]);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [currentStudentsInClass, setCurrentStudentsInClass] = useState<
+    (StudentSimpleDto & { label: string; value: string })[]
+  >([]);
 
   const columns: TableProps<
     StudentSimpleDto & { label: string; value: string }
@@ -151,18 +154,10 @@ const CourseClassesAddStudents = ({
       title: 'Student ID',
       dataIndex: 'studentId',
     },
-    {
-      title: 'Action',
-      render: (_, record) => (
-        <div>
-          <Button onClick={() => remove(record.id)}>Remove</Button>
-        </div>
-      ),
-    },
   ];
 
   const handleFinish = (values: FormType) => {
-    if (!studentsInClass) {
+    if (!currentStudentsInClass) {
       return;
     }
 
@@ -189,10 +184,22 @@ const CourseClassesAddStudents = ({
   };
 
   const add = () => {
-    studentsInClass.push(
-      data.filter((s) => !!studentsInClass.find((sic) => sic === s.id)),
+    currentStudentsInClass.push(
+      ...data.filter((s) => !!selectedIds.find((sic) => sic === s.id)),
     );
+
+    setCurrentStudentsInClass([...currentStudentsInClass]);
   };
+
+  useEffect(() => {
+    setCurrentStudentsInClass(
+      studentsInClass.map((s) => ({
+        ...s,
+        label: `${s.profile.firstName} ${s.profile.lastName} (${s.studentId})`,
+        value: s.id,
+      })),
+    );
+  }, [studentsInClass]);
 
   useEffect(() => {
     new Students().findStudentsByCondition({}).then((res) => {
@@ -209,9 +216,11 @@ const CourseClassesAddStudents = ({
     });
   }, [id, studentsInClass]);
 
+  console.log(currentStudentsInClass);
+
   return (
     <Form form={form} onFinish={handleFinish}>
-      <Table columns={columns} dataSource={studentsInClass} bordered />
+      <Table columns={columns} dataSource={currentStudentsInClass} bordered />
       <FormItem>
         <Select
           onChange={setSelectedIds}
@@ -224,7 +233,7 @@ const CourseClassesAddStudents = ({
       </FormItem>
       <FormItem>
         <Flex justify="end" gap={8}>
-          <Button type="primary" onClick={() => add()}>
+          <Button type="primary" onClick={add}>
             Add
           </Button>
           <Button type="primary" htmlType="submit">
