@@ -47,7 +47,12 @@ export type AddProgramCoursesError = {
   success?: boolean;
 };
 
-export type ApproveRequestData = object;
+export type ApproveRequestData = Result & {
+  data?: ChangeSessionRequestDto;
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
 
 export type ApproveRequestError = {
   /** @example null */
@@ -57,7 +62,12 @@ export type ApproveRequestError = {
   success?: boolean;
 };
 
-export type CancelRequestData = any;
+export type CancelRequestData = Result & {
+  data?: ChangeSessionRequestDto;
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
 
 export type CancelRequestError = {
   /** @example null */
@@ -279,7 +289,7 @@ export interface CreateUserProfileDto {
   lastName: string;
   middleName?: string | null;
   phoneNumber?: string | null;
-  student?: CreateUserProfileStudentDto;
+  student?: StudentDto;
   teacher?: CreateUserProfileTeacherDto;
 }
 
@@ -408,6 +418,19 @@ export type FindProgramByConditionData = Result & {
 export interface FindProgramByConditionQuery {
   code?: string;
   name?: string;
+}
+
+export type FindRequestsByConditionData = Result & {
+  data?: ChangeSessionRequestDto[];
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
+
+export interface FindRequestsByConditionQuery {
+  from: string;
+  substituteTeacherId?: string;
+  to: string;
 }
 
 export type FindStudentsByConditionData = Result & {
@@ -545,9 +568,10 @@ export type ImportProgramsError = {
 };
 
 export interface JwtUserDto {
-  email: string;
-  role: Role;
-  sub: string;
+  email?: string;
+  role?: Role;
+  sub?: string;
+  profile?: CreateUserProfileDto;
 }
 
 export type LoginData = Result & {
@@ -609,7 +633,12 @@ export interface ProgramListItemDto {
   name: string;
 }
 
-export type RejectRequestData = object;
+export type RejectRequestData = Result & {
+  data?: ChangeSessionRequestDto;
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
 
 export type RejectRequestError = {
   /** @example null */
@@ -954,7 +983,12 @@ export type UpdateProgramError = {
   success?: boolean;
 };
 
-export type UpdateRequestData = any;
+export type UpdateRequestData = Result & {
+  data?: ChangeSessionRequestDto;
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
 
 export type UpdateRequestError = {
   /** @example null */

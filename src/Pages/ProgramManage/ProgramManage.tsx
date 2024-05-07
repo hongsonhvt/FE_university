@@ -4,10 +4,10 @@ import Search from 'antd/es/input/Search';
 import moment from 'moment'; // Import moment library
 import { useEffect, useState } from 'react';
 import { Programs } from '../../shared/api/__generated__/Programs';
-import { FindProgramByConditionData } from '../../shared/api/__generated__/data-contracts';
 import styles from './ProgramManage.module.scss';
 import ProgramManagePanel from './ProgramManagePanel/ProgramManagePanel';
 import ProgramManagePopup from './ProgramManagePopup/ProgramManagePopup';
+import { FindProgramByConditionData } from '../../shared/api/__generated__/data-contracts';
 
 const { confirm } = Modal;
 

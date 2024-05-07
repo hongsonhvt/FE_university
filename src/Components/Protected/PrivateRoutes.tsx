@@ -10,8 +10,8 @@ import Information from '../../Pages/Information/Information';
 import ProgramManage from '../../Pages/ProgramManage/ProgramManage';
 import StudentManage from '../../Pages/StudentManage/StudentManage';
 import TeacherManage from '../../Pages/TeacherManage/TeacherManage';
-import { Role } from '../../shared/api/__generated__/data-contracts';
 import Classroom from '../../Pages/Class/Classroom';
+import { Role } from '../../shared/api/__generated__/data-contracts';
 
 type RouteMapType = {
   route: string;
@@ -73,15 +73,15 @@ export const routeMap: RouteMapType[] = [
     component: <GradeDetail />,
     roles: [Role.Teacher],
   },
-  {
-    route: '/Grades',
-    component: <Grades />,
-    roles: [Role.Student],
-    sideBar: {
-      icon: <UserOutlined />,
-      label: 'Grades',
-    },
-  },
+  // {
+  //   route: '/Grades',
+  //   component: <Grades />,
+  //   roles: [Role.Student],
+  //   sideBar: {
+  //     icon: <UserOutlined />,
+  //     label: 'Grades',
+  //   },
+  // },
   {
     route: '/Information',
     component: <Information />,

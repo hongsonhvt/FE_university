@@ -3,9 +3,9 @@ import { Button, Modal, Space, Table, Upload, message } from 'antd';
 import Search from 'antd/es/input/Search';
 import { useEffect, useState } from 'react';
 import { ManagementClasses } from '../../shared/api/__generated__/ManagementClasses';
-import { ManagementClassListItemDto } from '../../shared/api/__generated__/data-contracts';
 import styles from './ClassManage.module.scss';
 import ClassManagePopUp from './ClassManagePopUp/ClassManagePopUp';
+import { ManagementClassListItemDto } from '../../shared/api/__generated__/data-contracts';
 
 const { confirm } = Modal;
 
@@ -28,18 +28,6 @@ const ClassManage = () => {
       message.error('Failed to fetch Management Classes');
     }
   };
-
-  // const handleUpload = (info: any) => {
-  //   let fileList = [...info.fileList];
-  //   fileList = fileList.slice(-1);
-  //   setFileList(fileList);
-
-  //   if (info.file.status === "done") {
-  //     message.success(`${info.file.name} file uploaded successfully`);
-  //   } else if (info.file.status === "error") {
-  //     message.error(`${info.file.name} file upload failed.`);
-  //   }
-  // };
 
   const showDeleteConfirmation = (record: any) => {
     confirm({
@@ -88,6 +76,7 @@ const ClassManage = () => {
       title: 'Academic Year',
       dataIndex: 'academicYear',
       key: 'academicYear',
+      render: (academicYear: any) => academicYear.name,
     },
     {
       title: 'Action',

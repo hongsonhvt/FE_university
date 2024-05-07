@@ -3,7 +3,7 @@ import axios from 'axios';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users } from '../shared/api/__generated__/Users';
-import { Role } from '../shared/api/__generated__/data-contracts';
+import { JwtUserDto, Role } from '../shared/api/__generated__/data-contracts';
 
 type AuthContextType = {
   accessToken: string | null;
@@ -11,6 +11,7 @@ type AuthContextType = {
   isLoading: boolean;
   login: (data: string) => Promise<void>;
   logout: () => void;
+  userProfile: JwtUserDto;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -19,6 +20,7 @@ const AuthContext = createContext<AuthContextType>({
   isLoading: false,
   login: () => new Promise<void>(() => {}),
   logout: () => {},
+  userProfile: {},
 });
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
@@ -27,6 +29,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     'accessToken',
     null,
   );
+  const [userProfile, setUserProfile] = useState<JwtUserDto>({});
   const [role, setRole] = useState<Role | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,7 +38,8 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       setIsLoading(true);
       new Users().getUserProfile().then((res) => {
-        setRole(res.data.data.role);
+        setRole(res.data.data.role ?? Role.Admin);
+        setUserProfile(res.data.data ?? {});
         setIsLoading(false);
       });
     } else {
@@ -62,8 +66,9 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
       isLoading,
       login,
       logout,
+      userProfile,
     }),
-    [accessToken, role],
+    [accessToken, role, userProfile],
   );
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
