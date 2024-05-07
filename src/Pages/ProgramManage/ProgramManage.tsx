@@ -26,7 +26,7 @@ const ProgramManage = () => {
         response.data.data.map((item: any) => ({
           key: item.id,
           ...item,
-          createdAt: moment(item.createdAt).format('DD MMM YYYY'), // Format createdAt field
+          createdAt: moment(item.createdAt).format('DD MMM YYYY'),
           deletedAt: item.deletedAt
             ? moment(item.deletedAt).format('DD MMM YYYY')
             : '', // Format deletedAt field

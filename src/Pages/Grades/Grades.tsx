@@ -10,7 +10,6 @@ import {
 } from '../../shared/api/__generated__/data-contracts';
 
 const Grades = () => {
-  const [studentData, setStudentData] = useState(null);
   const [score, setScores] = useState<StudentScoreDto[]>([]);
 
   useEffect(() => {
@@ -26,7 +25,7 @@ const Grades = () => {
             academicYear: item.academicYear,
             id: item.id,
             scores: item.scores,
-          })
+          }),
         );
         setScores(studentScores);
       } else {
@@ -41,36 +40,37 @@ const Grades = () => {
 
   return (
     <div className={styles.box}>
-      {studentData && score && (
-        <div className={styles.boxClassroom}>
-          <div className={styles.inforClass}>
-            <Avatar
-              shape="square"
-              size={64}
-              icon={<UserOutlined />}
-              className={styles.boxAva}
-            />
-          </div>
-          <div className={styles.grades}>
-            {score.length > 0 ? (
-              score.map((item: StudentScoreDto, index: number) => (
-                <div key={index}>
-                  <h3>Academic Year: {item.academicYear.name}</h3>
-                  <ul>
-                    {item.scores.map((scoreItem: StudentScoreScoreDto, scoreIndex: number) => (
-                      <li key={scoreIndex}>
-                        Course ID: {scoreItem.courseClassId}, Score: {scoreItem.score}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))
-            ) : (
-              <p>No scores available</p>
-            )}
-          </div>
+      <div className={styles.boxClassroom}>
+        <div className={styles.inforClass}>
+          <Avatar
+            shape="square"
+            size={64}
+            icon={<UserOutlined />}
+            className={styles.boxAva}
+          />
         </div>
-      )}
+        <div className={styles.grades}>
+          {score.length > 0 ? (
+            score.map((item: StudentScoreDto, index: number) => (
+              <div key={index}>
+                <h3>Academic Year: {item.academicYear.name}</h3>
+                <ul>
+                  {item.scores.map(
+                    (scoreItem: StudentScoreScoreDto, scoreIndex: number) => (
+                      <li key={scoreIndex}>
+                        Course ID: {scoreItem.courseClassId}, Score:{' '}
+                        {scoreItem.score}
+                      </li>
+                    ),
+                  )}
+                </ul>
+              </div>
+            ))
+          ) : (
+            <p>No scores available</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
