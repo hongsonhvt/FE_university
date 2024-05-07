@@ -53,7 +53,7 @@ export const routeMap: RouteMapType[] = [
   {
     route: '/CourseClasses',
     component: <CourseClassesManage />,
-    roles: [Role.Admin],
+    roles: [Role.Admin, Role.Teacher],
     sideBar: {
       icon: <UserOutlined />,
       label: 'Course Classes',

@@ -167,7 +167,7 @@ const CourseClassesManagePopup = () => {
               )}
             />
           </Form.Item>
-          <Form.Item label="Iso Slots">
+          <Form.Item label="Slots">
             <Space>
               <Form.Item name="isoSlots.0.dayOfWeek" noStyle>
                 <Controller
@@ -190,7 +190,7 @@ const CourseClassesManagePopup = () => {
                   rules={{ required: true }}
                   render={(x) => (
                     <TimePicker.RangePicker
-                      placeholder="Start time"
+                      placeholder="End time"
                       {...(x.field as any)}
                     />
                   )}

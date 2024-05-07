@@ -139,7 +139,7 @@ const CourseClassesManage = () => {
       <Table
         columns={columns}
         dataSource={courseClasses}
-        pagination={{ pageSize: 5 }}
+        pagination={{ pageSize: 10 }}
       />
       <Drawer
         title="Edit Course class information"
@@ -155,7 +155,7 @@ const CourseClassesManage = () => {
         />
       </Drawer>
       <Drawer
-        title="Edit Course class information"
+        title="Students list"
         width={720}
         onClose={() => setIsOpenList(false)}
         open={isOpenList}
