@@ -14,6 +14,8 @@ import {
   ApproveRequestError,
   CancelRequestData,
   CancelRequestError,
+  FindRequestsByConditionData,
+  FindRequestsByConditionQuery,
   RejectRequestData,
   RejectRequestError,
   UpdateChangeSessionRequestDto,
@@ -26,6 +28,27 @@ export class ChangeSessionRequests<
   SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
   /**
+   * No description
+   *
+   * @tags change-session-requests
+   * @name FindRequestsByCondition
+   * @summary Find Requests By Condition
+   * @request GET:/change-session-requests
+   * @secure
+   * @response `200` `FindRequestsByConditionData`
+   */
+  findRequestsByCondition = (
+    query: FindRequestsByConditionQuery,
+    params: RequestParams = {},
+  ) =>
+    this.request<FindRequestsByConditionData, any>({
+      path: `/change-session-requests`,
+      method: 'GET',
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
  * No description
  *
  * @tags change-session-requests
@@ -34,13 +57,6 @@ export class ChangeSessionRequests<
  * @request PATCH:/change-session-requests/{id}
  * @secure
  * @response `200` `UpdateRequestData`
- * @response `201` `(Result & {
-    data?: ChangeSessionRequestDto,
-  \** @example null *\
-    message?: string | null,
-    success?: boolean,
-
-})`
  * @response `400` `({
   \** @example null *\
     data?: object | null,
@@ -80,13 +96,6 @@ export class ChangeSessionRequests<
  * @request PATCH:/change-session-requests/{id}/approve
  * @secure
  * @response `200` `ApproveRequestData`
- * @response `201` `(Result & {
-    data?: ChangeSessionRequestDto,
-  \** @example null *\
-    message?: string | null,
-    success?: boolean,
-
-})`
  * @response `400` `({
   \** @example null *\
     data?: object | null,
@@ -120,13 +129,6 @@ export class ChangeSessionRequests<
  * @request PATCH:/change-session-requests/{id}/cancel
  * @secure
  * @response `200` `CancelRequestData`
- * @response `201` `(Result & {
-    data?: ChangeSessionRequestDto,
-  \** @example null *\
-    message?: string | null,
-    success?: boolean,
-
-})`
  * @response `400` `({
   \** @example null *\
     data?: object | null,
@@ -160,13 +162,6 @@ export class ChangeSessionRequests<
  * @request PATCH:/change-session-requests/{id}/reject
  * @secure
  * @response `200` `RejectRequestData`
- * @response `201` `(Result & {
-    data?: ChangeSessionRequestDto,
-  \** @example null *\
-    message?: string | null,
-    success?: boolean,
-
-})`
  * @response `400` `({
   \** @example null *\
     data?: object | null,

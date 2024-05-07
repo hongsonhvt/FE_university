@@ -3,11 +3,7 @@ import { Avatar, message } from 'antd';
 import { useEffect, useState } from 'react';
 import styles from './Grades.module.scss';
 import { Scores } from '../../shared/api/__generated__/Scores';
-import {
-  GetMyScoresData,
-  StudentScoreDto,
-  StudentScoreScoreDto,
-} from '../../shared/api/__generated__/data-contracts';
+import { StudentScoreDto, StudentScoreScoreDto } from '../../shared/api/__generated__/data-contracts';
 
 const Grades = () => {
   const [score, setScores] = useState<StudentScoreDto[]>([]);

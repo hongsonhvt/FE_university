@@ -47,7 +47,12 @@ export type AddProgramCoursesError = {
   success?: boolean;
 };
 
-export type ApproveRequestData = object;
+export type ApproveRequestData = Result & {
+  data?: ChangeSessionRequestDto;
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
 
 export type ApproveRequestError = {
   /** @example null */
@@ -57,7 +62,12 @@ export type ApproveRequestError = {
   success?: boolean;
 };
 
-export type CancelRequestData = any;
+export type CancelRequestData = Result & {
+  data?: ChangeSessionRequestDto;
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
 
 export type CancelRequestError = {
   /** @example null */
@@ -410,6 +420,19 @@ export interface FindProgramByConditionQuery {
   name?: string;
 }
 
+export type FindRequestsByConditionData = Result & {
+  data?: ChangeSessionRequestDto[];
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
+
+export interface FindRequestsByConditionQuery {
+  from: string;
+  substituteTeacherId?: string;
+  to: string;
+}
+
 export type FindStudentsByConditionData = Result & {
   data?: StudentSimpleDto[];
   /** @example null */
@@ -610,7 +633,12 @@ export interface ProgramListItemDto {
   name: string;
 }
 
-export type RejectRequestData = object;
+export type RejectRequestData = Result & {
+  data?: ChangeSessionRequestDto;
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
 
 export type RejectRequestError = {
   /** @example null */
@@ -955,7 +983,12 @@ export type UpdateProgramError = {
   success?: boolean;
 };
 
-export type UpdateRequestData = any;
+export type UpdateRequestData = Result & {
+  data?: ChangeSessionRequestDto;
+  /** @example null */
+  message?: string | null;
+  success?: boolean;
+};
 
 export type UpdateRequestError = {
   /** @example null */

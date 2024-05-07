@@ -34,7 +34,7 @@ const Information = () => {
   };
 
   if (!user) {
-    return null; // Or return a loading indicator
+    return null;
   }
 
   const fullName = `${user.profile.firstName} ${
