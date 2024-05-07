@@ -9,6 +9,7 @@ import {
   TableProps,
   notification,
 } from 'antd';
+import { useWatch } from 'antd/es/form/Form';
 import FormItem from 'antd/es/form/FormItem';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
@@ -133,6 +134,8 @@ const CourseClassesAddStudents = ({
   studentsInClass,
 }: CourseClassesAddStudentsParams) => {
   const [form] = Form.useForm<FormType>();
+  console.log(studentsInClass);
+  const { studentList } = useWatch([], form) ?? {};
   const [api, contextHolder] = notification.useNotification();
   const [data, setData] = useState<
     (StudentSimpleDto & { label: string; value: string })[]
@@ -161,22 +164,22 @@ const CourseClassesAddStudents = ({
       return;
     }
 
-    // new CourseClasses()
-    //   .updateCourseClassStudentsList(studentsInClass.id, {
-    //     data: Object.values(values),
-    //   })
-    //   .then(() => {
-    //     api.success({ message: 'Updated' });
-    //     new CourseClasses()
-    //       .getCourseClassScores(studentsInClass.id)
-    //       .then((res) => {
-    //         setData(res.data.data);
-    //         form.setFieldsValue(res.data.data);
-    //       });
-    //   })
-    //   .catch((e: AxiosError<UpdateCourseClassScoresError>) => {
-    //     api.error({ message: e.response?.data?.message ?? e.message });
-    //   });
+    new CourseClasses()
+      .updateCourseClassStudentsList(studentsInClass?.[0].id ?? '', {
+        studentIds: studentList,
+      })
+      .then(() => {
+        api.success({ message: 'Updated' });
+        new CourseClasses()
+          .getCourseClassScores(studentsInClass.id)
+          .then((res) => {
+            setData(res.data.data);
+            form.setFieldsValue(res.data.data);
+          });
+      })
+      .catch((e: AxiosError<UpdateCourseClassScoresError>) => {
+        api.error({ message: e.response?.data?.message ?? e.message });
+      });
   };
 
   const remove = (id: string) => {
@@ -221,7 +224,7 @@ const CourseClassesAddStudents = ({
   return (
     <Form form={form} onFinish={handleFinish}>
       <Table columns={columns} dataSource={currentStudentsInClass} bordered />
-      <FormItem>
+      <FormItem name="studentList">
         <Select
           onChange={setSelectedIds}
           options={data}

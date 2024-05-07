@@ -12,11 +12,13 @@ import {
 } from 'antd';
 import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { useAuth } from '../../../hooks';
 import { CourseClasses } from '../../../shared/api/__generated__/CourseClasses';
 import { Courses } from '../../../shared/api/__generated__/Courses';
 import {
   CourseListItemDto,
   CreateCourseClassDto,
+  Role,
 } from '../../../shared/api/__generated__/data-contracts';
 
 type FormType = Omit<CreateCourseClassDto, 'isoSlots'> & {
@@ -38,7 +40,7 @@ const CourseClassesManagePopup = () => {
   const [modal2Open, setModal2Open] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [courses, setCourses] = useState<CourseListItemDto[]>([]);
-
+  const { role } = useAuth();
   useEffect(() => {
     fetchCourses();
   }, []);
@@ -95,7 +97,11 @@ const CourseClassesManagePopup = () => {
 
   return (
     <div>
-      <Button onClick={() => setModal2Open(true)}>Add Course Class</Button>
+      {role === Role.Admin ? (
+        <Button onClick={() => setModal2Open(true)}>Add Course Class</Button>
+      ) : (
+        ''
+      )}
       <Modal
         title="Add Course Class"
         centered

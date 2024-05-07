@@ -15,12 +15,14 @@ import { CourseClasses } from '../../shared/api/__generated__/CourseClasses';
 import { Teachers } from '../../shared/api/__generated__/Teachers';
 import {
   CourseClassListItemDto,
+  Role,
   TeacherSimpleDto,
 } from '../../shared/api/__generated__/data-contracts';
 import styles from './CourseClassesManage.module.scss';
 import CourseClassesManagePanel from './CourseClassesManagePanel/CourseClassesManagePanel';
 import CourseClassesManagePopup from './CourseClassesManagePopup/CourseClassesManagePopup';
 import CourseClassesStudentsList from './CourseClassesStudentsList/CourseClassesStudentsList';
+import { useAuth } from '../../hooks';
 
 const CourseClassesManage = () => {
   const [api, contextHolder] = notification.useNotification();
@@ -34,7 +36,7 @@ const CourseClassesManage = () => {
   const [courseClasses, setCourseClasses] = useState<CourseClassListItemDto[]>(
     [],
   );
-
+  const { role } = useAuth();
   const onClickShowPanel = (courseClass: CourseClassListItemDto) => {
     setPanelData(courseClass);
     setIsOpenPanel(true);
@@ -121,9 +123,13 @@ const CourseClassesManage = () => {
         style={{ display: 'flex', justifyContent: 'space-between' }}
       >
         <CourseClassesManagePopup />
-        <Upload onChange={handleUpload} beforeUpload={() => false}>
-          <Button icon={<UploadOutlined />}>Click to Upload</Button>
-        </Upload>
+        {role === Role.Admin ? (
+          <Upload onChange={handleUpload} beforeUpload={() => false}>
+            <Button icon={<UploadOutlined />}>Click to Upload</Button>
+          </Upload>
+        ) : (
+          ''
+        )}
         <Search
           placeholder="input search text"
           allowClear
