@@ -1,5 +1,13 @@
 import { UploadOutlined } from '@ant-design/icons';
-import { Button, Drawer, Table, Upload, message, notification } from 'antd';
+import {
+  Button,
+  Drawer,
+  Flex,
+  Table,
+  Upload,
+  message,
+  notification,
+} from 'antd';
 import Search from 'antd/es/input/Search';
 import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
@@ -12,12 +20,14 @@ import {
 import styles from './CourseClassesManage.module.scss';
 import CourseClassesManagePanel from './CourseClassesManagePanel/CourseClassesManagePanel';
 import CourseClassesManagePopup from './CourseClassesManagePopup/CourseClassesManagePopup';
+import CourseClassesStudentsList from './CourseClassesStudentsList/CourseClassesStudentsList';
 
 const CourseClassesManage = () => {
   const [api, contextHolder] = notification.useNotification();
   const [_, setFileList] = useState<CourseClassListItemDto[]>([]);
   const [teachers, setTeachers] = useState<TeacherSimpleDto[]>([]);
   const [isOpenPanel, setIsOpenPanel] = useState(false);
+  const [isOpenList, setIsOpenList] = useState(false);
   const [panelData, setPanelData] = useState<CourseClassListItemDto | null>(
     null,
   );
@@ -30,6 +40,11 @@ const CourseClassesManage = () => {
     setIsOpenPanel(true);
   };
 
+  const onClickShowList = (courseClass: CourseClassListItemDto) => {
+    setPanelData(courseClass);
+    setIsOpenList(true);
+  };
+
   const columns = useMemo(
     () => [
       ...fixedColumns,
@@ -37,9 +52,14 @@ const CourseClassesManage = () => {
         title: 'Action',
         key: 'action',
         render: (_: any, record: CourseClassListItemDto) => (
-          <Button type="primary" onClick={() => onClickShowPanel(record)}>
-            Edit
-          </Button>
+          <Flex gap={4}>
+            <Button type="primary" onClick={() => onClickShowPanel(record)}>
+              Edit
+            </Button>
+            <Button type="primary" onClick={() => onClickShowList(record)}>
+              List
+            </Button>
+          </Flex>
         ),
       },
     ],
@@ -52,10 +72,10 @@ const CourseClassesManage = () => {
   }, []);
 
   useEffect(() => {
-    if (!isOpenPanel) {
+    if (!isOpenPanel && !isOpenList) {
       setPanelData(null);
     }
-  }, [isOpenPanel]);
+  }, [isOpenPanel, isOpenList]);
 
   const fetchCourseClasses = async () => {
     try {
@@ -133,6 +153,15 @@ const CourseClassesManage = () => {
           teachers={teachers}
           onFinish={handleUpdate}
         />
+      </Drawer>
+      <Drawer
+        title="Edit Course class information"
+        width={720}
+        onClose={() => setIsOpenList(false)}
+        open={isOpenList}
+        styles={{ body: { paddingBottom: 80 } }}
+      >
+        <CourseClassesStudentsList courseClass={panelData} />
       </Drawer>
       {contextHolder}
     </div>
