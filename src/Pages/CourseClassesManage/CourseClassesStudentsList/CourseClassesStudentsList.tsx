@@ -1,8 +1,10 @@
 import {
   Button,
+  Drawer,
   Flex,
   Form,
   InputNumber,
+  Select,
   Table,
   TableProps,
   notification,
@@ -11,9 +13,11 @@ import FormItem from 'antd/es/form/FormItem';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import { CourseClasses } from '../../../shared/api/__generated__/CourseClasses';
+import { Students } from '../../../shared/api/__generated__/Students';
 import {
   CourseClassListItemDto,
   StudentScoreListItemDto,
+  StudentSimpleDto,
   UpdateCourseClassScoreDto,
   UpdateCourseClassScoresError,
 } from '../../../shared/api/__generated__/data-contracts';
@@ -28,6 +32,7 @@ const CourseClassesStudentsList = ({
   courseClass,
 }: CourseClassesStudentsListParams) => {
   const [form] = Form.useForm<FormType>();
+  const [isOpenPanel, setIsOpenPanel] = useState(false);
   const [api, contextHolder] = notification.useNotification();
   const [data, setData] = useState<StudentScoreListItemDto[]>([]);
 
@@ -87,11 +92,141 @@ const CourseClassesStudentsList = ({
     }
   }, [courseClass?.id]);
 
+  if (!courseClass) {
+    return <></>;
+  }
+
   return (
     <Form form={form} onFinish={handleFinish}>
       <Table columns={columns} dataSource={data} bordered />
       <FormItem>
-        <Flex justify="end">
+        <Flex justify="end" gap={8}>
+          <Button type="primary" onClick={() => setIsOpenPanel(true)}>
+            Add/remove
+          </Button>
+          <Button type="primary" htmlType="submit">
+            Save
+          </Button>
+        </Flex>
+      </FormItem>
+      <Drawer
+        title="Students list"
+        width={720}
+        onClose={() => setIsOpenPanel(false)}
+        open={isOpenPanel}
+        styles={{ body: { paddingBottom: 80 } }}
+      >
+        <CourseClassesAddStudents studentsInClass={data} id={courseClass.id} />
+      </Drawer>
+      {contextHolder}
+    </Form>
+  );
+};
+
+type CourseClassesAddStudentsParams = {
+  id: string;
+  studentsInClass: StudentSimpleDto[];
+};
+
+const CourseClassesAddStudents = ({
+  id,
+  studentsInClass,
+}: CourseClassesAddStudentsParams) => {
+  const [form] = Form.useForm<FormType>();
+  const [api, contextHolder] = notification.useNotification();
+  const [data, setData] = useState<
+    (StudentSimpleDto & { label: string; value: string })[]
+  >([]);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
+  const columns: TableProps<
+    StudentSimpleDto & { label: string; value: string }
+  >['columns'] = [
+    {
+      title: 'Name',
+      render: (_, record) =>
+        `${record.profile.firstName} ${record.profile.lastName}`,
+    },
+    {
+      title: 'Student ID',
+      dataIndex: 'studentId',
+    },
+    {
+      title: 'Action',
+      render: (_, record) => (
+        <div>
+          <Button onClick={() => remove(record.id)}>Remove</Button>
+        </div>
+      ),
+    },
+  ];
+
+  const handleFinish = (values: FormType) => {
+    if (!studentsInClass) {
+      return;
+    }
+
+    // new CourseClasses()
+    //   .updateCourseClassStudentsList(studentsInClass.id, {
+    //     data: Object.values(values),
+    //   })
+    //   .then(() => {
+    //     api.success({ message: 'Updated' });
+    //     new CourseClasses()
+    //       .getCourseClassScores(studentsInClass.id)
+    //       .then((res) => {
+    //         setData(res.data.data);
+    //         form.setFieldsValue(res.data.data);
+    //       });
+    //   })
+    //   .catch((e: AxiosError<UpdateCourseClassScoresError>) => {
+    //     api.error({ message: e.response?.data?.message ?? e.message });
+    //   });
+  };
+
+  const remove = (id: string) => {
+    setData(data.filter((x) => x.id !== id));
+  };
+
+  const add = () => {
+    studentsInClass.push(
+      data.filter((s) => !!studentsInClass.find((sic) => sic === s.id)),
+    );
+  };
+
+  useEffect(() => {
+    new Students().findStudentsByCondition({}).then((res) => {
+      const studentNotInClass = res.data.data.filter(
+        (s) => !studentsInClass.find((sic) => sic.id === s.id),
+      );
+      setData(
+        studentNotInClass.map((s) => ({
+          ...s,
+          label: `${s.profile.firstName} ${s.profile.lastName} (${s.studentId})`,
+          value: s.id,
+        })),
+      );
+    });
+  }, [id, studentsInClass]);
+
+  return (
+    <Form form={form} onFinish={handleFinish}>
+      <Table columns={columns} dataSource={studentsInClass} bordered />
+      <FormItem>
+        <Select
+          onChange={setSelectedIds}
+          options={data}
+          mode="multiple"
+          allowClear
+          style={{ width: '100%' }}
+          placeholder="Please select"
+        />
+      </FormItem>
+      <FormItem>
+        <Flex justify="end" gap={8}>
+          <Button type="primary" onClick={() => add()}>
+            Add
+          </Button>
           <Button type="primary" htmlType="submit">
             Save
           </Button>

@@ -155,7 +155,7 @@ const CourseClassesManage = () => {
         />
       </Drawer>
       <Drawer
-        title="Edit Course class information"
+        title="Students list"
         width={720}
         onClose={() => setIsOpenList(false)}
         open={isOpenList}
