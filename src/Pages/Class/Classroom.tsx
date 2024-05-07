@@ -1,5 +1,5 @@
 import { UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, message } from 'antd';
+import { Avatar, Button, Col, Row, message } from 'antd';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks';
@@ -31,32 +31,38 @@ const Classroom = () => {
     }
   };
   return (
-    <>
+    <Col sm={24} lg={24}>
       {score.map((item) => (
-        <Button
-          onClick={() => navigate(`/gradeDetail?id=${item.id}`)}
-          disabled={role !== Role.Teacher}
+        <Row
+          style={{ width: '100%' }}
+          justify="space-between"
+          className={styles.boxClassroom}
         >
-          <div>
-            <div className={styles.boxClassroom}>
-              <Avatar
-                shape="square"
-                size={64}
-                icon={<UserOutlined />}
-                className={styles.boxAva}
-              />
-              <div className={styles.boxDetail}>
-                <h2 className={styles.boxName}>{item.academicYear.name}</h2>
-                <p className={styles.boxMajor}>{item.academicYear.code}</p>
-              </div>
-              <div>
-                <>Scỏre</>
-              </div>
-            </div>
+          <Row>
+            <Avatar
+              shape="square"
+              size={64}
+              icon={<UserOutlined />}
+              className={styles.boxAva}
+            />
+            <Button
+              onClick={() => navigate(`/gradeDetail?id=${item.id}`)}
+              disabled={role !== Role.Teacher}
+              type="link"
+              style={{ minHeight: 64 }}
+              className={styles.boxDetail}
+            >
+              <div className={styles.boxName}>{item.name}</div>
+              <div className={styles.boxMajor}>{item.code}</div>
+            </Button>
+          </Row>
+
+          <div style={{ paddingRight: 8 }}>
+            <>{item.scores.map((item) => String(item))}</>
           </div>
-        </Button>
+        </Row>
       ))}
-    </>
+    </Col>
   );
 };
 

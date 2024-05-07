@@ -794,6 +794,8 @@ export interface StudentScoreDto {
   academicYear: AcademicYearDto;
   id: string;
   scores: StudentScoreScoreDto[];
+  name?: string;
+  code?: string;
 }
 
 export interface StudentScoreListItemDto {
