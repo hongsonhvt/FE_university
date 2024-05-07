@@ -548,6 +548,7 @@ export interface JwtUserDto {
   email: string;
   role: Role;
   sub: string;
+  profile: CreateUserProfileDto;
 }
 
 export type LoginData = Result & {
