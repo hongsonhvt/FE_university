@@ -1,16 +1,19 @@
 import { UserOutlined } from '@ant-design/icons';
-import { Avatar, message } from 'antd';
+import { Avatar, Button, message } from 'antd';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks';
 import { Scores } from '../../shared/api/__generated__/Scores';
-import { StudentScoreDto } from '../../shared/api/__generated__/data-contracts';
+import {
+  Role,
+  StudentScoreDto,
+} from '../../shared/api/__generated__/data-contracts';
 import styles from './Classroom.module.scss';
 
 const Classroom = () => {
   const [score, setScores] = useState<StudentScoreDto[]>([]);
-  const { userProfile } = useAuth();
-
+  const { userProfile, role } = useAuth();
+  const navigate = useNavigate();
   useEffect(() => {
     fetchScores();
   }, []);
@@ -30,7 +33,10 @@ const Classroom = () => {
   return (
     <>
       {score.map((item) => (
-        <Link to={`/gradeDetail?id=${item.id}`}>
+        <Button
+          onClick={() => navigate(`/gradeDetail?id=${item.id}`)}
+          disabled={role !== Role.Teacher}
+        >
           <div>
             <div className={styles.boxClassroom}>
               <Avatar
@@ -48,7 +54,7 @@ const Classroom = () => {
               </div>
             </div>
           </div>
-        </Link>
+        </Button>
       ))}
     </>
   );
