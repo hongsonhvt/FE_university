@@ -73,15 +73,15 @@ export const routeMap: RouteMapType[] = [
     component: <GradeDetail />,
     roles: [Role.Teacher],
   },
-  {
-    route: '/Grades',
-    component: <Grades />,
-    roles: [Role.Student],
-    sideBar: {
-      icon: <UserOutlined />,
-      label: 'Grades',
-    },
-  },
+  // {
+  //   route: '/Grades',
+  //   component: <Grades />,
+  //   roles: [Role.Student],
+  //   sideBar: {
+  //     icon: <UserOutlined />,
+  //     label: 'Grades',
+  //   },
+  // },
   {
     route: '/Information',
     component: <Information />,
